@@ -1,0 +1,7 @@
+{
+    "/api/*": {
+        "target": "https://equipoyosh.com/stock-nutrinatalia",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}
