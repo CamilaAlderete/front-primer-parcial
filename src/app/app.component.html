@@ -7,31 +7,35 @@
       <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
       <mat-icon *ngIf="sidenav.opened">close</mat-icon>
     </button>
-    Distintivo
+    <span>Equipo Front</span>
+
   </mat-toolbar>
-  
+
   <mat-sidenav-container>
     <mat-sidenav #sidenav="matSidenav">
-        
-      <button mat-button class="menu-button">
+
+      <button mat-button routerLink="/categoria" class="menu-button">
         <mat-icon>category</mat-icon>
         <span>Categorias</span>
       </button>
+
       <button mat-button class="menu-button">
         <mat-icon>healing</mat-icon>
         <span>Servicios</span>
       </button>
+
       <button mat-button class="menu-button">
         <mat-icon>person</mat-icon>
         <span>Pacientes</span>
       </button>
+
       <button mat-button class="menu-button">
         <mat-icon>event</mat-icon>
         <span>Horarios</span>
       </button>
-  
+
       <mat-divider></mat-divider>
-  
+
     </mat-sidenav>
     <mat-sidenav-content>
         <router-outlet></router-outlet>

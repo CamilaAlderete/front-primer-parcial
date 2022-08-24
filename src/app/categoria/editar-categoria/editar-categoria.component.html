@@ -1,1 +1,50 @@
-<p>editar-categoria works!</p>
+
+<div class="container d-flex">
+
+  <div class="col-11">
+
+    <br/>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="container-fluid" >
+
+
+          <h3 class="text-title">
+            {{titulo}}
+          </h3>
+
+          <p>
+
+            <mat-form-field appearance="fill" class="col-md-6">
+              <mat-label>Descripcion</mat-label>
+              <input matInput type="text" [(ngModel)]="categoria.descripcion">
+            </mat-form-field>
+
+          </p>
+
+          <div class="col-md-6 d-flex justify-content-around">
+            <button type="button" class="btn btn-primary btn-sm"
+                    (click)="guardar()">Guardar
+            </button>
+            <button type="button" class="btn btn-danger btn-sm"
+                    (click)="atras()">Cancelar
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../http.service';
+import { HttpService } from '../service/http.service';
 import { Pais } from '../model/pais';
 
 @Component({
@@ -11,28 +11,9 @@ export class HomeComponent implements OnInit {
 
   paises: Pais[] = [];
 
-  constructor(
-    private httpService: HttpService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.load();
-  }
-
-  load(){
-    this.httpService.getAll('pais')
-      .subscribe(e => {
-        console.log(e);
-        this.paises = e;
-      },
-      err => {
-        console.log(err);
-        /*this.toastr.error(
-          'No se pudo obtener la lista de clientes',
-          'Error'
-        );*/
-
-      });
   }
 
 }
