@@ -52,12 +52,13 @@ export class EditarCategoriaComponent implements OnInit {
     if( this.categoria.descripcion === ''){
       this.toastr.error('Debe completar todos los campos', 'Error');
     }else{
-      this.guardarCategoria();
+      this.editarCategoria();
     }
   }
 
-  guardarCategoria(){
-    this.httpService.post(this.categoria)
+  editarCategoria(){
+    console.log(this.categoria)
+    this.httpService.put(this.categoria.idCategoria, this.categoria)
       .subscribe({
         next: (e) => {
           this.toastr.success('Categoria creada exitosamente');
@@ -65,7 +66,7 @@ export class EditarCategoriaComponent implements OnInit {
         },
         error: (err) =>{
           console.log(err);
-          this.toastr.error('No se pudo crear la categoria', 'Error');
+          this.toastr.error('No se pudo editar la categoria', 'Error');
         }
       });
 

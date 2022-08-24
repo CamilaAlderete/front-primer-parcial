@@ -56,6 +56,7 @@ export class ListaCategoriaComponent implements OnInit {
       .subscribe({
         next: (e) => {
           this.toastr.success('Categoria eliminada');
+          this.getAll();
         },
         error: (err) =>{
           console.log(err);

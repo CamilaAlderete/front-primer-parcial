@@ -33,6 +33,7 @@ export class NuevaCategoriaComponent implements OnInit {
   }
 
   guardarCategoria(){
+    console.log(this.categoria)
     this.httpService.post(this.categoria)
       .subscribe({
         next: (e) => {
