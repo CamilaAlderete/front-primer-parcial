@@ -23,6 +23,7 @@ export class NuevaCategoriaComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  //verificar antes de hacer post
   guardar(){
     if( this.categoria.descripcion === ''){
       this.toastr.error('Debe completar todos los campos', 'Error');

@@ -24,8 +24,15 @@ import {MatTableModule} from "@angular/material/table";
 import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
+import { CositasUtilesComponent } from './cositas-utiles/cositas-utiles/cositas-utiles.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSelectModule} from '@angular/material/select';
+
 
 @NgModule({
+  //componentes creados
   declarations: [
     AppComponent,
     ListaCategoriaComponent,
@@ -35,7 +42,9 @@ import {MatInputModule} from "@angular/material/input";
     NuevaSubcategoriaComponent,
     EditarSubcategoriaComponent,
     HomeComponent,
+    CositasUtilesComponent,
   ],
+  // librerias y modulos de angular y librerias externas
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -51,10 +60,18 @@ import {MatInputModule} from "@angular/material/input";
     MatTableModule,
     FormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDialogModule,
+    MatSelectModule
 
   ],
-  providers: [],
+  providers: [
+    //para usar datepicker
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

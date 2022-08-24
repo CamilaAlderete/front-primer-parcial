@@ -22,11 +22,14 @@ export class EditarCategoriaComponent implements OnInit {
     private httpService: CategoriaService
   ) { }
 
+  //es obtiene el id que se paso por http://localhost:4200/categoria/1/editar
+  //obtener el objeto debe hacerse antes de renderizar la página
   ngOnInit(): void {
     this.id =  decodeURI( this.route.snapshot.paramMap.get('id') || '0') ;
     this.getById();
   }
 
+  //se busca el objeto de acuerdo a su id
   getById(){
     this.httpService.getById(this.id)
       .subscribe({

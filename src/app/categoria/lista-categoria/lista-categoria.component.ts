@@ -30,6 +30,7 @@ export class ListaCategoriaComponent implements OnInit {
   ) { }
 
   //apenas se inicia, se llama a la funcion getAll
+  //obtener la lista debe hacerse antes de renderizar la página
   ngOnInit(): void {
     this.getAll();
   }

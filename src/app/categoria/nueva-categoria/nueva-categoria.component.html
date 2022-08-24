@@ -9,10 +9,12 @@
         <div class="container-fluid" >
 
 
+          <!-----titulo------>
           <h3 class="text-title">
             Nueva Categoria
           </h3>
 
+          <!----campo de texto, el valor que se escriba en él va a guardarse en categoria.descripcion---->
           <p>
 
             <mat-form-field appearance="fill" class="col-md-6">
@@ -23,6 +25,7 @@
           </p>
 
 
+          <!----las funciones guardar y atras seran llamdas ante el evento click---->
           <div class="col-md-6 d-flex justify-content-around">
             <button type="button" class="btn btn-primary btn-sm"
                     (click)="guardar()">Guardar
