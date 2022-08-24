@@ -16,8 +16,14 @@ export abstract class HttpService<T, ID> {
     return this.httpClient.post<T>(this.url+ "/"   + this.endpoint, t);
   }
 
-  put(id: ID, t: T): Observable<T> {
+  /*put(id: ID, t: T): Observable<T> {
     return this.httpClient.put<T>(this.url + "/"  + this.endpoint  + '/' +  id, t, {});
+  }*/
+
+
+  //la api del profe acepta asi
+  put(t: T): Observable<T> {
+    return this.httpClient.put<T>(this.url + "/"  + this.endpoint, t, {});
   }
 
 
