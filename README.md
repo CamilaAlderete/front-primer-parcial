@@ -1,6 +1,6 @@
 # Primera parcial de Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.4.
+Proyecto generado con [Angular CLI](https://github.com/angular/angular-cli) version 13.1.4.
 
 ## Equipo
 Soledad Ayala, Monica Auler, Osvaldo Caje y Camila Alderete
