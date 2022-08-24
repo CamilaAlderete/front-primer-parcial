@@ -11,7 +11,7 @@ import {CategoriaService} from "../../service/categoria.service";
 })
 export class NuevaCategoriaComponent implements OnInit {
 
-  categoria = new Categoria('');
+  categoria: Categoria = new Categoria();
 
   constructor(
     private toastr: ToastrService,
