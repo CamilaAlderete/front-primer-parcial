@@ -12,8 +12,11 @@
   </mat-toolbar>
 
   <mat-sidenav-container>
+
+    <!------sidenav, esto esta fijo----->
     <mat-sidenav #sidenav="matSidenav">
 
+      <!---routerlink lleva a la direccion http://localhost:4200/categoria ------>
       <button mat-button routerLink="/categoria" class="menu-button">
         <mat-icon>category</mat-icon>
         <span>Categorias</span>
@@ -42,7 +45,9 @@
       </button>
 
     </mat-sidenav>
+
+    <!----pantalla pricipal---->
     <mat-sidenav-content>
-        <router-outlet></router-outlet>
+        <router-outlet></router-outlet> <!----- aqui se insertan las pantallas de crud de categorias, subcategorias, etc. ---->
     </mat-sidenav-content>
   </mat-sidenav-container>
