@@ -1,1 +1,86 @@
-<p>lista-subcategoria works!</p>
+<!-- titulo---->
+<br>
+<div class="d-flex justify-content-center">
+  <h2 class="text-title">
+    {{ titulo }}
+  </h2>
+</div>
+
+
+<!----botón nuevo----->
+<div class="m-3 px-4">
+  <button class="btn btn-success btn-sm" routerLink="../nueva">Nueva Subcategoría
+  </button>&nbsp;&nbsp;&nbsp;
+</div>
+
+
+  <!-- la tabla -->
+  <div class="mx-4 mat-elevation-z8 col-md-25">
+
+    <!-- field para la búsqueda -->
+    <mat-form-field appearance="standard" class="m-3" style="width: 92%;">
+      <mat-label>Busque en todas las columnas...</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Busque en todas las columnas..." #input>
+    </mat-form-field>
+
+    <mat-table [dataSource]="listaSubcategorias" class="col-md-25 mat-elevation-z1" matSort>
+
+      <!-- Columna descripción subcategoría -->
+      <!--  Para el caso de querer tener activado el Sorting de la columna:
+            matColumnDef tiene que tener el mismo nombre que usás en el mat-cell, sino no va a funcionar el ordenamiento
+            porque material asume que por default tienen el mismo nombre.
+
+            ejemplo: matColumnDef="descripcion" y en el mat-cell está row.descripcion.
+            O sea, a los dos se le pone "descripcion" en este ejemplo
+      -->
+      <ng-container matColumnDef="descripcion">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Descripción subcategoría </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.descripcion}} </mat-cell>
+      </ng-container>
+
+      <!-- Columna id subcategoría -->
+      <ng-container matColumnDef="idTipoProducto">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> ID subcategoría </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idTipoProducto}} </mat-cell>
+      </ng-container>
+
+      <!-- Columna descripción categoría -->
+      <ng-container matColumnDef="idCategoria.descripcion">
+        <mat-header-cell *matHeaderCellDef> Descripción categoría</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idCategoria.descripcion}}</mat-cell>
+      </ng-container>
+
+      <!-- Columna ID Categoría -->
+      <ng-container matColumnDef="idCategoria">
+        <mat-header-cell *matHeaderCellDef> ID categoría </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idCategoria.idCategoria}} </mat-cell>
+      </ng-container>
+
+      <!----columna acciones---->
+      <ng-container matColumnDef="acciones">
+        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+        <mat-cell *matCellDef="let element" >
+          <div>
+            <button class="btn btn-primary btn-sm m-2" [routerLink]="'../'+ element.idTipoProducto + '/editar'">Editar</button>
+            <button class="btn btn-danger btn-sm m-2 " (click)="eliminar(element.idTipoProducto)">Eliminar</button>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+      <!-- Row shown when there is no matching data. -->
+      <mat-row *matNoDataRow>
+        <mat-cell colspan="4">No hay coincidencias..."{{input.value}}"</mat-cell>
+      </mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  </div>
+
+
+<br>
+<br>
+<br>
+<br>

@@ -16,11 +16,33 @@
     <!------sidenav, esto esta fijo----->
     <mat-sidenav #sidenav="matSidenav">
 
-      <!---routerlink lleva a la direccion http://localhost:4200/categoria ------>
-      <button mat-button routerLink="/categoria" class="menu-button">
-        <mat-icon>category</mat-icon>
-        <span>Categorias</span>
+
+      <!--Lista expandible para las categorías y subcategorías.
+      Se ocultan o desocultan cosas con categoriaIsExpanded -->
+
+      <button mat-button class="menu-button" (click)="categoriaIsExpanded = !categoriaIsExpanded">
+        <mat-icon *ngIf="!categoriaIsExpanded">category</mat-icon>
+        <mat-icon *ngIf="categoriaIsExpanded">list</mat-icon>   <!-- para cambiar el ícono si se expande -->
+        <span>Categorías</span>
       </button>
+
+      <!---routerlink lleva a la direccion http://localhost:4200/categoria ------>
+      <button *ngIf="categoriaIsExpanded" mat-button routerLink="/categoria" class="menu-button"
+              (click)="categoriaIsExpanded = !categoriaIsExpanded">
+        &nbsp;
+        <mat-icon>navigate_next</mat-icon>
+        <span>Gestionar Categorías</span>
+      </button>
+
+      <button *ngIf="categoriaIsExpanded" mat-button routerLink="/subcategoria" class="menu-button"
+              (click)="categoriaIsExpanded = !categoriaIsExpanded">
+        &nbsp;
+        <mat-icon>navigate_next</mat-icon>
+        <span>Gestionar Subcategorías</span>
+      </button>
+
+
+      <!-- Los demás items -->
 
       <button mat-button class="menu-button">
         <mat-icon>healing</mat-icon>

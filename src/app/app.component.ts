@@ -22,6 +22,7 @@ import { delay } from "rxjs/operators";
 export class AppComponent {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
+  categoriaIsExpanded = false;
 
   title = 'FrontEnd';
 
@@ -44,9 +45,9 @@ export class AppComponent {
 
 }
 
-  
+
   /*constructor(public breakpointObserver: BreakpointObserver) {}
-  
+
   ngOnInit() {
 
     this.breakpointObserver

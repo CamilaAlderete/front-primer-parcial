@@ -1,1 +1,47 @@
-<p>nueva-subcategoria works!</p>
+<div class="container d-flex">
+
+  <div class="col-11">
+
+    <br/>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="container-fluid">
+
+
+          <!-----titulo------>
+          <h3 class="text-title">
+            Nueva subcategoría
+          </h3>
+
+          <!--- Seleccionar categoría ---->
+          <p>Seleccione la categoría:</p>
+          <mat-form-field appearance="fill" class="col-md-6">
+            <mat-label>Seleccionar categoría</mat-label>
+            <mat-select [(ngModel)]="nuevaSubcategoria.idCategoria">
+              <mat-option *ngFor="let l of listaCategorias" [value]="l">
+                {{ l.descripcion }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <p>Escriba la descripción:</p>
+          <mat-form-field appearance="fill" class="col-md-6">
+            <mat-label>Ingresar texto</mat-label>
+            <input matInput type="text" [(ngModel)]="nuevaSubcategoria.descripcion">
+          </mat-form-field>
+
+          <!----las funciones guardar y atras seran llamdas ante el evento click---->
+          <div class="col-md-6 d-flex justify-content-around">
+            <button type="button" class="btn btn-primary btn-sm"
+                    (click)="guardar()">Guardar
+            </button>
+            <button type="button" class="btn btn-danger btn-sm"
+                    (click)="atras()">Cancelar
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

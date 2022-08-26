@@ -17,7 +17,7 @@
 <!----tabla----->
 <div *ngIf="lista.length>0" class="d-flex justify-content-center">
 
-  <table mat-table [dataSource]="lista" class="col-md-11 mat-elevation-z1">
+  <table mat-table [dataSource]="lista" class="col-md-11 mat-elevation-z1" matSort>
 
     <!-- columna id -->
     <ng-container matColumnDef="id">
