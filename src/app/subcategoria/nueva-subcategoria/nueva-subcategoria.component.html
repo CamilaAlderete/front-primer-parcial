@@ -17,17 +17,30 @@
           <p>Seleccione la categoría:</p>
           <mat-form-field appearance="fill" class="col-md-6">
             <mat-label>Seleccionar categoría</mat-label>
-            <mat-select [(ngModel)]="nuevaSubcategoria.idCategoria">
+
+            <mat-select [(ngModel)]="nuevaSubcategoria.idCategoria"  [formControl]="categoriaFormControl">
               <mat-option *ngFor="let l of listaCategorias" [value]="l">
                 {{ l.descripcion }}
               </mat-option>
+
             </mat-select>
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="categoriaFormControl.hasError('required')">
+              La categoría es <strong>requerida</strong>
+            </mat-error>
+
           </mat-form-field>
 
           <p>Escriba la descripción:</p>
           <mat-form-field appearance="fill" class="col-md-6">
             <mat-label>Ingresar texto</mat-label>
-            <input matInput type="text" [(ngModel)]="nuevaSubcategoria.descripcion">
+            <input matInput type="text" [(ngModel)]="nuevaSubcategoria.descripcion"  [formControl]="textFormControl">
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="textFormControl.hasError('required')">
+              La descripción es <strong>requerida</strong>
+            </mat-error>
+
           </mat-form-field>
 
           <!----las funciones guardar y atras seran llamdas ante el evento click---->

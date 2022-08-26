@@ -5,6 +5,7 @@ import {ToastrService} from "ngx-toastr";
 import {Subcategoria} from "../../model/subcategoria";
 import {SubcategoriaService} from "../../service/subcategoria.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-nueva-subcategoria',
@@ -14,9 +15,12 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class NuevaSubcategoriaComponent implements OnInit {
 
   titulo: String = "Nueva subcategoría";
-  listaCategorias!: Categoria[];
+  listaCategorias!: Categoria[];  // la lista completa de cateogrías
+  nuevaSubcategoria: Subcategoria = new Subcategoria(); // la nueva subcategoría siendo creada
 
-  nuevaSubcategoria: Subcategoria = new Subcategoria();
+  // para validar los input del html
+  textFormControl = new FormControl('', [Validators.required]);
+  categoriaFormControl = new FormControl('', [Validators.required]);
 
   // inyecciones
   constructor(
@@ -48,8 +52,12 @@ export class NuevaSubcategoriaComponent implements OnInit {
   }
 
   guardar() {
-    if( this.nuevaSubcategoria.descripcion === ''){
+    // si no se cargó la descripción o el id de la categoría
+    if( !this.nuevaSubcategoria.descripcion || this.nuevaSubcategoria.descripcion === ''
+      || !this.nuevaSubcategoria.idCategoria){
+
       this.toastr.error('Debe completar todos los campos', 'Error');
+
     }else{
       this.guardarSubcategoria();
     }
@@ -60,12 +68,12 @@ export class NuevaSubcategoriaComponent implements OnInit {
     this.httpSubcategoriaService.post(this.nuevaSubcategoria)
       .subscribe({
         next: (e) => {
-          this.toastr.success('Subcategoria "'+ this.nuevaSubcategoria.descripcion + '" creada exitosamente');
+          this.toastr.success('Subcategoría "'+ this.nuevaSubcategoria.descripcion + '" creada exitosamente');
           this.atras();
         },
         error: (err) =>{
           console.log(err);
-          this.toastr.error('No se pudo crear la subcategoria', 'Error');
+          this.toastr.error('No se pudo crear la subcategoría', 'Error');
         }
       });
   }
@@ -73,4 +81,5 @@ export class NuevaSubcategoriaComponent implements OnInit {
   atras() {
     this.router.navigate(['../'], {relativeTo: this.route});
   }
+
 }

@@ -6,6 +6,7 @@ import {SubcategoriaService} from "../../service/subcategoria.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {MatSelect} from "@angular/material/select";
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-editar-subcategoria',
@@ -14,10 +15,13 @@ import {MatSelect} from "@angular/material/select";
 })
 export class EditarSubcategoriaComponent implements OnInit {
 
-  titulo: String = "Nueva subcategoría";
-  listaCategorias!: Categoria[];
 
-  subcategoria: Subcategoria = new Subcategoria();
+  listaCategorias!: Categoria[];  // para mostrar la lista de subcategorías
+  subcategoria: Subcategoria = new Subcategoria();  // la subcategoría que se está modificando actualmente
+
+  // para validar el input del html
+  textFormControl = new FormControl('', [Validators.required]);
+
 
   // inyecciones
   constructor(
@@ -69,6 +73,7 @@ export class EditarSubcategoriaComponent implements OnInit {
   }
 
   guardar() {
+    // si no se cargó la subcategoría
     if( this.subcategoria.descripcion === ''){
       this.toastr.error('Debe completar todos los campos', 'Error');
     }else{

@@ -22,7 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import {MatTableModule} from "@angular/material/table";
 import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import { CositasUtilesComponent } from './cositas-utiles/cositas-utiles/cositas-utiles.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
@@ -70,7 +70,8 @@ import {MatSortModule} from "@angular/material/sort";
     MatSelectModule,
     MatListModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    ReactiveFormsModule
 
   ],
   providers: [
