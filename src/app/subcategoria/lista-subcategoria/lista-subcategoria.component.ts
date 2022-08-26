@@ -4,7 +4,7 @@ import {Subcategoria} from "../../model/subcategoria";
 import {ToastrService} from "ngx-toastr";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
+import {MatSort, Sort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-lista-subcategoria',
@@ -19,7 +19,7 @@ export class ListaSubcategoriaComponent implements OnInit {
     'descripcion',
     'idTipoProducto',
     'idCategoria.descripcion',
-    'idCategoria',
+    'idCategoria.idCategoria',
     'acciones'
   ];
 
@@ -88,9 +88,12 @@ export class ListaSubcategoriaComponent implements OnInit {
 
   }
 
-  // Traer todas las subcategorías ya existentes en el server y guardarlas en el array subcategorias
-  getAll() {
-    this.httpService.getAll().subscribe({
+  /**
+   * Traer todas las subcategorías ya existentes en el server y guardarlas en el array subcategorias.
+   * Puede recibir query params en caso de necesitar, omitir si no se necesita
+   * */
+  getAll(queryParams:{}={}) {
+    this.httpService.getAll(queryParams).subscribe({
       next: (datos) => {
         console.log(datos.lista);
         this.listaSubcategorias.data = datos.lista;
@@ -135,6 +138,23 @@ export class ListaSubcategoriaComponent implements OnInit {
         }
       }
     );
+
+  }
+
+  // para recibir la información de que se está cambiando el orden, y poder pedirle al back ya ordenado
+  sortChange(sortState: Sort) {
+
+    // en caso de que sean las columnas que angular material no puede ordenar por sí mismo porque están
+    // anidados los objetos, ya que en otro caso entonces no hace falta pedir _todo de nuevo del back
+    if(sortState.active.includes('.')){
+
+      // le paso en los parámetros nomas lo que quiero ordenar y cómo ordenar
+      this.getAll({
+        orderBy: sortState.active,  // el elemento a ordenar ya viene del html
+        orderDir: sortState.direction  // la dirección ya viene del angular mat
+      });
+
+    }
 
   }
 }

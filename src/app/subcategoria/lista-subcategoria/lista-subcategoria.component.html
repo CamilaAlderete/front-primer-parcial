@@ -23,7 +23,8 @@
       <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
     </mat-form-field>
 
-    <mat-table [dataSource]="listaSubcategorias" class="col-md-25 mat-elevation-z1" matSort>
+    <mat-table [dataSource]="listaSubcategorias" class="col-md-25 mat-elevation-z1" matSort
+               (matSortChange)="sortChange($event)">
 
       <!-- Columna descripción subcategoría -->
       <!--  Para el caso de querer tener activado el Sorting de la columna:
@@ -46,13 +47,13 @@
 
       <!-- Columna descripción categoría -->
       <ng-container matColumnDef="idCategoria.descripcion">
-        <mat-header-cell *matHeaderCellDef> Descripción categoría</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Descripción categoría</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.idCategoria.descripcion}}</mat-cell>
       </ng-container>
 
       <!-- Columna ID Categoría -->
-      <ng-container matColumnDef="idCategoria">
-        <mat-header-cell *matHeaderCellDef> ID categoría </mat-header-cell>
+      <ng-container matColumnDef="idCategoria.idCategoria">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> ID categoría </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.idCategoria.idCategoria}} </mat-cell>
       </ng-container>
 

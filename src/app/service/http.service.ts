@@ -31,8 +31,9 @@ export abstract class HttpService<T, ID> {
     return this.httpClient.get<T>(this.url + "/"  + this.endpoint  + '/' + id);
   }
 
-  getAll(): Observable<listadatos<T>> {
-    return this.httpClient.get<listadatos<T>>(this.url+ '/' + this.endpoint + '/')
+  // puede recibir query params, en caso de que se quiera
+  getAll(queryParams: {} ={}): Observable<listadatos<T>> {
+    return this.httpClient.get<listadatos<T>>(this.url+ '/' + this.endpoint + '/', {params: queryParams});
   }
 
   delete(id: ID): Observable<T> {
