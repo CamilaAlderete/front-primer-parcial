@@ -6,6 +6,10 @@ import {MatSort, Sort} from "@angular/material/sort";
 import {FichaClinicaServiceService} from "../../service/ficha-clinica-service.service";
 import {ToastrService} from "ngx-toastr";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {CategoriaService} from "../../service/categoria.service";
+import {MatSelectChange} from "@angular/material/select";
+import {SubcategoriaService} from "../../service/subcategoria.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-lista-ficha-clinica',
@@ -17,12 +21,12 @@ export class ListaFichaClinicaComponent implements OnInit {
   titulo = "Fichas Clínicas - Listado";
 
   // los campos de los filtros
-  fechaDesde!: Date;
-  fechaHasta!: Date;
-  empleado!: String;
-  cliente!: String;
-  categoria!: Categoria;
-  subcategoria!: Categoria;
+  fechaDesde!: Date | undefined;
+  fechaHasta!: Date | undefined;
+  empleado!: String | undefined;
+  cliente!: number | undefined;
+  categoria!: Categoria | undefined;
+  subcategoria!: Subcategoria | undefined;
 
   // los datos recibidos del back
   listaCategorias!: Categoria[];
@@ -46,12 +50,16 @@ export class ListaFichaClinicaComponent implements OnInit {
 
   constructor(
     private httpService: FichaClinicaServiceService,
+    private httpCategoriaService: CategoriaService,
+    private httpSubcategoriaService: SubcategoriaService,
     private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
     // traer las fichas clínicas ya existentes en el server
     this.getAll();
+    // traer del back los datos necesarios para los campos de filtrado del html
+    this.getDatosFiltros();
   }
 
   // traer del back las fichas clínicas
@@ -69,9 +77,44 @@ export class ListaFichaClinicaComponent implements OnInit {
     });
   }
 
+  // traer del back los datos necesarios para los campos de filtrado del html
+  getDatosFiltros(){
+    // traer las categorías
+    this.httpCategoriaService.getAll().subscribe({
+      next: (datos) => {
+        console.log(datos.lista);
+        this.listaCategorias = datos.lista;
+      },
+      error: (err) => {
+        console.log(err);
+        this.toastr.error("No se pudieron obtener las fichas clínicas");
+      }
+    });
+  }
+
   // para aplicar los filtros seleccionados por el usuario en la tabla
   filtrarTabla() {
 
+    // los filtros a aplicar. Se va acumulando nomas los campos que no estén vacíos
+    let filtros: string = '';
+    if(this.subcategoria) filtros += '"idTipoProducto":{"idTipoProducto":' + this.subcategoria.idTipoProducto + '},';
+    if(this.cliente) filtros += '"idCliente":{"idPersona":' + this.cliente + '}';
+    if(this.empleado) filtros += '"idEmpleado":{"idPersona":' + this.cliente + '}';
+    if(this.fechaDesde && this.fechaHasta){
+      filtros += '"fechaDesdeCadena":'+this.formatearFecha(this.fechaDesde)+',"fechaHastaCadena":'+this.formatearFecha(this.fechaHasta)+'';
+    }
+
+    // pedirle al back
+    this.httpService.getFiltrado({}, filtros).subscribe({
+      next: (datos) => {
+        console.log(datos.lista);
+        this.listaFichasClinicas = datos.lista;
+      },
+      error: (err) => {
+        console.log(err);
+        this.toastr.error("No se pudieron obtener las fichas clínicas");
+      }
+    });
   }
 
   // para recibir la información de que se está cambiando el orden, y poder pedirle al back ya ordenado
@@ -109,5 +152,36 @@ export class ListaFichaClinicaComponent implements OnInit {
 
     // ejecutar el paginado
     this.cambioPaginacion();
+  }
+
+  // para traer las subcategorías al seleccionar una categoría
+  traerSubcategorias(seleccion: MatSelectChange) {
+    this.httpSubcategoriaService.getAll().subscribe({
+      next: (datos) => {
+        console.log(datos.lista);
+        this.listaSubcategorias = datos.lista;
+      },
+      error: (err) => {
+        console.log(err);
+        this.toastr.error("No se pudieron obtener las fichas clínicas");
+      }
+    });
+  }
+
+  //le da formato a la fecha o algo asi
+  formatearFecha(fecha: Date){
+    return new DatePipe('en-US').transform(fecha, 'yyyyMMdd')
+  }
+
+  // limpiar filtros y volver a traer todos los datos
+  limpiarFiltros() {
+    this.subcategoria = undefined;
+    this.cliente = undefined;
+    this.empleado = undefined;
+    this.fechaDesde = undefined;
+    this.fechaHasta = undefined;
+    this.categoria = undefined;
+
+    this.getAll();
   }
 }

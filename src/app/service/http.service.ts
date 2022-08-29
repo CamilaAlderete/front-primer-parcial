@@ -36,6 +36,22 @@ export abstract class HttpService<T, ID> {
     return this.httpClient.get<listadatos<T>>(this.url+ '/' + this.endpoint + '/', {params: queryParams});
   }
 
+  /**
+   * Para codificar automáticamente los filtros para enviar al back con encodeURIComponent.
+   *
+   * @param queryParams Los query params, en el formato de siempre.
+   *
+   * @param filtrosString El filtro a enviar al back. En formato separado por comas y sin espacios.
+   * Ejemplo 1: '"fechaDesdeCadena":"20190901","fechaHastaCadena":"20190901"'
+   * Ejemplo 2: '"idCliente":{"idPersona":1}'
+   */
+  getFiltrado(queryParams: {} = {}, filtrosString: string){
+    return this.httpClient.get<listadatos<T>>(
+      this.url+ '/' + this.endpoint + '/?ejemplo=' + encodeURIComponent('{' + filtrosString+ '}'),
+      {params: queryParams}
+    );
+  }
+
   delete(id: ID): Observable<T> {
     return this.httpClient.delete<T>(this.url + '/' + this.endpoint  + '/' + id);
   }

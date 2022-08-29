@@ -72,7 +72,8 @@
       <div class="col-lg-auto">
         <mat-form-field appearance="fill">
           <mat-label>Categoría</mat-label>
-          <mat-select [value]="categoria" [(ngModel)]="categoria">
+          <!-- para traer las subcategorías al seleccionar una categoría, se usa el (selectionChange) -->
+          <mat-select [value]="categoria" [(ngModel)]="categoria" (selectionChange)="traerSubcategorias($event)">
             <mat-option *ngFor="let l of listaCategorias" [value]="l">
               {{ l.descripcion }}
             </mat-option>
@@ -103,7 +104,7 @@
 
       <div class="col-lg-4">
         <button type="button" (click)="filtrarTabla()" class="m-3 btn btn-primary btn">Buscar</button>
-        <button type="button" class=" m-3 btn btn-primary btn">Limpiar</button>
+        <button type="button" (click)="limpiarFiltros()" class=" m-3 btn btn-primary btn">Limpiar</button>
       </div>
 
     </div>
@@ -117,11 +118,9 @@
     <mat-table [dataSource]="listaFichasClinicas" class="col-md-25 mat-elevation-z1" matSort
                (matSortChange)="sortChange($event)">
 
-      <!-- le pongo "" a todos en mat-sort-header porque quiero filtrar usando el back nomas,
-           no que me haga eso el matSort -->
       <ng-container matColumnDef="fechaHora">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.idFichaClinica}} </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.fechaHoraCadenaFormateada}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="idEmpleado">
@@ -130,17 +129,17 @@
       </ng-container>
 
       <ng-container matColumnDef="idCliente">
-        <mat-header-cell *matHeaderCellDef mat-sort-header=""> Cliente </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.idCliente.nombreCompleto}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idCliente.idPersona}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="idTipoProducto.idCategoria">
-        <mat-header-cell *matHeaderCellDef mat-sort-header=""> Categoría </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Categoría </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.idTipoProducto.idCategoria.descripcion}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="idTipoProducto">
-        <mat-header-cell *matHeaderCellDef mat-sort-header=""> Subcategoría </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Subcategoría </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.idTipoProducto.descripcion}} </mat-cell>
       </ng-container>
 
