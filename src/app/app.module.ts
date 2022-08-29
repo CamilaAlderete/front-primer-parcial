@@ -32,6 +32,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatListModule} from "@angular/material/list";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
+import { ListaFichaClinicaComponent } from './ficha-clinica/lista-ficha-clinica/lista-ficha-clinica.component';
+import { EditarModificarFichaClinicaComponent } from './ficha-clinica/editar-modificar-ficha-clinica/editar-modificar-ficha-clinica.component';
 
 
 @NgModule({
@@ -46,6 +48,8 @@ import {MatSortModule} from "@angular/material/sort";
     EditarSubcategoriaComponent,
     HomeComponent,
     CositasUtilesComponent,
+    ListaFichaClinicaComponent,
+    EditarModificarFichaClinicaComponent,
   ],
   // librerias y modulos de angular y librerias externas
   imports: [

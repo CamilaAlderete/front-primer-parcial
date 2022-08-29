@@ -8,6 +8,10 @@ import {CositasUtilesComponent} from "./cositas-utiles/cositas-utiles/cositas-ut
 import {ListaSubcategoriaComponent} from "./subcategoria/lista-subcategoria/lista-subcategoria.component";
 import {NuevaSubcategoriaComponent} from "./subcategoria/nueva-subcategoria/nueva-subcategoria.component";
 import {EditarSubcategoriaComponent} from "./subcategoria/editar-subcategoria/editar-subcategoria.component";
+import {ListaFichaClinicaComponent} from "./ficha-clinica/lista-ficha-clinica/lista-ficha-clinica.component";
+import {
+  EditarModificarFichaClinicaComponent
+} from "./ficha-clinica/editar-modificar-ficha-clinica/editar-modificar-ficha-clinica.component";
 
 const routes: Routes = [
   {
@@ -29,6 +33,14 @@ const routes: Routes = [
           { path: 'lista', component: ListaSubcategoriaComponent },  //http://localhost:4200/subcategoria/lista
           { path: 'nueva', component: NuevaSubcategoriaComponent }, //http://localhost:4200/subcategoria/nuevo
           { path: ':id/editar', component: EditarSubcategoriaComponent } //http://localhost:4200/subcategoria/1/editar
+        ]
+      },
+      {path: 'ficha-clinica',
+        children: [
+          { path: '', redirectTo: 'lista', pathMatch: 'full'},
+          { path: 'lista', component: ListaFichaClinicaComponent },  //http://localhost:4200/ficha-clinica/lista
+          { path: 'nueva', component: EditarModificarFichaClinicaComponent }, //http://localhost:4200/ficha-clinica/nueva
+          { path: ':id/editar', component: EditarModificarFichaClinicaComponent } //http://localhost:4200/ficha-clinica/1/editar
         ]
       },
       {path:'cositas', component: CositasUtilesComponent}

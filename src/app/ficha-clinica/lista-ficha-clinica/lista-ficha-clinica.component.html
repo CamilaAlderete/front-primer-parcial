@@ -1,0 +1,178 @@
+<!-- titulo---->
+<br>
+<div class="d-flex justify-content-center">
+  <h2 class="text-title">
+    {{ titulo }}
+  </h2>
+</div>
+
+<!-- el contenido -->
+<div class="mx-4 mat-elevation-z8 col-md-25 mt-3">
+
+  <br>
+  <h4 class="text-title m-3">
+    Filtros de búsqueda
+  </h4>
+
+  <!-- la sección para el filtro -->
+  <div class="container col-10">
+    <!-- la primera fila -->
+    <div class="row align-items-center">
+
+      <!-- fecha desde -->
+      <div class="col-lg-2"> Fecha desde:</div>
+      <div class="col-lg-4">
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha</mat-label>
+          <input matInput [matDatepicker]="pickerDesde" [(ngModel)]="fechaDesde" placeholder="dd/mm/aaaa">
+          <mat-datepicker-toggle matSuffix [for]="pickerDesde"></mat-datepicker-toggle>
+          <mat-datepicker #pickerDesde></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <!-- fecha hasta -->
+      <div class="col-lg-2"> Fecha hasta:</div>
+      <div class="col-lg-4">
+
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha</mat-label>
+          <input matInput [matDatepicker]="pickerHasta" [(ngModel)]="fechaHasta" placeholder="dd/mm/aaaa">
+          <mat-datepicker-toggle matSuffix [for]="pickerHasta"></mat-datepicker-toggle>
+          <mat-datepicker #pickerHasta></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- la segunda fila -->
+    <div class="row align-items-center">
+
+      <!-- Empleado -->
+      <div class="col-lg-2"> Empleado:</div>
+      <div class="col-lg-4">
+        <mat-form-field appearance="fill">
+          <input matInput type="text" [(ngModel)]="empleado" placeholder="">
+        </mat-form-field>
+        &nbsp;<a href="">Buscar</a>
+      </div>
+
+      <!-- Cliente -->
+      <div class="col-lg-2"> Cliente:</div>
+      <div class="col-lg-4">
+        <mat-form-field appearance="fill">
+          <input matInput type="text" [(ngModel)]="cliente" placeholder="">
+        </mat-form-field>
+        &nbsp;<a href="">Buscar</a>
+      </div>
+
+    </div>
+
+    <!-- la tercera fila -->
+    <div class="row justify-content-md-center">
+
+      <!-- Categoría -->
+      <div class="col-lg-auto">
+        <mat-form-field appearance="fill">
+          <mat-label>Categoría</mat-label>
+          <mat-select [value]="categoria" [(ngModel)]="categoria">
+            <mat-option *ngFor="let l of listaCategorias" [value]="l">
+              {{ l.descripcion }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Subcategoría -->
+      <div class="col-lg-auto">
+        <mat-form-field appearance="fill">
+          <mat-label>Subcategoría</mat-label>
+          <mat-select [value]="subcategoria" [(ngModel)]="subcategoria">
+            <mat-option *ngFor="let l of listaSubcategorias" [value]="l">
+              {{ l.descripcion }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <!----los botones de agregar ficha, buscar y limpiar---->
+    <div class="row justify-content-between">
+
+      <div class="col-lg-8">
+        <button type="button" class="m-3 btn btn-success btn">Agregar Ficha</button>
+      </div>
+
+      <div class="col-lg-4">
+        <button type="button" (click)="filtrarTabla()" class="m-3 btn btn-primary btn">Buscar</button>
+        <button type="button" class=" m-3 btn btn-primary btn">Limpiar</button>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- la tabla -->
+  <div class="mx-4 mat-elevation-z8 col-md-25">
+
+    <mat-table [dataSource]="listaFichasClinicas" class="col-md-25 mat-elevation-z1" matSort
+               (matSortChange)="sortChange($event)">
+
+      <!-- le pongo "" a todos en mat-sort-header porque quiero filtrar usando el back nomas,
+           no que me haga eso el matSort -->
+      <ng-container matColumnDef="fechaHora">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idFichaClinica}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="idEmpleado">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Profesional </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idEmpleado.nombreCompleto}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="idCliente">
+        <mat-header-cell *matHeaderCellDef mat-sort-header=""> Cliente </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idCliente.nombreCompleto}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="idTipoProducto.idCategoria">
+        <mat-header-cell *matHeaderCellDef mat-sort-header=""> Categoría </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idTipoProducto.idCategoria.descripcion}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="idTipoProducto">
+        <mat-header-cell *matHeaderCellDef mat-sort-header=""> Subcategoría </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idTipoProducto.descripcion}} </mat-cell>
+      </ng-container>
+
+      <!----columna acciones---->
+      <ng-container matColumnDef="acciones">
+        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+        <mat-cell *matCellDef="let element" >
+          <div>
+            <button class="btn btn-primary btn-sm m-2" [routerLink]="">
+              Crear Servicio
+            </button>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+      <!-- Row shown when there is no matching data. -->
+      <mat-row *matNoDataRow>
+        <mat-cell colspan="4">No hay fichas clínicas...</mat-cell>
+      </mat-row>
+    </mat-table>
+
+    <mat-paginator (click)="habilitarPaginado()" [disabled]="deshabilitarPaginado" (page)="cambioPaginacion()"
+                   [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Página de fichas"></mat-paginator>
+  </div>
+
+</div>
+
+
+<br>
+<br>
+<br>
+<br>

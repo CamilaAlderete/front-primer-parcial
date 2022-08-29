@@ -106,10 +106,6 @@ export class ListaSubcategoriaComponent implements OnInit {
     );
   }
 
-  consoleLog(event: MouseEvent) {
-    console.log(event);
-  }
-
   delete(id: number){
     this.httpService.delete(id)
       .subscribe({
