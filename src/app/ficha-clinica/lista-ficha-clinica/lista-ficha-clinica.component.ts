@@ -98,13 +98,13 @@ export class ListaFichaClinicaComponent implements OnInit {
     // los filtros a aplicar. Se van guardando nomas los campos que no estén vacíos
     let filtros: any = {}
     if(this.subcategoria){
-      filtros["idTipoProducto"] = {idTipoProducto: this.subcategoria.idTipoProducto};
+      filtros["idTipoProducto"] = {"idTipoProducto": this.subcategoria.idTipoProducto};
     }
     if(this.cliente){
       filtros["idCliente"] = {idPersona: this.cliente};
     }
     if(this.empleado){
-      filtros["idEmpleado"] = {idPersona: this.cliente};
+      filtros["idEmpleado"] = {idPersona: this.empleado};
     }
     if(this.fechaDesde && this.fechaHasta){
       filtros["fechaDesdeCadena"] = this.formatearFecha(this.fechaDesde);
