@@ -73,7 +73,7 @@
         <mat-form-field appearance="fill">
           <mat-label>Categoría</mat-label>
           <!-- para traer las subcategorías al seleccionar una categoría, se usa el (selectionChange) -->
-          <mat-select [value]="categoria" [(ngModel)]="categoria" (selectionChange)="traerSubcategorias($event)">
+          <mat-select [value]="categoria" [(ngModel)]="categoria" (selectionChange)="traerSubcategorias()">
             <mat-option *ngFor="let l of listaCategorias" [value]="l">
               {{ l.descripcion }}
             </mat-option>

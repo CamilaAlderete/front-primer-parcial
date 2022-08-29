@@ -30,7 +30,7 @@ export class ListaFichaClinicaComponent implements OnInit {
 
   // los datos recibidos del back
   listaCategorias!: Categoria[];
-  listaSubcategorias!: Subcategoria[];
+  listaSubcategorias!: Subcategoria[] | undefined;
   listaFichasClinicas!:  FichaClinica[];
 
   // para poder trabajar con la paginación
@@ -95,17 +95,24 @@ export class ListaFichaClinicaComponent implements OnInit {
   // para aplicar los filtros seleccionados por el usuario en la tabla
   filtrarTabla() {
 
-    // los filtros a aplicar. Se va acumulando nomas los campos que no estén vacíos
-    let filtros: string = '';
-    if(this.subcategoria) filtros += '"idTipoProducto":{"idTipoProducto":' + this.subcategoria.idTipoProducto + '},';
-    if(this.cliente) filtros += '"idCliente":{"idPersona":' + this.cliente + '}';
-    if(this.empleado) filtros += '"idEmpleado":{"idPersona":' + this.cliente + '}';
+    // los filtros a aplicar. Se van guardando nomas los campos que no estén vacíos
+    let filtros: any = {}
+    if(this.subcategoria){
+      filtros["idTipoProducto"] = {"idTipoProducto":this.subcategoria.idTipoProducto};
+    }
+    if(this.cliente){
+      filtros["idCliente"] = {"idPersona":this.cliente};
+    }
+    if(this.empleado){
+      filtros["idEmpleado"] = {"idPersona":this.cliente};
+    }
     if(this.fechaDesde && this.fechaHasta){
-      filtros += '"fechaDesdeCadena":'+this.formatearFecha(this.fechaDesde)+',"fechaHastaCadena":'+this.formatearFecha(this.fechaHasta)+'';
+      filtros["fechaDesdeCadena"] = this.formatearFecha(this.fechaDesde);
+      filtros["fechaHastaCadena"] = this.formatearFecha(this.fechaHasta);
     }
 
     // pedirle al back
-    this.httpService.getFiltrado({}, filtros).subscribe({
+    this.httpService.getAll({ejemplo: JSON.stringify(filtros)}).subscribe({
       next: (datos) => {
         console.log(datos.lista);
         this.listaFichasClinicas = datos.lista;
@@ -155,8 +162,11 @@ export class ListaFichaClinicaComponent implements OnInit {
   }
 
   // para traer las subcategorías al seleccionar una categoría
-  traerSubcategorias(seleccion: MatSelectChange) {
-    this.httpSubcategoriaService.getAll().subscribe({
+  traerSubcategorias() {
+    let filtro = {
+      "idCategoria": {"idCategoria":this.categoria?.idCategoria}
+    }
+    this.httpSubcategoriaService.getAll({ejemplo: JSON.stringify(filtro)}).subscribe({
       next: (datos) => {
         console.log(datos.lista);
         this.listaSubcategorias = datos.lista;
@@ -181,6 +191,7 @@ export class ListaFichaClinicaComponent implements OnInit {
     this.fechaDesde = undefined;
     this.fechaHasta = undefined;
     this.categoria = undefined;
+    this.listaSubcategorias = undefined;
 
     this.getAll();
   }
