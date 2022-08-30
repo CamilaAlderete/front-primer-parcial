@@ -10,11 +10,11 @@ import {FichaClinicaServiceService} from "../../service/ficha-clinica-service.se
 import {FormControl, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'app-editar-modificar-ficha-clinica',
-  templateUrl: './editar-modificar-ficha-clinica.component.html',
-  styleUrls: ['./editar-modificar-ficha-clinica.component.css']
+  selector: 'app-nueva-ficha-clinica',
+  templateUrl: './nueva-ficha-clinica.component.html',
+  styleUrls: ['./nueva-ficha-clinica.component.css']
 })
-export class EditarModificarFichaClinicaComponent implements OnInit {
+export class NuevaFichaClinicaComponent implements OnInit {
 
   titulo = "Nueva ficha";
 

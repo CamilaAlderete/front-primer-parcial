@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {url_base} from "./url";
 import {HttpService} from "./http.service";
 import {FichaClinica, FichaClinicaPost} from "../model/ficha-clinica";
@@ -19,10 +19,9 @@ export class FichaClinicaServiceService extends HttpService<FichaClinica,number>
    * no le gusta a la clase padre HttpService
    */
   postFicha(t: {  }): Observable<{  }> {
-    return this.httpClient.post<{}>(this.url+ "/"   + this.endpoint, t,{
-      headers:{
-        'usuario':'gustavo'
-      }
-    });
+    const headers: HttpHeaders = new HttpHeaders()
+      .append('usuario','usuario2')
+
+    return this.httpClient.post<{}>(this.url+ "/"   + this.endpoint, t,{headers:headers});
   }
 }

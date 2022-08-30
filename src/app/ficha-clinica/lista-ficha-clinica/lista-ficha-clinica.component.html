@@ -125,12 +125,12 @@
 
       <ng-container matColumnDef="idEmpleado">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Profesional </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.idEmpleado.idPersona}} </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.idEmpleado.nombreCompleto}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="idCliente">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.idCliente.idPersona}} </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.idCliente.nombreCompleto}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="idTipoProducto.idCategoria">
