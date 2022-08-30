@@ -24,34 +24,24 @@
       <div class="col-lg-2"> Fecha:</div>
       <div class="col-lg-4">
         <mat-form-field appearance="fill">
-          <mat-label>Fecha</mat-label>
-          <input [disabled]="true" matInput [matDatepicker]="pickerDesde" [(ngModel)]="fecha" placeholder="dd/mm/aaaa">
+          <mat-label>{{ficha.fechaHora | date:'dd/MM/yyyy'}}</mat-label>
+          <input [disabled]="true" matInput [matDatepicker]="pickerDesde">
           <mat-datepicker-toggle matSuffix [for]="pickerDesde"></mat-datepicker-toggle>
           <mat-datepicker #pickerDesde></mat-datepicker>
         </mat-form-field>
       </div>
 
-      <!--      &lt;!&ndash; fecha hasta &ndash;&gt;-->
-      <!--      <div class="col-lg-2"> Fecha hasta:</div>-->
-      <!--      <div class="col-lg-4">-->
-
-      <!--        <mat-form-field appearance="fill">-->
-      <!--          <mat-label>Fecha</mat-label>-->
-      <!--          <input matInput [matDatepicker]="pickerHasta" [(ngModel)]="fechaHasta" placeholder="dd/mm/aaaa">-->
-      <!--          <mat-datepicker-toggle matSuffix [for]="pickerHasta"></mat-datepicker-toggle>-->
-      <!--          <mat-datepicker #pickerHasta></mat-datepicker>-->
-      <!--        </mat-form-field>-->
-      <!--      </div>-->
-      <!--    </div>-->
     </div>
+
     <!-- la segunda fila -->
     <div class="row align-items-center">
 
+      <!-- estos faltan cambiar cuando esté la clase empleado -->
       <!-- Empleado -->
       <div class="col-lg-2"> Empleado:</div>
       <div class="col-lg-4">
         <mat-form-field appearance="fill">
-          <input matInput type="number" [(ngModel)]="ficha.idEmpleado.idPersona" [formControl]="empleadoFormControl" placeholder="">
+          <input matInput [disabled]="true" type="number" [(ngModel)]="ficha.idEmpleado.idPersona" >
         </mat-form-field>
         &nbsp;<a href="">Buscar</a>
       </div>
@@ -60,7 +50,7 @@
       <div class="col-lg-2"> Cliente:</div>
       <div class="col-lg-4">
         <mat-form-field appearance="fill">
-          <input matInput type="number" [(ngModel)]="ficha.idCliente.idPersona" placeholder="" [formControl]="clienteFormControl" >
+          <input matInput [disabled]="true" type="number" [(ngModel)]="ficha.idCliente.idPersona" placeholder=""  >
         </mat-form-field>
         &nbsp;<a href="">Buscar</a>
       </div>
@@ -73,13 +63,8 @@
       <!-- Categoría -->
       <div class="col-lg-6">
         <mat-form-field appearance="fill" style="width: 100%">
-          <mat-label>Categoría</mat-label>
-          <!-- para traer las subcategorías al seleccionar una categoría, se usa el (selectionChange) -->
-          <mat-select [(ngModel)]="categoriaSeleccionada" (selectionChange)="traerSubcategorias()">
-            <mat-option *ngFor="let l of listaCategorias" [value]="l">
-              {{ l.descripcion }}
-            </mat-option>
-          </mat-select>
+            <mat-label>Categoría</mat-label>
+            <input matInput [disabled]="true" type="text" [(ngModel)]="ficha.idTipoProducto.idCategoria.descripcion" placeholder=""  >
         </mat-form-field>
       </div>
 
@@ -87,11 +72,7 @@
       <div class="col-lg-6">
         <mat-form-field appearance="fill" style="width:100%">
           <mat-label>Subcategoría</mat-label>
-          <mat-select [(ngModel)]="ficha.idTipoProducto.idTipoProducto">
-            <mat-option *ngFor="let l of listaSubcategorias" [value]="l.idTipoProducto">
-              {{ l.descripcion }}
-            </mat-option>
-          </mat-select>
+          <input matInput [disabled]="true" type="text" [(ngModel)]="ficha.idTipoProducto.descripcion" placeholder=""  >
         </mat-form-field>
       </div>
 
@@ -103,14 +84,14 @@
       <div class="col-lg-6">
         <mat-form-field appearance="fill" style="width: 100%;">
           <mat-label>Motivo:</mat-label>
-          <textarea matInput type="text" cdkTextareaAutosize cdkAutosizeMinRows="4" [(ngModel)]="ficha.motivoConsulta" placeholder=""></textarea>
+          <textarea [disabled]="true" matInput type="text" cdkTextareaAutosize cdkAutosizeMinRows="4" [(ngModel)]="ficha.motivoConsulta" placeholder=""></textarea>
         </mat-form-field>
       </div>
       <!-- Diagnóstico -->
       <div class="col-lg-6">
         <mat-form-field appearance="fill" style="width: 100%">
           <mat-label>Diagnóstico:</mat-label>
-          <textarea matInput type="text" cdkTextareaAutosize cdkAutosizeMinRows="4" [(ngModel)]="ficha.diagnostico" placeholder=""></textarea>
+          <textarea [disabled]="true" matInput type="text" cdkTextareaAutosize cdkAutosizeMinRows="4" [(ngModel)]="ficha.diagnostico" placeholder=""></textarea>
         </mat-form-field>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {Categoria} from "../../model/categoria";
 import {Subcategoria} from "../../model/subcategoria";
 import {CategoriaService} from "../../service/categoria.service";
@@ -8,6 +8,8 @@ import {SubcategoriaService} from "../../service/subcategoria.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FichaClinicaServiceService} from "../../service/ficha-clinica-service.service";
 import {FormControl, Validators} from "@angular/forms";
+import {MatSelect} from "@angular/material/select";
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-nueva-ficha-clinica',

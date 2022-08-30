@@ -24,4 +24,11 @@ export class FichaClinicaServiceService extends HttpService<FichaClinica,number>
 
     return this.httpClient.post<{}>(this.url+ "/"   + this.endpoint, t,{headers:headers});
   }
+
+  override put(t: FichaClinica): Observable<FichaClinica> {
+    const headers: HttpHeaders = new HttpHeaders()
+      .append('usuario','usuario2')
+
+    return this.httpClient.put<FichaClinica>(this.url+ "/"   + this.endpoint, t,{headers:headers});
+  }
 }

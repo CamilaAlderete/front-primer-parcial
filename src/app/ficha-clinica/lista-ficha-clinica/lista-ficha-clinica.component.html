@@ -148,7 +148,10 @@
         <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
         <mat-cell *matCellDef="let element" >
           <div>
-            <button class="btn btn-primary btn-sm m-2" [routerLink]="">
+            <button class="btn btn-primary btn-sm m-2" [routerLink]="'../'+ element.idFichaClinica + '/editar'">
+              Editar
+            </button>
+            <button class="btn btn-success btn-sm m-2" [routerLink]="">
               Crear Servicio
             </button>
           </div>
