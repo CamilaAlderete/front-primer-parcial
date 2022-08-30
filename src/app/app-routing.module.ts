@@ -9,7 +9,8 @@ import {ListaSubcategoriaComponent} from "./subcategoria/lista-subcategoria/list
 import {NuevaSubcategoriaComponent} from "./subcategoria/nueva-subcategoria/nueva-subcategoria.component";
 import {EditarSubcategoriaComponent} from "./subcategoria/editar-subcategoria/editar-subcategoria.component";
 import {ListaFichaClinicaComponent} from "./ficha-clinica/lista-ficha-clinica/lista-ficha-clinica.component";
-import {NuevaFichaClinicaComponent} from "./ficha-clinica/editar-ficha-clinica/nueva-ficha-clinica.component";
+import {NuevaFichaClinicaComponent} from "./ficha-clinica/nueva-ficha-clinica/nueva-ficha-clinica.component";
+import {EditarFichaClinicaComponent} from "./ficha-clinica/editar-ficha-clinica/editar-ficha-clinica.component";
 
 const routes: Routes = [
   {
@@ -38,7 +39,7 @@ const routes: Routes = [
           { path: '', redirectTo: 'lista', pathMatch: 'full'},
           { path: 'lista', component: ListaFichaClinicaComponent },  //http://localhost:4200/ficha-clinica/lista
           { path: 'nueva', component: NuevaFichaClinicaComponent }, //http://localhost:4200/ficha-clinica/nueva
-          { path: ':id/editar', component: NuevaFichaClinicaComponent } //http://localhost:4200/ficha-clinica/1/editar
+          { path: ':id/editar', component: EditarFichaClinicaComponent } //http://localhost:4200/ficha-clinica/1/editar
         ]
       },
       {path:'cositas', component: CositasUtilesComponent}

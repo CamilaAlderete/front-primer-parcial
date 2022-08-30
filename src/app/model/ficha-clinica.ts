@@ -2,6 +2,7 @@ import {Subcategoria} from "./subcategoria";
 
 class Persona {
   nombreCompleto!: string;
+  idPersona!: any;
 }
 
 export class FichaClinica {
@@ -13,6 +14,7 @@ export class FichaClinica {
   idTipoProducto!: Subcategoria;  // se llama tipo producto, pero en realidad es la subcategoría
   fechaHoraCadenaFormateada!: string;
   idFichaClinica!: number;
+  fechaHora!: string;
 }
 
 // esto está así por mientras nomas, después cuando esté la clase persona voy a ver
