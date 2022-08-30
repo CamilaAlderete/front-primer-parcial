@@ -20,7 +20,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-import {MatTableModule} from "@angular/material/table";
+import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
@@ -32,6 +32,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatListModule} from "@angular/material/list";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
+import { ListaReservasComponent } from './reserva-turno/lista-reservas/lista-reservas.component';
+import { NuevaReservaComponent } from './reserva-turno/nueva-reserva/nueva-reserva.component';
 
 
 @NgModule({
@@ -46,6 +48,8 @@ import {MatSortModule} from "@angular/material/sort";
     EditarSubcategoriaComponent,
     HomeComponent,
     CositasUtilesComponent,
+    ListaReservasComponent,
+    NuevaReservaComponent
   ],
   // librerias y modulos de angular y librerias externas
   imports: [
@@ -72,7 +76,6 @@ import {MatSortModule} from "@angular/material/sort";
     MatPaginatorModule,
     MatSortModule,
     ReactiveFormsModule
-
   ],
   providers: [
     //para usar datepicker

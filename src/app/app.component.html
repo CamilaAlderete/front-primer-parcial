@@ -20,6 +20,7 @@
       <!--Lista expandible para las categorías y subcategorías.
       Se ocultan o desocultan cosas con categoriaIsExpanded -->
 
+      <!---- categorias---->
       <button mat-button class="menu-button" (click)="categoriaIsExpanded = !categoriaIsExpanded">
         <mat-icon *ngIf="!categoriaIsExpanded">category</mat-icon>
         <mat-icon *ngIf="categoriaIsExpanded">list</mat-icon>   <!-- para cambiar el ícono si se expande -->
@@ -42,12 +43,22 @@
       </button>
 
 
-      <!-- Los demás items -->
 
-      <button mat-button class="menu-button">
-        <mat-icon>healing</mat-icon>
+      <!---- servicios---->
+      <button mat-button class="menu-button" (click)="serviciosIsExpanded = !serviciosIsExpanded">
+        <mat-icon *ngIf="!serviciosIsExpanded">healing</mat-icon>
+        <mat-icon *ngIf="serviciosIsExpanded">list</mat-icon>   <!-- para cambiar el ícono si se expande -->
         <span>Servicios</span>
       </button>
+
+      <!-----reserva de turnos ----->
+      <button *ngIf="serviciosIsExpanded" mat-button routerLink="/reserva-turno" class="menu-button"
+              (click)="serviciosIsExpanded = !serviciosIsExpanded">
+        &nbsp;
+        <mat-icon>navigate_next</mat-icon>
+        <span>Reservas De Turnos</span>
+      </button>
+
 
       <button mat-button class="menu-button">
         <mat-icon>person</mat-icon>

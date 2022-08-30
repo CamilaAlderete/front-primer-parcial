@@ -23,6 +23,7 @@ export class AppComponent {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
   categoriaIsExpanded = false;
+  serviciosIsExpanded = false;
 
   title = 'FrontEnd';
 

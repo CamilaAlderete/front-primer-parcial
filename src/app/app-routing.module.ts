@@ -8,6 +8,8 @@ import {CositasUtilesComponent} from "./cositas-utiles/cositas-utiles/cositas-ut
 import {ListaSubcategoriaComponent} from "./subcategoria/lista-subcategoria/lista-subcategoria.component";
 import {NuevaSubcategoriaComponent} from "./subcategoria/nueva-subcategoria/nueva-subcategoria.component";
 import {EditarSubcategoriaComponent} from "./subcategoria/editar-subcategoria/editar-subcategoria.component";
+import {ListaReservasComponent} from "./reserva-turno/lista-reservas/lista-reservas.component";
+import {NuevaReservaComponent} from "./reserva-turno/nueva-reserva/nueva-reserva.component";
 
 const routes: Routes = [
   {
@@ -31,7 +33,14 @@ const routes: Routes = [
           { path: ':id/editar', component: EditarSubcategoriaComponent } //http://localhost:4200/subcategoria/1/editar
         ]
       },
-      {path:'cositas', component: CositasUtilesComponent}
+      {path:'cositas', component: CositasUtilesComponent},
+      {path: 'reserva-turno',
+        children: [
+          { path: '', redirectTo: 'lista', pathMatch: 'full'},
+          { path: 'lista', component: ListaReservasComponent },  //http://localhost:4200/reserva-turno/lista
+          { path: 'nueva', component: NuevaReservaComponent } //http://localhost:4200/reserva-turno/nuevo
+        ]
+      }
     ]
   }
 ];
