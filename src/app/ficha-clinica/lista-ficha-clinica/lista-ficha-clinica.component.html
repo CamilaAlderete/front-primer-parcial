@@ -69,8 +69,8 @@
     <div class="row justify-content-md-center">
 
       <!-- Categoría -->
-      <div class="col-lg-auto">
-        <mat-form-field appearance="fill">
+      <div class="col-lg-6">
+        <mat-form-field appearance="fill" style="width: 100%">
           <mat-label>Categoría</mat-label>
           <!-- para traer las subcategorías al seleccionar una categoría, se usa el (selectionChange) -->
           <mat-select [value]="categoria" [(ngModel)]="categoria" (selectionChange)="traerSubcategorias()">
@@ -82,8 +82,8 @@
       </div>
 
       <!-- Subcategoría -->
-      <div class="col-lg-auto">
-        <mat-form-field appearance="fill">
+      <div class="col-lg-6">
+        <mat-form-field appearance="fill" style="width: 100%">
           <mat-label>Subcategoría</mat-label>
           <mat-select [value]="subcategoria" [(ngModel)]="subcategoria">
             <mat-option *ngFor="let l of listaSubcategorias" [value]="l">
@@ -99,7 +99,7 @@
     <div class="row justify-content-between">
 
       <div class="col-lg-8">
-        <button type="button" class="m-3 btn btn-success btn">Agregar Ficha</button>
+        <button type="button" class="m-3 btn btn-success btn" routerLink="../nueva">Agregar Ficha</button>
       </div>
 
       <div class="col-lg-4">
@@ -125,7 +125,7 @@
 
       <ng-container matColumnDef="idEmpleado">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Profesional </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.idEmpleado.nombreCompleto}} </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.idEmpleado.idPersona}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="idCliente">

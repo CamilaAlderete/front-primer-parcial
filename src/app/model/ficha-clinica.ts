@@ -1,8 +1,7 @@
 import {Subcategoria} from "./subcategoria";
-import {Categoria} from "./categoria";
 
 class Persona {
-  nombreCompleto!: String;
+  nombreCompleto!: string;
 }
 
 export class FichaClinica {
@@ -16,4 +15,18 @@ export class FichaClinica {
   idFichaClinica!: number;
 }
 
+// esto está así por mientras nomas, después cuando esté la clase persona voy a ver
+// para poner como tiene que ser realmente
+class PersonaNumero{
+  idPersona!: number
+}
 
+// interfaz para poder hacer post de una ficha clínica con el formato que recibe el back
+export class FichaClinicaPost {
+  motivoConsulta!: string;
+  diagnostico!: string;
+  observacion!: string;
+  idEmpleado: PersonaNumero = new PersonaNumero();
+  idCliente: PersonaNumero = new PersonaNumero();
+  idTipoProducto: Subcategoria = new Subcategoria();  // es en realidad la subcategoría
+}

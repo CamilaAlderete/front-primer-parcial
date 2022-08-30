@@ -5,9 +5,8 @@ import {FichaClinica} from "../../model/ficha-clinica";
 import {MatSort, Sort} from "@angular/material/sort";
 import {FichaClinicaServiceService} from "../../service/ficha-clinica-service.service";
 import {ToastrService} from "ngx-toastr";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {MatPaginator} from "@angular/material/paginator";
 import {CategoriaService} from "../../service/categoria.service";
-import {MatSelectChange} from "@angular/material/select";
 import {SubcategoriaService} from "../../service/subcategoria.service";
 import {DatePipe} from "@angular/common";
 
@@ -20,7 +19,7 @@ export class ListaFichaClinicaComponent implements OnInit {
 
   titulo = "Fichas Clínicas - Listado";
 
-  // los campos de los filtros
+  // los campos de los filtros. Uso el undefined porque así puedo limpiar los campos igualando a undefined las variables
   fechaDesde!: Date | undefined;
   fechaHasta!: Date | undefined;
   empleado!: String | undefined;
@@ -155,7 +154,7 @@ export class ListaFichaClinicaComponent implements OnInit {
     // poner en habilitado el paginado en el html
     if (this.deshabilitarPaginado) {
       this.deshabilitarPaginado = false;
-    };
+    }
 
     // ejecutar el paginado
     this.cambioPaginacion();
