@@ -1,15 +1,13 @@
-import {Component, Input, OnInit, ViewChild, ViewChildren} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Categoria} from "../../model/categoria";
 import {Subcategoria} from "../../model/subcategoria";
 import {CategoriaService} from "../../service/categoria.service";
 import {ToastrService} from "ngx-toastr";
-import {FichaClinica, FichaClinicaPost} from "../../model/ficha-clinica";
+import {FichaClinica} from "../../model/ficha-clinica";
 import {SubcategoriaService} from "../../service/subcategoria.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FichaClinicaServiceService} from "../../service/ficha-clinica-service.service";
 import {FormControl, Validators} from "@angular/forms";
-import {MatSelect} from "@angular/material/select";
-import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-nueva-ficha-clinica',
@@ -24,7 +22,7 @@ export class NuevaFichaClinicaComponent implements OnInit {
   fecha: Date = new Date();
 
   // la ficha
-  ficha: FichaClinicaPost = new FichaClinicaPost();
+  ficha: FichaClinica = new FichaClinica();
 
   // los datos recibidos del back
   listaCategorias!: Categoria[];
@@ -45,11 +43,11 @@ export class NuevaFichaClinicaComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) {
+    // traer del back las categorías para poder listarlas
+    this.getCategorias();
   }
 
   ngOnInit(): void {
-    // traer del back las categorías para poder listarlas
-    this.getCategorias();
   }
 
   // traer del back los datos necesarios para los campos de filtrado del html
@@ -86,7 +84,7 @@ export class NuevaFichaClinicaComponent implements OnInit {
 
   guardarFicha() {
     console.log(this.ficha);
-    this.httpFichaclinicaService.postFicha(this.ficha).subscribe({
+    this.httpFichaclinicaService.post(this.ficha).subscribe({
       next: (e) => {
         this.toastr.success('Ficha creada exitosamente');
         this.atras();
@@ -95,7 +93,7 @@ export class NuevaFichaClinicaComponent implements OnInit {
         console.log(err);
         this.toastr.error('No se pudo crear la ficha', 'Error');
       }
-    });;
+    });
   }
 
   atras() {
