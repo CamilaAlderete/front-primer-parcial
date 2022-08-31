@@ -1,0 +1,103 @@
+<!-- titulo---->
+<div *ngIf="data.titulo!=''" class="d-flex justify-content-center">
+  <br>
+  <h2 class="text-title">
+    {{ data.titulo }}
+  </h2>
+</div>
+
+<!-- la tabla -->
+
+  <!-- field para la búsqueda -->
+  <mat-form-field appearance="standard" class="m-3" style="width: 92%;">
+    <mat-label>Busque en todas las columnas...</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+  </mat-form-field>
+
+  <mat-table [dataSource]="listaPacientes" class="col-md-25 mat-elevation-z1" matSort
+             (matSortChange)="sortChange($event)">
+
+    <!-- Columna descripción subcategoría -->
+    <!--  Para el caso de querer tener activado el Sorting de la columna:
+          matColumnDef tiene que tener el mismo nombre que usás en el mat-cell, sino no va a funcionar el ordenamiento
+          porque material asume que por default tienen el mismo nombre.
+
+          ejemplo: matColumnDef="descripcion" y en el mat-cell está row.descripcion.
+          O sea, a los dos se le pone "descripcion" en este ejemplo
+    -->
+
+    <!-- Columna id paciente -->
+    <ng-container matColumnDef="idPersona">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.idPersona}}</mat-cell>
+    </ng-container>
+
+    <!-- Columna nombre paciente -->
+    <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.nombre}}</mat-cell>
+    </ng-container>
+
+    <!-- Columna apellido paciente -->
+    <ng-container matColumnDef="apellido">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Apellido  </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.apellido}} </mat-cell>
+    </ng-container>
+
+    <!-- Columna telefono paciente -->
+    <ng-container matColumnDef="telefono">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Teléfono </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.telefono}}</mat-cell>
+    </ng-container>
+
+    <!-- Columna email paciente -->
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.email}}</mat-cell>
+    </ng-container>
+
+    <!-- Columna RUC paciente -->
+    <ng-container matColumnDef="ruc">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> RUC  </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.ruc}} </mat-cell>
+    </ng-container>
+
+    <!-- Columna cedula paciente -->
+    <ng-container matColumnDef="cedula">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Cédula </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.cedula}}</mat-cell>
+    </ng-container>
+
+    <!-- Columna Tipo Persona paciente -->
+    <ng-container matColumnDef="tipoPersona">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Persona </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.tipoPersona}}</mat-cell>
+    </ng-container>
+
+    <!-- Columna fecha nacimiento paciente -->
+    <ng-container matColumnDef="fechaNacimiento">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Nacimiento </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.fechaNacimiento}} </mat-cell>
+    </ng-container>
+
+    <!----columna acciones---->
+    <ng-container matColumnDef="acciones">
+      <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+        <div>
+          <!-- al darle clic, enviar el dato -->
+          <button class="btn btn-primary btn-sm m-2" [mat-dialog-close]="element">Elegir</button>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    <!-- Row shown when there is no matching data. -->
+    <mat-row *matNoDataRow>
+      <mat-cell colspan="4">No hay coincidencias..."{{input.value}}"</mat-cell>
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>

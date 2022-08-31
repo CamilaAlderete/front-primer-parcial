@@ -42,6 +42,7 @@ import {MatSortModule} from "@angular/material/sort";
 import { ListaFichaClinicaComponent } from './ficha-clinica/lista-ficha-clinica/lista-ficha-clinica.component';
 import {NuevaFichaClinicaComponent} from "./ficha-clinica/nueva-ficha-clinica/nueva-ficha-clinica.component";
 import { EditarFichaClinicaComponent } from './ficha-clinica/editar-ficha-clinica/editar-ficha-clinica.component';
+import { PopupElegirPersonaComponent } from './popup-elegir-persona/popup-elegir-persona.component';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { EditarFichaClinicaComponent } from './ficha-clinica/editar-ficha-clinic
     ListaFichaClinicaComponent,
     NuevaFichaClinicaComponent,
     EditarFichaClinicaComponent,
+    PopupElegirPersonaComponent,
   ],
   // librerias y modulos de angular y librerias externas
   imports: [

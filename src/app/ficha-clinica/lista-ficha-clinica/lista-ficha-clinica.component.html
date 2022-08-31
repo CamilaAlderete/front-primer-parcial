@@ -20,20 +20,20 @@
     <div class="row align-items-center">
 
       <!-- fecha desde -->
-      <div class="col-lg-2"> Fecha desde:</div>
-      <div class="col-lg-4">
-        <mat-form-field appearance="fill">
+      <div class="col-lg-1"> Fecha desde:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 100%">
           <mat-label>Fecha</mat-label>
           <input matInput [matDatepicker]="pickerDesde" [(ngModel)]="fechaDesde" placeholder="dd/mm/aaaa">
           <mat-datepicker-toggle matSuffix [for]="pickerDesde"></mat-datepicker-toggle>
           <mat-datepicker #pickerDesde></mat-datepicker>
         </mat-form-field>
       </div>
-      <!-- fecha hasta -->
-      <div class="col-lg-2"> Fecha hasta:</div>
-      <div class="col-lg-4">
 
-        <mat-form-field appearance="fill">
+      <!-- fecha hasta -->
+      <div class="col-lg-1"> Fecha hasta:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill"  style="width: 100%">
           <mat-label>Fecha</mat-label>
           <input matInput [matDatepicker]="pickerHasta" [(ngModel)]="fechaHasta" placeholder="dd/mm/aaaa">
           <mat-datepicker-toggle matSuffix [for]="pickerHasta"></mat-datepicker-toggle>
@@ -46,21 +46,21 @@
     <div class="row align-items-center">
 
       <!-- Empleado -->
-      <div class="col-lg-2"> Empleado:</div>
-      <div class="col-lg-4">
-        <mat-form-field appearance="fill">
-          <input matInput type="text" [(ngModel)]="empleado" placeholder="">
+      <div class="col-lg-1"> Empleado:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 75%">
+          <input matInput disabled="true" placeholder="{{empleado ? empleado.nombre : ''}}">
         </mat-form-field>
-        &nbsp;<a href="">Buscar</a>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()">Buscar</button>
       </div>
 
       <!-- Cliente -->
-      <div class="col-lg-2"> Cliente:</div>
-      <div class="col-lg-4">
-        <mat-form-field appearance="fill">
-          <input matInput type="text" [(ngModel)]="cliente" placeholder="">
+      <div class="col-lg-1"> Cliente:</div>
+      <div class="col-sm-5">
+        <mat-form-field appearance="fill" style="width: 75%">
+          <input matInput disabled="true" placeholder="{{cliente ? cliente.nombre : ''}}">
         </mat-form-field>
-        &nbsp;<a href="">Buscar</a>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupElegirCliente()">Buscar</button>
       </div>
 
     </div>
