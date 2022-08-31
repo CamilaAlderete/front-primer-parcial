@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {throwError, catchError, Observable} from 'rxjs';
 import {listadatos} from "../model/datos";
 
@@ -44,7 +44,24 @@ export abstract class HttpService<T, ID> {
 
 }
 
-
+// otros por el tema del formato
+// /**
+//  * Para codificar automáticamente los filtros para enviar al back con encodeURIComponent.
+//  *
+//  * @param queryParams Los query params, en el formato de siempre.
+//  *
+//  * @param filtros El filtro a enviar al back. En formato de diccionario {}
+//  */
+// getFiltrado(queryParams: {} = {}, filtros: {} = {}){
+//   let params = new HttpParams()
+//     .set('ejemplo', JSON.stringify(filtros));
+//
+//   return this.httpClient.get<listadatos<T>>(
+//     this.url+ '/' + this.endpoint + '/?ejemplo=' + encodeURIComponent(JSON.stringify(filtros)),
+//     {params: queryParams}
+//   );
+//
+// }
 
 
 /*
