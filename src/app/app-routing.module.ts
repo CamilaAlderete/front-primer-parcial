@@ -8,6 +8,12 @@ import {CositasUtilesComponent} from "./cositas-utiles/cositas-utiles/cositas-ut
 import {ListaSubcategoriaComponent} from "./subcategoria/lista-subcategoria/lista-subcategoria.component";
 import {NuevaSubcategoriaComponent} from "./subcategoria/nueva-subcategoria/nueva-subcategoria.component";
 import {EditarSubcategoriaComponent} from "./subcategoria/editar-subcategoria/editar-subcategoria.component";
+import {ListaPacienteComponent} from "./paciente/lista-paciente/lista-paciente.component";
+import {NuevoPacienteComponent} from "./paciente/nuevo-paciente/nuevo-paciente.component";
+import {EditarPacienteComponent} from "./paciente/editar-paciente/editar-paciente.component";
+import {ListaServicioComponent} from "./servicio/lista-servicio/lista-servicio.component";
+import {NuevoServicioComponent} from "./servicio/nuevo-servicio/nuevo-servicio.component";
+import {EditarServicioComponent} from "./servicio/editar-servicio/editar-servicio.component";
 
 const routes: Routes = [
   {
@@ -29,6 +35,22 @@ const routes: Routes = [
           { path: 'lista', component: ListaSubcategoriaComponent },  //http://localhost:4200/subcategoria/lista
           { path: 'nueva', component: NuevaSubcategoriaComponent }, //http://localhost:4200/subcategoria/nuevo
           { path: ':id/editar', component: EditarSubcategoriaComponent } //http://localhost:4200/subcategoria/1/editar
+        ]
+      },
+      {path: 'paciente',
+        children: [
+          { path: '', redirectTo: 'lista', pathMatch: 'full'},
+          { path: 'lista', component: ListaPacienteComponent },  //http://localhost:4200/paciente/lista
+          { path: 'nueva', component: NuevoPacienteComponent }, //http://localhost:4200/paciente/nuevo
+          { path: ':id/editar', component: EditarPacienteComponent } //http://localhost:4200/paciente/1/editar
+        ]
+      },
+      {path: 'servicio',
+        children: [
+          { path: '', redirectTo: 'lista', pathMatch: 'full'},
+          { path: 'lista', component: ListaServicioComponent },  //http://localhost:4200/servicio/lista
+          { path: 'nueva', component: NuevoServicioComponent }, //http://localhost:4200/servicio/nuevo
+          { path: ':id/editar', component: EditarServicioComponent } //http://localhost:4200/servicio/1/editar
         ]
       },
       {path:'cositas', component: CositasUtilesComponent}

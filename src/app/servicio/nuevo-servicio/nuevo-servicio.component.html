@@ -1,0 +1,93 @@
+<div class="container d-flex">
+
+  <div class="col-11">
+
+    <br/>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="container-fluid">
+
+
+          <!-----titulo------>
+          <h3 class="text-title">
+            Nuevo servicio
+          </h3>
+
+          <!-- nombre servicio -->
+          <mat-form-field appearance="fill" class="col-md-5">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" [(ngModel)]="nombre"  [formControl]="textFormControl">
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="textFormControl.hasError('required')">
+              El nombre es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+          &nbsp;
+          <!-- descripcion servicio -->
+          <mat-form-field appearance="fill" class="col-md-5">
+            <mat-label>Descripción</mat-label>
+            <input matInput type="text" [(ngModel)]="descripcion"  [formControl]="textFormControl">
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="textFormControl.hasError('required')">
+              La descripción es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+          &nbsp;
+<!--          &lt;!&ndash;- Seleccionar categoría &#45;&#45;&ndash;&gt;-->
+<!--          <mat-form-field appearance="fill" class="col-md-6">-->
+<!--            <mat-label>Categoría</mat-label>-->
+<!--            <mat-select [(ngModel)]="nuevoServicio.idCategoria"  [formControl]="categoriaFormControl">-->
+<!--              <mat-option *ngFor="let l of listaCategorias" [value]="l">-->
+<!--                {{ l.descripcion }}-->
+<!--              </mat-option>-->
+<!--            </mat-select>-->
+
+<!--            &lt;!&ndash; para validar la entrada &ndash;&gt;-->
+<!--            <mat-error *ngIf="categoriaFormControl.hasError('required')">-->
+<!--              La categoría es <strong>requerida</strong>-->
+<!--            </mat-error>-->
+<!--          </mat-form-field>-->
+
+          <!-- idProducto servicio -->
+          <mat-form-field appearance="fill" class="col-md-5">
+            <mat-label>IdProducto</mat-label>
+            <input matInput type="text" [(ngModel)]="idProducto"  [formControl]="textFormControl">
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="textFormControl.hasError('required')">
+              El idProducto es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+          &nbsp;
+          <!--- Seleccionar subcategoría ---->
+          <mat-form-field appearance="fill" class="col-md-5">
+            <mat-label>Subcategoría</mat-label>
+            <mat-select [(ngModel)]="idTipoProducto"  [formControl]="subCategoriaFormControl">
+              <mat-option *ngFor="let l of listaSubCategorias" [value]="l">
+                {{ l.descripcion }}
+              </mat-option>
+            </mat-select>
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="subCategoriaFormControl.hasError('required')">
+              La subcategoría es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <!----las funciones guardar y atras seran llamdas ante el evento click---->
+          <div class="col-md-6 d-flex justify-content-around">
+            <button type="button" class="btn btn-primary btn-sm"
+                    (click)="guardar()">Guardar
+            </button>
+            <button type="button" class="btn btn-danger btn-sm"
+                    (click)="atras()">Cancelar
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

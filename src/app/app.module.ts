@@ -9,6 +9,13 @@ import { EditarCategoriaComponent } from './categoria/editar-categoria/editar-ca
 import { ListaSubcategoriaComponent } from './subcategoria/lista-subcategoria/lista-subcategoria.component';
 import { NuevaSubcategoriaComponent } from './subcategoria/nueva-subcategoria/nueva-subcategoria.component';
 import { EditarSubcategoriaComponent } from './subcategoria/editar-subcategoria/editar-subcategoria.component';
+import { ListaPacienteComponent } from "./paciente/lista-paciente/lista-paciente.component";
+import { NuevoPacienteComponent } from "./paciente/nuevo-paciente/nuevo-paciente.component";
+import { EditarPacienteComponent } from "./paciente/editar-paciente/editar-paciente.component";
+import { ListaServicioComponent } from "./servicio/lista-servicio/lista-servicio.component";
+import { NuevoServicioComponent } from "./servicio/nuevo-servicio/nuevo-servicio.component";
+import { EditarServicioComponent } from "./servicio/editar-servicio/editar-servicio.component";
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 
@@ -44,6 +51,12 @@ import {MatSortModule} from "@angular/material/sort";
     ListaSubcategoriaComponent,
     NuevaSubcategoriaComponent,
     EditarSubcategoriaComponent,
+    ListaPacienteComponent,
+    NuevoPacienteComponent,
+    EditarPacienteComponent,
+    ListaServicioComponent,
+    NuevoServicioComponent,
+    EditarServicioComponent,
     HomeComponent,
     CositasUtilesComponent,
   ],

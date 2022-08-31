@@ -16,7 +16,7 @@ import {FormControl, Validators} from "@angular/forms";
 export class EditarSubcategoriaComponent implements OnInit {
 
 
-  listaCategorias!: Categoria[];  // para mostrar la lista de subcategorías
+  listaCategorias!: Categoria[];  // para mostrar la lista de categorías
   subcategoria: Subcategoria = new Subcategoria();  // la subcategoría que se está modificando actualmente
 
   // para validar el input del html
@@ -66,7 +66,7 @@ export class EditarSubcategoriaComponent implements OnInit {
         },
         error: (err) => {
           console.log(err);
-          this.toastr.error("No se pudo obtener la lista", "Error");
+          this.toastr.error("No se pudo obtener la lista de categorias", "Error");
         }
       }
     );

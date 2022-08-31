@@ -1,0 +1,127 @@
+<div class="container d-flex">
+
+  <div class="col-11">
+
+    <br/>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="container-fluid">
+
+
+          <!-----titulo------>
+          <h3 class="text-title">
+            Nuevo paciente
+          </h3>
+
+          <!-----nombre del paciente------>
+          <mat-form-field appearance="fill" class="col-md-5">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" [(ngModel)]="nuevoPaciente.nombre"  [formControl]="textFormControl">
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="textFormControl.hasError('required')">
+              El nombre es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+          &nbsp;
+          <!-----apellido del paciente------>
+          <mat-form-field appearance="fill" class="col-md-5">
+            <mat-label>Apellido</mat-label>
+            <input matInput type="text" [(ngModel)]="nuevoPaciente.apellido"  [formControl]="textFormControl">
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="textFormControl.hasError('required')">
+              El apellido es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+          &nbsp;
+          <!-----telefono del paciente------>
+          <mat-form-field appearance="fill" class="col-md-5">
+            <mat-label>Teléfono</mat-label>
+            <input matInput type="text" [(ngModel)]="nuevoPaciente.telefono"  [formControl]="textFormControl">
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="textFormControl.hasError('required')">
+              El teléfono es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+          &nbsp;
+          <!-----email del paciente------>
+          <mat-form-field appearance="fill" class="col-md-5">
+            <mat-label>Email</mat-label>
+            <input matInput type="text" [(ngModel)]="nuevoPaciente.email"  [formControl]="textFormControl">
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="textFormControl.hasError('required')">
+              El email es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+          &nbsp;
+          <!-----ruc del paciente------>
+          <mat-form-field appearance="fill" class="col-md-5">
+            <mat-label>RUC</mat-label>
+            <input matInput type="text" [(ngModel)]="nuevoPaciente.ruc"  [formControl]="textFormControl">
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="textFormControl.hasError('required')">
+              El RUC es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+          &nbsp;
+          <!-----cedula del paciente------>
+          <mat-form-field appearance="fill" class="col-md-5">
+            <mat-label>Cédula</mat-label>
+            <input matInput type="text" [(ngModel)]="nuevoPaciente.cedula"  [formControl]="textFormControl">
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="textFormControl.hasError('required')">
+              La cédula es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+          &nbsp;
+          <!-----tipo persona del paciente------>
+          <mat-form-field appearance="fill" class="col-md-5">
+            <mat-label>Tipo Persona</mat-label>
+            <mat-select [value]="nuevoPaciente.tipoPersona" [(ngModel)]="nuevoPaciente.tipoPersona" [formControl]="textFormControl">
+              <mat-option *ngFor="let l of listatipoPersona" [value]="l">
+                {{ l }}
+              </mat-option>
+            </mat-select>
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="textFormControl.hasError('required')">
+              El tipo persona es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+          &nbsp;
+          <!-----fecha nacimiento del paciente------>
+          <mat-form-field appearance="fill" class="col-md-5">
+            <mat-label>Fecha Nacimiento</mat-label>
+
+            <input matInput [matDatepicker]="picker" [(ngModel)]="fecha" [max]="maxDate" placeholder="dd/mm/aaaa"
+                   [formControl]="textFormControl">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+
+            <!-- para validar la entrada -->
+            <mat-error *ngIf="textFormControl.hasError('required')">
+              La fecha de nacimiento es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+
+
+          <!----las funciones guardar y atras seran llamdas ante el evento click---->
+          <div class="col-md-6 d-flex justify-content-around">
+            <button type="button" class="btn btn-primary btn-sm"
+                    (click)="guardar()">Guardar
+            </button>
+            <button type="button" class="btn btn-danger btn-sm"
+                    (click)="atras()">Cancelar
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+
+<div class="container d-flex">
+
+  <div class="col-11">
+
+    <br/>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="container-fluid" >
+
+
+          <h3 class="text-title">
+            {{titulo}}
+          </h3>
+
+          <p>
+
+            <mat-form-field appearance="fill" class="col-md-5">
+              <mat-label>Nombre</mat-label>
+              <input matInput type="text" [(ngModel)]="nombre">
+
+              <!-- para validar la entrada -->
+              <mat-error *ngIf="textFormControl.hasError('required')">
+                El nombre es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field appearance="fill" class="col-md-5">
+              <mat-label>Descripción</mat-label>
+              <input matInput type="text" [(ngModel)]="descripcion">
+
+              <!-- para validar la entrada -->
+              <mat-error *ngIf="textFormControl.hasError('required')">
+                La descripción es <strong>requerida</strong>
+              </mat-error>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field appearance="fill" class="col-md-5">
+              <mat-label>ID Producto</mat-label>
+              <input matInput type="text" [(ngModel)]="idProducto">
+
+              <!-- para validar la entrada -->
+              <mat-error *ngIf="textFormControl.hasError('required')">
+                El producto es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field appearance="fill" class="col-md-5">
+              <mat-label>Subcategoría</mat-label>
+              <mat-select [value]="subcategoria" [(ngModel)]="subcategoria"
+                          [compareWith]="compararObjetosSubCategorias">
+                <mat-option *ngFor="let l of listaSubcategoria" [value]="l">
+                  {{ l.descripcion }}
+                </mat-option>
+              </mat-select>
+
+              <!-- para validar la entrada -->
+              <mat-error *ngIf="textFormControl.hasError('required')">
+                La subcategoría es <strong>requerida</strong>
+              </mat-error>
+            </mat-form-field>
+
+          </p>
+
+          <div class="col-md-6 d-flex justify-content-around">
+            <button type="button" class="btn btn-primary btn-sm"
+                    (click)="guardar()">Guardar
+            </button>
+            <button type="button" class="btn btn-danger btn-sm"
+                    (click)="atras()">Cancelar
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+

@@ -61,7 +61,7 @@ export class EditarCategoriaComponent implements OnInit {
     this.httpService.put(this.categoria)
       .subscribe({
         next: (e) => {
-          this.toastr.success('Categoria creada exitosamente');
+          this.toastr.success('Categoria editada exitosamente');
           this.atras();
         },
         error: (err) =>{
