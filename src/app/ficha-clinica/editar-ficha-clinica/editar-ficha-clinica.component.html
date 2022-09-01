@@ -41,7 +41,7 @@
       <div class="col-lg-1"> Empleado:</div>
       <div class="col-lg-5">
         <mat-form-field appearance="fill" style="width: 75%">
-          <input matInput [disabled]="true" type="number" [(ngModel)]="ficha.idEmpleado.idPersona" >
+          <input matInput [disabled]="true" [(ngModel)]="ficha.idEmpleado.nombre" >
         </mat-form-field>
         &nbsp;<button mat-raised-button color="primary" disabled="true">Buscar</button>
       </div>
@@ -50,7 +50,7 @@
       <div class="col-lg-1"> Cliente:</div>
       <div class="col-lg-5">
         <mat-form-field appearance="fill" style="width: 75%">
-          <input matInput [disabled]="true" type="number" [(ngModel)]="ficha.idCliente.idPersona" placeholder=""  >
+          <input matInput [disabled]="true" [(ngModel)]="ficha.idCliente.nombre" placeholder=""  >
         </mat-form-field>
         &nbsp;<button mat-raised-button color="primary" disabled="true">Buscar</button>
       </div>
