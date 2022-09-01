@@ -21,9 +21,9 @@
     <div class="row align-items-center">
 
       <!-- fecha -->
-      <div class="col-lg-2"> Fecha:</div>
-      <div class="col-lg-4">
-        <mat-form-field appearance="fill">
+      <div class="col-lg-1"> Fecha:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 100%">
           <mat-label>Fecha</mat-label>
           <input [disabled]="true" matInput [matDatepicker]="pickerDesde" [(ngModel)]="fecha" placeholder="dd/mm/aaaa">
           <mat-datepicker-toggle matSuffix [for]="pickerDesde"></mat-datepicker-toggle>
@@ -38,22 +38,23 @@
 
       <!-- estos faltan cambiar cuando esté la clase empleado -->
       <!-- Empleado -->
-      <div class="col-lg-2"> Empleado:</div>
-      <div class="col-lg-4">
-        <mat-form-field appearance="fill">
-          <input matInput type="number" [(ngModel)]="ficha.idEmpleado.idPersona" [formControl]="empleadoFormControl" placeholder="">
+      <div class="col-lg-1"> Empleado:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 75%">
+          <input matInput disabled="true" placeholder="{{ficha.idEmpleado ? ficha.idEmpleado.nombre : ''}}">
         </mat-form-field>
-        &nbsp;<a href="">Buscar</a>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()">Buscar</button>
       </div>
 
       <!-- Cliente -->
-      <div class="col-lg-2"> Cliente:</div>
-      <div class="col-lg-4">
-        <mat-form-field appearance="fill">
-          <input matInput type="number" [(ngModel)]="ficha.idCliente.idPersona" placeholder="" [formControl]="clienteFormControl" >
+      <div class="col-lg-1"> Cliente:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 75%">
+          <input matInput disabled="true" placeholder="{{ficha.idCliente ? ficha.idCliente.nombre : ''}}">
         </mat-form-field>
-        &nbsp;<a href="">Buscar</a>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupElegirCliente()">Buscar</button>
       </div>
+
 
     </div>
 
