@@ -6,10 +6,12 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort, Sort} from "@angular/material/sort";
 import {PacienteService} from "../service/paciente.service";
 import {ToastrService} from "ngx-toastr";
+import {delay} from "rxjs/operators";
+import {BreakpointObserver} from "@angular/cdk/layout";
 
 interface DatosRecibidos {
-  titulo: string,
-  soloFisioterapeutas: boolean
+  titulo: string;
+  soloFisioterapeutas: boolean;
 }
 @Component({
   selector: 'app-popup-elegir-persona',
@@ -17,6 +19,9 @@ interface DatosRecibidos {
   styleUrls: ['./popup-elegir-persona.component.css']
 })
 export class PopupElegirPersonaComponent implements OnInit {
+
+  // para hacer responsive
+  estiloTabla: string = "";
 
   // para la paginación de la tabla y el ordenamiento
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -41,7 +46,8 @@ export class PopupElegirPersonaComponent implements OnInit {
     // con este recibo información y también la envío devuelta
     @Inject(MAT_DIALOG_DATA) public data: DatosRecibidos,
     private httpService: PacienteService, // El service de paciente
-    private toastr: ToastrService //para notificaciones en pantalla
+    private toastr: ToastrService, //para notificaciones en pantalla
+    private observer: BreakpointObserver
   ) {
     // para inicializar en vacío la lista
     this.listaPacientes = new MatTableDataSource();
@@ -75,6 +81,18 @@ export class PopupElegirPersonaComponent implements OnInit {
   ngAfterViewInit() {
     this.listaPacientes.paginator = this.paginator;
     this.listaPacientes.sort = this.sort;
+
+    // para hacer que sea responsive
+    this.observer
+      .observe(["(max-width: 700px)"])
+      .pipe(delay(1)) // delay 1mS
+      .subscribe((res) => {
+        if (res.matches) {
+          this.estiloTabla = "width: 700px";
+        } else {
+          this.estiloTabla = "";
+        }
+      });
   }
 
   // para el input de filtro que está arriba de la tabla

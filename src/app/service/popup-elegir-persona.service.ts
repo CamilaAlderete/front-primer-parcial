@@ -18,10 +18,11 @@ export class PopupElegirPersonaService {
 
     // abrir el selector
     const selectorRef = this.dialog.open(PopupElegirPersonaComponent, {
-      width: '70%',
+      width: '75%',
+      maxHeight: '90vh',
       data: {
         titulo: titulo,
-        soloFisioterapeutas: soloFisioterapeutas
+        soloFisioterapeutas: soloFisioterapeutas,
       }
     });
 

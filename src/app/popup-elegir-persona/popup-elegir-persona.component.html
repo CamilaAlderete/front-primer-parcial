@@ -9,12 +9,12 @@
 <!-- la tabla -->
 
   <!-- field para la búsqueda -->
-  <mat-form-field appearance="standard" class="m-3" style="width: 92%;">
+  <mat-form-field appearance="standard" class="m-3" style="width: 92%; min-width: 644px;">
     <mat-label>Busque en todas las columnas...</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
   </mat-form-field>
 
-  <mat-table [dataSource]="listaPacientes" class="col-md-25 mat-elevation-z1" matSort
+  <mat-table [dataSource]="listaPacientes" class="col-md-25 mat-elevation-z1" matSort [style]="estiloTabla"
              (matSortChange)="sortChange($event)">
 
     <!-- Columna descripción subcategoría -->
