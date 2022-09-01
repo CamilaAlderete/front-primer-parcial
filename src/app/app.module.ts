@@ -27,13 +27,15 @@ import {MatInputModule} from "@angular/material/input";
 import { CositasUtilesComponent } from './cositas-utiles/cositas-utiles/cositas-utiles.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import {MatSelectModule} from '@angular/material/select';
 import {MatListModule} from "@angular/material/list";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import { ListaReservasComponent } from './reserva-turno/lista-reservas/lista-reservas.component';
 import { NuevaReservaComponent } from './reserva-turno/nueva-reserva/nueva-reserva.component';
+import { FiltroReservaComponent } from './reserva-turno/lista-reservas/filtro-reserva/filtro-reserva.component';
+import { FiltroAgendaComponent } from './reserva-turno/nueva-reserva/filtro-agenda/filtro-agenda.component';
 
 
 @NgModule({
@@ -49,7 +51,9 @@ import { NuevaReservaComponent } from './reserva-turno/nueva-reserva/nueva-reser
     HomeComponent,
     CositasUtilesComponent,
     ListaReservasComponent,
-    NuevaReservaComponent
+    NuevaReservaComponent,
+    FiltroReservaComponent,
+    FiltroAgendaComponent
   ],
   // librerias y modulos de angular y librerias externas
   imports: [
@@ -75,12 +79,17 @@ import { NuevaReservaComponent } from './reserva-turno/nueva-reserva/nueva-reser
     MatListModule,
     MatPaginatorModule,
     MatSortModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [
     //para usar datepicker
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    }
   ],
   bootstrap: [AppComponent]
 })

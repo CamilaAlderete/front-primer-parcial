@@ -1,0 +1,76 @@
+
+
+<div class="container d-flex justify-content-around">
+
+  <div>
+
+    <h3 mat-dialog-title class="d-flex justify-content-center">
+      <span> Filtro de reservas</span>
+    </h3>
+
+    <div mat-dialog-content>
+
+      <!--filtro-->
+      <div class="d-flex flex-column justify-content-around m-3">
+
+        <mat-form-field appearance="fill">
+          <mat-label>Seleccionar profesional</mat-label>
+
+          <mat-select [(ngModel)]="idProfesional">
+            <mat-option *ngFor="let p of listaProfesionales" [value]="p.idPersona">
+              {{ p.idPersona}} - {{ p.nombre }} {{ p.apellido }}
+            </mat-option>
+
+          </mat-select>
+
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" >
+          <mat-label>Seleccionar paciente</mat-label>
+
+          <mat-select [(ngModel)]="idPaciente">
+            <mat-option *ngFor="let p of listaPacientes" [value]="p.idPersona">
+              {{ p.idPersona}} - {{ p.nombre }} {{ p.apellido }}
+            </mat-option>
+
+          </mat-select>
+
+        </mat-form-field>
+
+
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha desde</mat-label>
+          <input matInput [matDatepicker]="pickerDesde" [(ngModel)]="fechaDesde" placeholder="dd/mm/aaaa">
+          <mat-datepicker-toggle matSuffix [for]="pickerDesde"></mat-datepicker-toggle>
+          <mat-datepicker #pickerDesde></mat-datepicker>
+
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha Hasta</mat-label>
+          <input matInput [matDatepicker]="pickerHasta" [(ngModel)]="fechaHasta" placeholder="dd/mm/aaaa">
+          <mat-datepicker-toggle matSuffix [for]="pickerHasta"></mat-datepicker-toggle>
+          <mat-datepicker #pickerHasta></mat-datepicker>
+
+        </mat-form-field>
+
+
+        <div class="d-flex justify-content-around">
+          <button class="btn btn-success" (click)="filtrar()"> Buscar </button>
+          <button class="btn btn-primary" (click)="limpiarFiltro()"> Limpiar filtro</button>
+          <!---<button class="btn btn-danger" (click)="cerrar()">Cerrar</button>--->
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+    </div>
+
+  </div>
+</div>
+

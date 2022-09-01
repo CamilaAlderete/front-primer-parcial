@@ -7,101 +7,48 @@
 </div>
 
 
-  <div class="m-3 px-4">
-    <button class="btn btn-success btn-sm" routerLink="../nueva">Reservar</button>&nbsp;&nbsp;&nbsp;
-  </div>
-
-  <div class="d-flex justify-content-center">
-    <h3 class="text-title">
-      Filtrado de reservas
-    </h3>
-  </div>
-
-
-  <!--filtro-->
-  <div #filtro>
-
-    <mat-form-field appearance="fill" >
-      <mat-label>Seleccionar profesional</mat-label>
-
-      <mat-select [(ngModel)]="idProfesional">
-        <mat-option *ngFor="let p of listaPersonas" [value]="p.idPersona">
-          {{ p.idPersona}} - {{ p.nombre }} {{ p.apellido }}
-        </mat-option>
-
-      </mat-select>
-
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" >
-      <mat-label>Seleccionar paciente</mat-label>
-
-      <mat-select [(ngModel)]="idPaciente">
-        <mat-option *ngFor="let p of listaPersonas" [value]="p.idPersona">
-          {{ p.idPersona}} - {{ p.nombre }} {{ p.apellido }}
-        </mat-option>
-
-      </mat-select>
-
-    </mat-form-field>
-
-
-    <mat-form-field appearance="fill">
-      <mat-label>Fecha</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="fecha" placeholder="dd/mm/aaaa">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-
-    </mat-form-field>
-
-
-    <div class="d-flex justify-content-around">
-      <button mat-button (click)="filtrar()"> <mat-icon>search</mat-icon> </button>
-      <!---<button mat-button (click)="limpiarFiltro()"> <mat-icon>clear_all</mat-icon></button>---->
-    </div>
-
-
+  <div class="d-flex justify-content-around">
+    <button class="btn btn-success btn-sm" routerLink="../nueva">Reservar</button>
+    <button class="btn btn-primary btn-sm" (click)="openDialog()">Filtrar</button>
 
   </div>
 
+  <br>
 
   <!---tabla -->
-  <div class="mx-4 mat-elevation-z8 col-md-25">
+  <div *ngIf="listaReservas.length>0" class="mx-4 mat-elevation-z8 col-md-25">
 
     <mat-table [dataSource]="listaReservas" class="col-md-25 mat-elevation-z1">
 
-      <!-- le pongo "" a todos en   porque quiero filtrar usando el back nomas,
-           no que me haga eso el matSort -->
+
       <ng-container matColumnDef="idReserva">
-        <mat-header-cell *matHeaderCellDef> ID reserva </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef > ID reserva </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.idReserva}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="idEmpleado.nombreCompleto">
-      <!--ng-container matColumnDef="profesional"--->
-      <mat-header-cell *matHeaderCellDef  > Profesional </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef > Profesional </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.idEmpleado.nombreCompleto}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="idCliente.nombreCompleto">
-      <!---ng-container matColumnDef="cliente"--->
-        <mat-header-cell *matHeaderCellDef  > Cliente </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef > Cliente </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.idCliente.nombreCompleto}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="fecha">
-        <mat-header-cell *matHeaderCellDef  > Fecha </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef > Fecha </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.fecha}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="horaInicio">
-        <mat-header-cell *matHeaderCellDef  > Hora Inicio</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef > Hora Inicio</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.horaInicio}} </mat-cell>
       </ng-container>
 
 
       <ng-container matColumnDef="horaFin">
-        <mat-header-cell *matHeaderCellDef  > Hora Fin</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef > Hora Fin</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.horaFin}} </mat-cell>
       </ng-container>
 
@@ -120,16 +67,19 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
-      <!-- Row shown when there is no matching data. -->
-      <mat-row *matNoDataRow>
-        <mat-cell colspan="4">No hay reservas</mat-cell>
-      </mat-row>
     </mat-table>
+
+    <!----<mat-paginator (page)="cambioPaginacion()"
+                   [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Página de reservas"></mat-paginator>---->
 
 
   </div>
 
-
+  <div *ngIf="listaReservas.length==0" class="d-flex justify-content-center">
+    <h3 class="text-title">
+      No hay turnos reservados
+    </h3>
+  </div>
 
 <br>
 <br>

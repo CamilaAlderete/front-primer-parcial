@@ -10,6 +10,10 @@ import { DatePipe } from '@angular/common'
 import {FormControl, Validators} from "@angular/forms";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { delay } from "rxjs/operators";
+import {ReservaService} from "../../service/reserva.service";
+import {MatDialog} from "@angular/material/dialog";
+import {FiltroAgendaComponent} from "./filtro-agenda/filtro-agenda.component";
+import {LogicalFileSystem} from "@angular/compiler-cli";
 
 
 @Component({
@@ -19,23 +23,13 @@ import { delay } from "rxjs/operators";
 })
 export class NuevaReservaComponent implements OnInit {
 
-  // para el div que contiene los campos del filtro
-  @ViewChild('filtro', {static: true}) Filtro!: ElementRef;
-
-
-  profesionales: Persona[] = [];
   agenda: Reserva[] = [];
   idProfesional!: number;
+  idPaciente!: number;
   profesional!: Persona;
   fecha!: Date;
-  hoy = new Date();
 
-  //control en los campos del filtro
-  profesionalFormControl = new FormControl('', [Validators.required]);
-  fechaFormControl = new FormControl('', [Validators.required]);
-
-  displayedColumns: string[] = ['fecha', 'horaInicio','horaFin','acciones'];
-
+  displayedColumns: string[] = ['fecha', 'horaInicioCadena','horaFinCadena','acciones'];
 
   constructor(
     private toastr: ToastrService,
@@ -43,85 +37,101 @@ export class NuevaReservaComponent implements OnInit {
     private router: Router,
     private categoriaService: CategoriaService,
     private personaService: PersonaService,
-    private renderer: Renderer2,
-    private observer: BreakpointObserver
+    private reservaService: ReservaService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    this.getProfesionales();
+    this.idPaciente = 293;
+  }
+
+  reservar(turno: Reserva){
+
+    if( this.idProfesional!=null && this.idPaciente!= null){
+      console.log('PROFESIONAL');
+      console.log(this.idProfesional);
+      console.log('PACIENTE')
+      console.log(this.idPaciente);
+      console.log('TURNO')
+      console.log(turno)
+      this.reservaTurno(turno);
+    }else{
+      this.toastr.error('No se puede reservar turno', 'Error');
+    }
 
   }
 
-  guardar(){
+  reservaTurno(turno: Reserva){
 
-  }
+    /*let nuevaReserva = new Reserva();
+    nuevaReserva.fechaCadena = turno.fechaCadena;
+    nuevaReserva.horaInicioCadena = turno.horaInicioCadena;
+    nuevaReserva.horaFinCadena = turno.horaFinCadena;
+    nuevaReserva.idEmpleado.idPersona = this.idProfesional;
+    nuevaReserva.idCliente.idPersona = this.idPaciente;*/
 
-  getProfesionales(){
-    let params = new HttpParams()
-      .set('orderBy', 'idPersona')
-      .set('orderDir', 'asc')
+    let json = {
+      "fechaCadena": turno.fechaCadena,
+      "horaInicioCadena": turno.horaInicioCadena,
+      "horaFinCadena": turno.horaFinCadena,
+      "idEmpleado": {
+        "idPersona":this.idProfesional
+      },
+      "idCliente": {
+        "idPersona": this.idPaciente
+      }
+    }
+    let nuevaReserva: Reserva = JSON.parse( JSON.stringify(json) );
 
-    this.personaService.getAll(params).subscribe({
-      next:(e) =>{
-        this.profesionales = e.lista;
+    this.reservaService.post(nuevaReserva).subscribe({
+      next:(e)=>{
+        this.toastr.success('Turno reservado exitosamente');
       },
       error: (err)=>{
         console.log(err);
-        this.toastr.error('No se pudo obtener la lista de personas', 'Error');
-      }
-    });
-
-  }
-
-  getAgenda(fecha:Date){
-
-    let params = new HttpParams()
-      .set('fecha', new DatePipe('en-US').transform(fecha, 'yyyyMMdd') || '')
-      .set('disponible', 'S')
-
-    this.personaService.getAgenda(this.idProfesional, params).subscribe({
-      next:(e) =>{
-        this.agenda = e;
-        console.log(this.agenda);
-      },
-      error: (err)=>{
-        console.log(err);
-        this.toastr.error('No se pudo obtener la agenda del profesional', 'Error');
+        this.toastr.error('No se pudo reservar el turno');
       }
     });
   }
+
+
+  openDialog(){
+    //abre el pop up
+    const dialogRef = this.dialog.open(FiltroAgendaComponent);
+
+    //al cerrar, recibe la lista de reservas
+    dialogRef.afterClosed().subscribe(result => {
+
+      if(result){
+        this.idProfesional = result[0];
+        this.agenda = result[1];
+      }
+
+    });
+  }
+
 
 
   atras() {
     this.router.navigate(['../'], {relativeTo: this.route});
   }
 
-  filtrar(){
-    if(this.idProfesional!= null && this.fecha!= null){
-            this.getAgenda(this.fecha)
-    }else{
-      this.toastr.error('Debe completar todos los campos', 'Error');
-    }
-
-  }
-
-  /*limpiarFiltro(){
-
-  }*/
-
-  //cuando la pantalla sea menor a 900px, los campos del filtro se van a colocar en vertical, sino en horizontal
-  ngAfterViewInit() {
-    this.observer
-      .observe(["(max-width: 900px)"])
-      .pipe(delay(1)) // delay 1mS
-      .subscribe((res) => {
-        if (res.matches) {
-          this.renderer.setAttribute(this.Filtro.nativeElement,'class','d-flex flex-column justify-content-around m-3')
-        }else{
-          this.renderer.setAttribute(this.Filtro.nativeElement,'class','d-flex justify-content-around m-3')
-        }
-      });
-  }
-
-
 }
+
+
+
+//@ViewChild('filtro', {static: true}) Filtro!: ElementRef;
+
+//cuando la pantalla sea menor a 900px, los campos del filtro se van a colocar en vertical, sino en horizontal
+/*ngAfterViewInit() {
+  this.observer
+    .observe(["(max-width: 900px)"])
+    .pipe(delay(1)) // delay 1mS
+    .subscribe((res) => {
+      if (res.matches) {
+        this.renderer.setAttribute(this.Filtro.nativeElement,'class','d-flex flex-column justify-content-around m-3')
+      }else{
+        this.renderer.setAttribute(this.Filtro.nativeElement,'class','d-flex justify-content-around m-3')
+      }
+    });
+}*/

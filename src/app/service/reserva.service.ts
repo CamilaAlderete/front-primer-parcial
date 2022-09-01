@@ -16,4 +16,14 @@ export class ReservaService extends HttpService<Reserva, number>{
     super( httpClient, url_base,'reserva');
   }
 
+  override post(t: Reserva): Observable<Reserva> {
+    return this.httpClient.post<Reserva>(this.url+ "/"   + this.endpoint, t,
+      {
+        headers:{
+          'usuario':'usuario2',
+          //"usuario": localStorage.getItem('userSession') as string,
+        }
+      });
+  }
+
 }
