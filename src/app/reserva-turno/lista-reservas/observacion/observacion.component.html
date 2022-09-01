@@ -1,0 +1,51 @@
+
+
+<div class="container d-flex justify-content-around">
+
+  <div>
+
+    <h3 mat-dialog-title class="d-flex justify-content-center">
+      <span> Observaciones</span>
+    </h3>
+
+    <div mat-dialog-content>
+
+      <!--filtro-->
+      <div class="d-flex flex-column justify-content-around m-3">
+
+          <mat-form-field appearance="fill" >
+            <mat-label>Ingresar Observación</mat-label>
+            <input matInput type="text" [(ngModel)]="observacion">
+          </mat-form-field>
+
+        <mat-form-field appearance="fill" >
+          <mat-label>Asistencia</mat-label>
+
+          <mat-select [(ngModel)]="flagAsistio">
+            <mat-option *ngFor="let p of asistencia" [value]="p[0]">
+              {{p[1]}}
+            </mat-option>
+
+          </mat-select>
+
+        </mat-form-field>
+
+
+        <div class="d-flex justify-content-around">
+          <button class="btn btn-success" (click)="guardar()"> Aceptar </button>
+          <button class="btn btn-danger" (click)="salir()"> Cancelar</button>
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+    </div>
+
+  </div>
+</div>
+

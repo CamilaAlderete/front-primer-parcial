@@ -10,10 +10,7 @@
 
 <div class="mx-4 mat-elevation-z8 col-md-25">
 
-  <h4 class="text-title m-4">
-    Filtros de búsqueda
-  </h4>
-
+  <br><br>
   <!---filtros--->
 
   <div class="container col-10">
@@ -28,7 +25,7 @@
             <mat-form-field appearance="fill" style="width: 75%">
               <input matInput disabled="true" placeholder="{{empleado ? empleado.nombreCompleto : ''}}">
             </mat-form-field>
-            &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()">Buscar</button>
+            &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()"><mat-icon>search</mat-icon></button>
 
           </div>
 
@@ -51,7 +48,7 @@
 
 
         <div class="col-lg-4">
-          <button type="button" (click)="filtrar()" class="btn btn-primary btn">Filtrar</button>
+          <button type="button" (click)="filtrar()" class="btn btn-primary btn">Buscar</button>
         </div>
 
     </div>
@@ -102,7 +99,7 @@
             </mat-table>
 
 
-          </div>
+  </div>
 
 
   <!---- en caso de que no haya elementos para mostrar---->

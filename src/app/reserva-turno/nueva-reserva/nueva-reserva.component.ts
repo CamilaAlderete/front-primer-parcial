@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild, Renderer2} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, Renderer2, AfterViewInit} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CategoriaService} from "../../service/categoria.service";
@@ -11,6 +11,8 @@ import {ReservaService} from "../../service/reserva.service";
 import {MatDialog} from "@angular/material/dialog";
 import {Paciente} from "../../model/paciente";
 import {PopupElegirPersonaService} from "../../service/popup-elegir-persona.service";
+import {MatPaginator} from "@angular/material/paginator";
+import {tap} from "rxjs";
 
 
 @Component({
@@ -22,7 +24,7 @@ export class NuevaReservaComponent implements OnInit {
 
   agenda: Reserva[] = [];
   idProfesional!: number;
-  idPaciente: number = 293; // por ahora
+  idPaciente: number = 287; // por ahora
   fecha!: Date;
   titulo= 'Reserva De Turno'
 
@@ -67,7 +69,7 @@ export class NuevaReservaComponent implements OnInit {
   reservar(turno: Reserva){
 
     if( this.empleado!=null && this.cliente!= null){
-      console.log(turno)
+      //console.log(turno)
       this.reservaTurno(turno);
     }else{
       this.toastr.error('No se puede reservar turno', 'Error');
@@ -85,6 +87,8 @@ export class NuevaReservaComponent implements OnInit {
       "idEmpleado": this.empleado,
       "idCliente": this.cliente
     }
+
+    console.log(json)
     let nuevaReserva: Reserva = JSON.parse( JSON.stringify(json) );
 
     this.reservaService.post(nuevaReserva).subscribe({
@@ -100,10 +104,16 @@ export class NuevaReservaComponent implements OnInit {
   }
 
   getAgenda(){
-
     let params = new HttpParams()
       .set('fecha', new DatePipe('en-US').transform(this.fecha, 'yyyyMMdd') || '')
       .set('disponible', 'S')
+      //.set('incio', 1) no anda
+      //.set('cantidad', 5) no anda
+
+    this.getAll(params)
+  }
+
+  getAll(params:{}){
 
     this.pacienteService.getAgenda(this.empleado.idPersona, params).subscribe({
       next:(e: Reserva[]) =>{
@@ -142,6 +152,7 @@ export class NuevaReservaComponent implements OnInit {
       this.empleado = result;
     });
   }
+
 
 
 }

@@ -86,7 +86,7 @@
 
 
     <!---tabla -->
-    <div *ngIf="listaReservas.length>0" class="mx-4 mat-elevation-z1 col-md-25">
+    <div *ngIf="listaReservas.length>0" class="tabla mx-4 mat-elevation-z1 col-md-25">
 
       <mat-table [dataSource]="listaReservas" class="col-md-25 mat-elevation-z1">
 
@@ -126,11 +126,18 @@
         <ng-container matColumnDef="acciones">
           <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
           <mat-cell *matCellDef="let element" >
-            <div>
-              <button class="btn btn-primary btn-sm m-2" [routerLink]="">
-                Observación
+
+            <div class="d-flex justify-content-start" >
+
+              <button (click)="popUpEditarReserva(element.idReserva)" class="d-flex justify-content-between align-content-center btn btn-success btn-sm m-1" >
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button (click)="eliminar(element.idReserva)" class="d-flex justify-content-between align-content-center btn btn-danger btn-sm m-1" >
+                <mat-icon>delete</mat-icon>
               </button>
             </div>
+
           </mat-cell>
         </ng-container>
 
@@ -139,8 +146,6 @@
 
       </mat-table>
 
-      <!----<mat-paginator (page)="cambioPaginacion()"
-                     [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Página de reservas"></mat-paginator>---->
 
 
     </div>

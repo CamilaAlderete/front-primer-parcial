@@ -11,6 +11,7 @@ import {DatePipe} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
 import {PopupElegirPersonaService} from "../../service/popup-elegir-persona.service";
 import {Paciente} from "../../model/paciente";
+import {ObservacionComponent} from "./observacion/observacion.component";
 
 @Component({
   selector: 'app-lista-reservas',
@@ -18,11 +19,6 @@ import {Paciente} from "../../model/paciente";
   styleUrls: ['./lista-reservas.component.css']
 })
 export class ListaReservasComponent implements OnInit {
-
-  //paginado
-  //@ViewChild(MatPaginator) paginator!: MatPaginator;
-  //@ViewChild(MatSort) sort!: MatSort;
-  //deshabilitarPaginado: boolean = false;
 
   titulo = "Reserva de Turnos - listado";
   hoy = new Date();
@@ -44,7 +40,7 @@ export class ListaReservasComponent implements OnInit {
     private toastr: ToastrService, //para notificaciones en pantalla
     private route: ActivatedRoute, //ruteo a otros componentes
     private popupElegirPersonaService: PopupElegirPersonaService,
-    public dialog: MatDialog
+    public popupDetalleReserva: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -132,17 +128,27 @@ export class ListaReservasComponent implements OnInit {
     return new DatePipe('en-US').transform(fecha, 'yyyyMMdd')
   }
 
-
-
-  /*cambioPaginacion() {
-
-    this.getAll({
-        inicio: this.paginator.pageIndex*this.paginator.pageSize,
-        cantidad: this.paginator.pageSize,
+  popUpEditarReserva(idReserva: number){
+    const dialogRef = this.popupDetalleReserva.open(ObservacionComponent, {
+      data: idReserva
     });
+    dialogRef.afterClosed().subscribe(result => {
+      this.filtrar();
 
-    console.log(this.paginator.pageIndex);
-  }*/
+    });
+ }
+
+ eliminar(idReserva: number){
+    this.httpService.delete(idReserva).subscribe({
+      next:(e)=> {
+        this.toastr.success('Reserva fue cancelada exitosamente');
+        this.ngOnInit();
+      },
+      error:(err)=>{
+        this.toastr.error('No se pudo cancelar la reserva', 'Error')
+      }
+    });
+ }
 
 
 }

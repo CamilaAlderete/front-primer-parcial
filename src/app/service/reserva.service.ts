@@ -26,4 +26,8 @@ export class ReservaService extends HttpService<Reserva, number>{
       });
   }
 
+  agregarObservacion(t:{}):Observable<Reserva>{
+    return this.httpClient.put<Reserva>(this.url+ "/"   + this.endpoint, t);
+  }
+
 }

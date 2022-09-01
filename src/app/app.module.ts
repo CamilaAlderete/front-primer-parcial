@@ -45,6 +45,7 @@ import { EditarFichaClinicaComponent } from './ficha-clinica/editar-ficha-clinic
 import { PopupElegirPersonaComponent } from './popup-elegir-persona/popup-elegir-persona.component';
 import { ListaReservasComponent } from './reserva-turno/lista-reservas/lista-reservas.component';
 import { NuevaReservaComponent } from './reserva-turno/nueva-reserva/nueva-reserva.component';
+import { ObservacionComponent } from './reserva-turno/lista-reservas/observacion/observacion.component';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { NuevaReservaComponent } from './reserva-turno/nueva-reserva/nueva-reser
     EditarFichaClinicaComponent,
     PopupElegirPersonaComponent,
     ListaReservasComponent,
-    NuevaReservaComponent
+    NuevaReservaComponent,
+    ObservacionComponent
   ],
   // librerias y modulos de angular y librerias externas
   imports: [
