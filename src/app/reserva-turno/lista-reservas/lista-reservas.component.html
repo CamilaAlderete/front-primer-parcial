@@ -7,15 +7,8 @@
 </div>
 
 
-  <div class="d-flex justify-content-around">
-    <button class="btn btn-success btn-sm" routerLink="../nueva">Reservar</button>
-    <button class="btn btn-primary btn-sm" (click)="openDialog()">Filtrar</button>
 
-  </div>
-
-  <br>
-
-  <div class="mx-4 mat-elevation-z8 col-md-25">
+  <div class="mx-3 mat-elevation-z8 col-md-25">
 
     <br>
     <h4 class="text-title m-3">
@@ -24,8 +17,7 @@
 
     <!---filtros--->
 
-    <!----
-    <div class="container col-10">
+    <div class="container col-11">
 
 
       <div class="row align-items-center">
@@ -62,7 +54,7 @@
           <mat-form-field appearance="fill" style="width: 75%">
             <input matInput disabled="true" placeholder="{{empleado ? empleado.nombre : ''}}">
           </mat-form-field>
-          &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()">Buscar</button>
+          &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()"><mat-icon>search</mat-icon></button>
         </div>
 
 
@@ -71,34 +63,30 @@
           <mat-form-field appearance="fill" style="width: 75%">
             <input matInput disabled="true" placeholder="{{cliente ? cliente.nombre : ''}}">
           </mat-form-field>
-          &nbsp;<button mat-raised-button color="primary" (click)="popupElegirCliente()">Buscar</button>
+          &nbsp;<button mat-raised-button color="primary" (click)="popupElegirCliente()"><mat-icon>search</mat-icon></button>
         </div>
 
       </div>
 
 
 
-      <div class="row justify-content-between">
+      <div class="d-flex justify-content-between">
 
-        <div class="col-lg-8">
           <button type="button" class="m-3 btn btn-success btn" routerLink="../nueva">Nueva Reserva</button>
-        </div>
 
-        <div class="col-lg-4">
           <button type="button" (click)="filtrar()" class="m-3 btn btn-primary btn">Buscar</button>
-          <button type="button" (click)="limpiarFiltros()" class=" m-3 btn btn-primary btn">Limpiar</button>
-        </div>
+          <button type="button" (click)="limpiarFiltro()" class=" m-3 btn btn-primary btn">Limpiar</button>
+
 
       </div>
 
     </div>
-    --->
 
 
 
 
     <!---tabla -->
-    <div *ngIf="listaReservas.length>0" class="mx-4 mat-elevation-z8 col-md-25">
+    <div *ngIf="listaReservas.length>0" class="mx-4 mat-elevation-z1 col-md-25">
 
       <mat-table [dataSource]="listaReservas" class="col-md-25 mat-elevation-z1">
 
@@ -140,7 +128,7 @@
           <mat-cell *matCellDef="let element" >
             <div>
               <button class="btn btn-primary btn-sm m-2" [routerLink]="">
-                opcion
+                Observación
               </button>
             </div>
           </mat-cell>
@@ -159,11 +147,14 @@
 
 
     <!---- nada que mostrar---->
-    <div *ngIf="listaReservas.length==0" class="d-flex justify-content-center">
-      <h3 class="text-title">
+    <div *ngIf="listaReservas.length==0" class="d-flex justify-content-center m-4 mat-elevation-z1 col-md-25">
+      <h3>
         No hay turnos reservados
       </h3>
     </div>
+
+    <br>
+
 
   </div>
 <br>

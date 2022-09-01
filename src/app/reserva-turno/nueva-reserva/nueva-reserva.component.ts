@@ -2,18 +2,15 @@ import {Component, ElementRef, OnInit, ViewChild, Renderer2} from '@angular/core
 import {ToastrService} from "ngx-toastr";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CategoriaService} from "../../service/categoria.service";
-import {PersonaService} from "../../service/persona.service";
-import {Persona} from "../../model/persona";
+import {PacienteService} from "../../service/paciente.service";
 import {Reserva} from "../../model/reserva";
 import {HttpParams} from "@angular/common/http";
 import { DatePipe } from '@angular/common'
 import {FormControl, Validators} from "@angular/forms";
-import { BreakpointObserver } from "@angular/cdk/layout";
-import { delay } from "rxjs/operators";
 import {ReservaService} from "../../service/reserva.service";
 import {MatDialog} from "@angular/material/dialog";
-import {FiltroAgendaComponent} from "./filtro-agenda/filtro-agenda.component";
-import {LogicalFileSystem} from "@angular/compiler-cli";
+import {Paciente} from "../../model/paciente";
+import {PopupElegirPersonaService} from "../../service/popup-elegir-persona.service";
 
 
 @Component({
@@ -25,9 +22,17 @@ export class NuevaReservaComponent implements OnInit {
 
   agenda: Reserva[] = [];
   idProfesional!: number;
-  idPaciente!: number;
-  profesional!: Persona;
+  idPaciente: number = 293; // por ahora
   fecha!: Date;
+  titulo= 'Reserva De Turno'
+
+
+  cliente!: Paciente;
+  empleado!: Paciente;
+
+  //control en los campos del filtro
+  profesionalFormControl = new FormControl('', [Validators.required]);
+  fechaFormControl = new FormControl('', [Validators.required]);
 
   displayedColumns: string[] = ['fecha', 'horaInicioCadena','horaFinCadena','acciones'];
 
@@ -36,56 +41,56 @@ export class NuevaReservaComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private categoriaService: CategoriaService,
-    private personaService: PersonaService,
+    private pacienteService: PacienteService,
     private reservaService: ReservaService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private popupElegirPersonaService: PopupElegirPersonaService,
+
   ) { }
 
   ngOnInit(): void {
-    this.idPaciente = 293;
+    this.getPaciente();
+  }
+
+  getPaciente(){
+    this.pacienteService.getById(this.idPaciente).subscribe({
+      next:(e) =>{
+        this.cliente = e;
+      },
+      error:(err)=>{
+        console.log(err);
+        this.toastr.error('No se pudo obtener los datos del paciente','Error');
+      }
+    })
   }
 
   reservar(turno: Reserva){
 
-    if( this.idProfesional!=null && this.idPaciente!= null){
-      console.log('PROFESIONAL');
-      console.log(this.idProfesional);
-      console.log('PACIENTE')
-      console.log(this.idPaciente);
-      console.log('TURNO')
+    if( this.empleado!=null && this.cliente!= null){
       console.log(turno)
       this.reservaTurno(turno);
     }else{
       this.toastr.error('No se puede reservar turno', 'Error');
+
     }
 
   }
 
   reservaTurno(turno: Reserva){
 
-    /*let nuevaReserva = new Reserva();
-    nuevaReserva.fechaCadena = turno.fechaCadena;
-    nuevaReserva.horaInicioCadena = turno.horaInicioCadena;
-    nuevaReserva.horaFinCadena = turno.horaFinCadena;
-    nuevaReserva.idEmpleado.idPersona = this.idProfesional;
-    nuevaReserva.idCliente.idPersona = this.idPaciente;*/
-
     let json = {
       "fechaCadena": turno.fechaCadena,
       "horaInicioCadena": turno.horaInicioCadena,
       "horaFinCadena": turno.horaFinCadena,
-      "idEmpleado": {
-        "idPersona":this.idProfesional
-      },
-      "idCliente": {
-        "idPersona": this.idPaciente
-      }
+      "idEmpleado": this.empleado,
+      "idCliente": this.cliente
     }
     let nuevaReserva: Reserva = JSON.parse( JSON.stringify(json) );
 
     this.reservaService.post(nuevaReserva).subscribe({
       next:(e)=>{
         this.toastr.success('Turno reservado exitosamente');
+        this.getAgenda();
       },
       error: (err)=>{
         console.log(err);
@@ -94,44 +99,50 @@ export class NuevaReservaComponent implements OnInit {
     });
   }
 
+  getAgenda(){
 
-  openDialog(){
-    //abre el pop up
-    const dialogRef = this.dialog.open(FiltroAgendaComponent);
+    let params = new HttpParams()
+      .set('fecha', new DatePipe('en-US').transform(this.fecha, 'yyyyMMdd') || '')
+      .set('disponible', 'S')
 
-    //al cerrar, recibe la lista de reservas
-    dialogRef.afterClosed().subscribe(result => {
+    this.pacienteService.getAgenda(this.empleado.idPersona, params).subscribe({
+      next:(e: Reserva[]) =>{
+        this.agenda = e;
 
-      if(result){
-        this.idProfesional = result[0];
-        this.agenda = result[1];
+      },
+      error: (err: any)=>{
+        console.log(err);
+        this.toastr.error('No se pudo obtener la agenda del profesional', 'Error');
       }
-
     });
   }
 
+  filtrar(){
+    if(this.empleado!=null && this.fecha!=null){
+      this.getAgenda()
+    }else{
+      this.toastr.error('Debe completar todos los campos', 'Error');
+    }
+
+  }
 
 
   atras() {
     this.router.navigate(['../'], {relativeTo: this.route});
   }
 
+  popupElegirCliente() {
+    this.popupElegirPersonaService.abrirSelector(false,"Cliente").subscribe(result=>{
+      this.cliente = result;
+    });
+  }
+
+  popupElegirEmpleado() {
+    this.popupElegirPersonaService.abrirSelector(true,"Fisioterapeuta").subscribe(result=>{
+      this.empleado = result;
+    });
+  }
+
+
 }
 
-
-
-//@ViewChild('filtro', {static: true}) Filtro!: ElementRef;
-
-//cuando la pantalla sea menor a 900px, los campos del filtro se van a colocar en vertical, sino en horizontal
-/*ngAfterViewInit() {
-  this.observer
-    .observe(["(max-width: 900px)"])
-    .pipe(delay(1)) // delay 1mS
-    .subscribe((res) => {
-      if (res.matches) {
-        this.renderer.setAttribute(this.Filtro.nativeElement,'class','d-flex flex-column justify-content-around m-3')
-      }else{
-        this.renderer.setAttribute(this.Filtro.nativeElement,'class','d-flex justify-content-around m-3')
-      }
-    });
-}*/

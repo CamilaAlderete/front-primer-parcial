@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -45,8 +45,6 @@ import { EditarFichaClinicaComponent } from './ficha-clinica/editar-ficha-clinic
 import { PopupElegirPersonaComponent } from './popup-elegir-persona/popup-elegir-persona.component';
 import { ListaReservasComponent } from './reserva-turno/lista-reservas/lista-reservas.component';
 import { NuevaReservaComponent } from './reserva-turno/nueva-reserva/nueva-reserva.component';
-import { FiltroReservaComponent } from './reserva-turno/lista-reservas/filtro-reserva/filtro-reserva.component';
-import { FiltroAgendaComponent } from './reserva-turno/nueva-reserva/filtro-agenda/filtro-agenda.component';
 
 
 @NgModule({
@@ -72,9 +70,7 @@ import { FiltroAgendaComponent } from './reserva-turno/nueva-reserva/filtro-agen
     EditarFichaClinicaComponent,
     PopupElegirPersonaComponent,
     ListaReservasComponent,
-    NuevaReservaComponent,
-    FiltroReservaComponent,
-    FiltroAgendaComponent
+    NuevaReservaComponent
   ],
   // librerias y modulos de angular y librerias externas
   imports: [
@@ -110,7 +106,8 @@ import { FiltroAgendaComponent } from './reserva-turno/nueva-reserva/filtro-agen
     {
       provide: MatDialogRef,
       useValue: {}
-    }
+    },
+    { provide: LOCALE_ID, useValue: 'en-nz' }
   ],
   bootstrap: [AppComponent]
 })

@@ -8,4 +8,6 @@ export class Paciente {
   cedula!: string;
   tipoPersona!: string;
   fechaNacimiento!: string | null;
+  nombreCompleto!: string;
+
 }

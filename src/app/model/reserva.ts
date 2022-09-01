@@ -1,4 +1,4 @@
-import {Persona} from "./persona";
+import {Paciente} from "./paciente";
 
 export class Reserva {
   idReserva!: number;
@@ -10,7 +10,7 @@ export class Reserva {
   horaFinCadena!: string;
   observacion!: string;
   flagAsistio!: string;
-  idEmpleado!: Persona;
-  idCliente!: Persona;
+  idEmpleado!: Paciente;
+  idCliente!: Paciente;
 
 }

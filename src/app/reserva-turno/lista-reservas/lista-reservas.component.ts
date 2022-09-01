@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Reserva} from "../../model/reserva";
 import {ToastrService} from "ngx-toastr";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -6,13 +6,11 @@ import {ReservaService} from "../../service/reserva.service";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatSort, Sort} from "@angular/material/sort";
 import { MatTableDataSource} from "@angular/material/table";
-import {Persona} from "../../model/persona";
-import {BreakpointObserver} from "@angular/cdk/layout";
-import {HttpParams} from "@angular/common/http";
+
 import {DatePipe} from "@angular/common";
-import {PersonaService} from "../../service/persona.service";
 import {MatDialog} from "@angular/material/dialog";
-import {FiltroReservaComponent} from "./filtro-reserva/filtro-reserva.component";
+import {PopupElegirPersonaService} from "../../service/popup-elegir-persona.service";
+import {Paciente} from "../../model/paciente";
 
 @Component({
   selector: 'app-lista-reservas',
@@ -21,17 +19,22 @@ import {FiltroReservaComponent} from "./filtro-reserva/filtro-reserva.component"
 })
 export class ListaReservasComponent implements OnInit {
 
-  // colocar #filtro en un div
-  //@ViewChild('filtro', {static: true}) Filtro!: ElementRef;
-
   //paginado
   //@ViewChild(MatPaginator) paginator!: MatPaginator;
   //@ViewChild(MatSort) sort!: MatSort;
   //deshabilitarPaginado: boolean = false;
 
-  listaReservas: Reserva[] = [];
-  titulo = "Reserva de turnos - listado";
+  titulo = "Reserva de Turnos - listado";
   hoy = new Date();
+  listaReservas: Reserva[] = [];
+  fechaDesde!: Date | undefined;
+  fechaHasta!: Date | undefined;
+  idProfesional!: number | undefined;
+  idPaciente!: number | undefined;
+
+  cliente!: Paciente | undefined;
+  empleado!: Paciente | undefined;
+
 
   displayedColumns: string[] = ['idReserva','idEmpleado.nombreCompleto','idCliente.nombreCompleto', 'fecha', 'horaInicio','horaFin','acciones'];
 
@@ -40,7 +43,7 @@ export class ListaReservasComponent implements OnInit {
     private httpService: ReservaService, //para hacer peticiones http
     private toastr: ToastrService, //para notificaciones en pantalla
     private route: ActivatedRoute, //ruteo a otros componentes
-    private router: Router,
+    private popupElegirPersonaService: PopupElegirPersonaService,
     public dialog: MatDialog
   ) { }
 
@@ -84,21 +87,46 @@ export class ListaReservasComponent implements OnInit {
       });
   }
 
-  //POP UP
-  openDialog(){
+  filtrar(){
 
-    //abre el pop up
-    const dialogRef = this.dialog.open(FiltroReservaComponent);
+    let filtros: any = {}
+    if(this.idPaciente){
+      filtros["idCliente"] = {idPersona: this.cliente?.idPersona};
+    }
+    if(this.idProfesional){
+      filtros["idEmpleado"] = {idPersona: this.empleado?.idPersona};
+    }
+    if(this.fechaDesde && this.fechaHasta){
+      filtros["fechaDesdeCadena"] = this.formatearFecha(this.fechaDesde);
+      filtros["fechaHastaCadena"] = this.formatearFecha(this.fechaHasta);
+    }
 
-    //al cerrar, recibe la lista de reservas
-    dialogRef.afterClosed().subscribe(result => {
 
-      if(result){
-        this.listaReservas = result;
-      }
+    this.getAll({ejemplo: JSON.stringify(filtros)});
 
+  }
+
+  limpiarFiltro(){
+    this.idProfesional = undefined;
+    this.idPaciente = undefined;
+    this.fechaDesde = undefined;
+    this.fechaHasta = undefined;
+
+  }
+
+  popupElegirCliente() {
+    this.popupElegirPersonaService.abrirSelector(false,"Cliente").subscribe(result=>{
+      this.cliente = result;
     });
   }
+
+  popupElegirEmpleado() {
+    this.popupElegirPersonaService.abrirSelector(true,"Fisioterapeuta").subscribe(result=>{
+      this.empleado = result;
+    });
+  }
+
+
 
   formatearFecha(fecha: Date){
     return new DatePipe('en-US').transform(fecha, 'yyyyMMdd')
@@ -114,20 +142,6 @@ export class ListaReservasComponent implements OnInit {
     });
 
     console.log(this.paginator.pageIndex);
-  }*/
-
-  //cuando la pantalla sea menor a 900px, los campos del filtro se van a colocar en vertical, sino en horizontal
-  /*ngAfterViewInit() {
-    this.observer
-      .observe(["(max-width: 900px)"])
-      .pipe(delay(1)) // delay 1mS
-      .subscribe((res) => {
-        if (res.matches) {
-          this.renderer.setAttribute(this.Filtro.nativeElement,'class','d-flex flex-column justify-content-around m-3')
-        }else{
-          this.renderer.setAttribute(this.Filtro.nativeElement,'class','d-flex justify-content-around m-3')
-        }
-      });
   }*/
 
 
