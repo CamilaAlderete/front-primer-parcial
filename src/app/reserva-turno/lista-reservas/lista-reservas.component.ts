@@ -105,6 +105,7 @@ export class ListaReservasComponent implements OnInit {
   }
 
 
+
   /*cambioPaginacion() {
 
     this.getAll({
