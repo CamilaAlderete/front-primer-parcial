@@ -1,0 +1,81 @@
+
+
+    <div class="row">
+
+        <div class="container-fluid">
+
+          <br>
+          <h2 class="text-title d-flex justify-content-around">
+            <span> Turnos </span>
+          </h2>
+
+          <button class="btn btn-primary btn-sm mx-4" (click)="openDialog()">Filtrar</button>
+
+          <br><br>
+
+          <div *ngIf="agenda.length>0" class="mx-4 mat-elevation-z2 col-md-25">
+            Colocar un card con los datos del profesional
+          </div>
+
+          <br>
+
+          <!---tabla -->
+          <div *ngIf="agenda.length>0" class="mx-4 mat-elevation-z8 col-md-25">
+
+            <mat-table [dataSource]="agenda" class="col-md-25 mat-elevation-z1">
+
+
+              <!---<ng-container matColumnDef="idReserva">
+                <mat-header-cell *matHeaderCellDef> ID reserva </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.idReserva}} </mat-cell>
+              </ng-container>--->
+
+              <ng-container matColumnDef="fecha">
+                <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.fecha.split(' ')[0] }} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="horaInicioCadena">
+                <mat-header-cell *matHeaderCellDef> Inicio </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.horaInicioCadena.slice(0, 2) }}:{{ row.horaInicioCadena.slice(2) }} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="horaFinCadena">
+                <mat-header-cell *matHeaderCellDef> Fin </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.horaFinCadena.slice(0, 2) }}:{{ row.horaFinCadena.slice(2) }} </mat-cell>
+              </ng-container>
+
+              <!----columna acciones---->
+              <ng-container matColumnDef="acciones">
+                <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+                <mat-cell *matCellDef="let element" >
+                  <div>
+                    <button class="btn btn-success btn-sm m-2" (click)="reservar(element)" >
+                      Reservar
+                    </button>
+                  </div>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+            </mat-table>
+
+
+          </div>
+
+
+          <!---- en caso de que no haya elementos para mostrar---->
+          <div *ngIf="agenda.length==0" class="d-flex justify-content-center">
+            <h3 class="text-title">
+              No hay turnos libres
+            </h3>
+          </div>
+
+
+        </div>
+
+    </div>
+
+    <br><br><br>

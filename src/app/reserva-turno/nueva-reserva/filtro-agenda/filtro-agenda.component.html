@@ -1,0 +1,63 @@
+
+
+<div class="container d-flex justify-content-around">
+
+  <div>
+
+    <h3 mat-dialog-title class="d-flex justify-content-center">
+      <span> Filtro de turnos</span>
+    </h3>
+
+
+
+    <div mat-dialog-content>
+
+      <!--filtro-->
+      <div class="d-flex flex-column justify-content-around m-3">
+
+        <mat-form-field appearance="fill" >
+          <mat-label>Seleccionar profesional</mat-label>
+
+          <mat-select [(ngModel)]="idProfesional"  [formControl]="profesionalFormControl">
+            <mat-option *ngFor="let p of profesionales" [value]="p.idPersona">
+              {{ p.idPersona}} - {{ p.nombre }} {{ p.apellido }}
+            </mat-option>
+
+          </mat-select>
+
+          <mat-error *ngIf="profesionalFormControl.hasError('required')">
+            El profesional es <strong>requerido</strong>
+          </mat-error>
+
+        </mat-form-field>
+
+
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="fecha" placeholder="dd/mm/aaaa" [formControl]="fechaFormControl">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+
+          <mat-error *ngIf="fechaFormControl.hasError('required')">
+            La fecha es <strong>requerida</strong>
+          </mat-error>
+
+        </mat-form-field>
+
+
+        <div class="d-flex justify-content-around">
+          <button class="btn btn-success" (click)="filtrar()">Buscar</button>
+          <!---<button mat-button (click)="limpiarFiltro()"> <mat-icon>clear_all</mat-icon></button>---->
+        </div>
+
+
+
+      </div>
+
+
+
+    </div>
+
+  </div>
+</div>
+
