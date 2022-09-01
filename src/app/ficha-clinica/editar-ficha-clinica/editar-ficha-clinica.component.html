@@ -21,9 +21,9 @@
     <div class="row align-items-center">
 
       <!-- fecha -->
-      <div class="col-lg-2"> Fecha:</div>
-      <div class="col-lg-4">
-        <mat-form-field appearance="fill">
+      <div class="col-lg-1"> Fecha:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 100%">
           <mat-label>{{ficha.fechaHora | date:'dd/MM/yyyy'}}</mat-label>
           <input [disabled]="true" matInput [matDatepicker]="pickerDesde">
           <mat-datepicker-toggle matSuffix [for]="pickerDesde"></mat-datepicker-toggle>
@@ -38,21 +38,21 @@
 
       <!-- estos faltan cambiar cuando esté la clase empleado -->
       <!-- Empleado -->
-      <div class="col-lg-2"> Empleado:</div>
-      <div class="col-lg-4">
-        <mat-form-field appearance="fill">
+      <div class="col-lg-1"> Empleado:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 75%">
           <input matInput [disabled]="true" type="number" [(ngModel)]="ficha.idEmpleado.idPersona" >
         </mat-form-field>
-        &nbsp;<a href="">Buscar</a>
+        &nbsp;<button mat-raised-button color="primary" disabled="true">Buscar</button>
       </div>
 
       <!-- Cliente -->
-      <div class="col-lg-2"> Cliente:</div>
-      <div class="col-lg-4">
-        <mat-form-field appearance="fill">
+      <div class="col-lg-1"> Cliente:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 75%">
           <input matInput [disabled]="true" type="number" [(ngModel)]="ficha.idCliente.idPersona" placeholder=""  >
         </mat-form-field>
-        &nbsp;<a href="">Buscar</a>
+        &nbsp;<button mat-raised-button color="primary" disabled="true">Buscar</button>
       </div>
 
     </div>
