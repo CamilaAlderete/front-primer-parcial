@@ -100,7 +100,7 @@ export class ListaFichaClinicaComponent implements OnInit {
     // los filtros a aplicar. Se van guardando nomas los campos que no estén vacíos
     let filtros: any = {}
     if(this.subcategoria){
-      filtros["idTipoProducto"] = {"idTipoProducto": this.subcategoria.idTipoProducto};
+      filtros["idTipoProducto"] = {idTipoProducto: this.subcategoria.idTipoProducto};
     }
     if(this.cliente){
       filtros["idCliente"] = {idPersona: this.cliente.idPersona};
@@ -128,7 +128,13 @@ export class ListaFichaClinicaComponent implements OnInit {
 
   // para recibir la información de que se está cambiando el orden, y poder pedirle al back ya ordenado
   sortChange(sortState: Sort) {
-      // le paso en los parámetros nomas lo que quiero ordenar y cómo ordenar
+    // le paso en los parámetros nomas lo que quiero ordenar y cómo ordenar
+    if (this.deshabilitarPaginado) {
+      this.getAll({
+        orderBy: sortState.active,  // el elemento a ordenar ya viene del html
+        orderDir: sortState.direction  // la dirección ya viene del angular mat
+      });
+    } else {
       this.getAll({
         inicio: 1,
         cantidad: this.paginator.pageSize,
@@ -136,6 +142,7 @@ export class ListaFichaClinicaComponent implements OnInit {
         orderDir: sortState.direction  // la dirección ya viene del angular mat
       });
     }
+  }
 
   cambioPaginacion() {
     // pedirle a sort que vuelva a traer los datos del back pero en base a estas nuevas condiciones
