@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Reserva} from "../../model/reserva";
 import {ToastrService} from "ngx-toastr";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -12,6 +12,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {PopupElegirPersonaService} from "../../service/popup-elegir-persona.service";
 import {Paciente} from "../../model/paciente";
 import {ObservacionComponent} from "./observacion/observacion.component";
+import {delay} from "rxjs/operators";
 
 @Component({
   selector: 'app-lista-reservas',
@@ -20,9 +21,13 @@ import {ObservacionComponent} from "./observacion/observacion.component";
 })
 export class ListaReservasComponent implements OnInit {
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+
   titulo = "Reserva de Turnos - listado";
   hoy = new Date();
-  listaReservas: Reserva[] = [];
+  listaReservas: MatTableDataSource<Reserva> = new MatTableDataSource();
+  //listaReservas: Reserva[]=[];
   fechaDesde!: Date | undefined;
   fechaHasta!: Date | undefined;
   idProfesional!: number | undefined;
@@ -32,7 +37,7 @@ export class ListaReservasComponent implements OnInit {
   empleado!: Paciente | undefined;
 
 
-  displayedColumns: string[] = ['idReserva','idEmpleado.nombreCompleto','idCliente.nombreCompleto', 'fecha', 'horaInicio','horaFin','acciones'];
+  displayedColumns: string[] = ['idReserva','idEmpleado.nombreCompleto','idCliente.nombreCompleto', 'fecha', 'horaInicio','horaFin','flagEstado','flagAsistio','acciones'];
 
 
   constructor(
@@ -71,7 +76,9 @@ export class ListaReservasComponent implements OnInit {
       .subscribe({
         next: (e) => {
           console.log(e)
-          this.listaReservas = e.lista
+          //this.listaReservas = e.lista
+          this.listaReservas.data = e.lista
+
           //this.paginator.length = e.totalDatos;
 
         },
@@ -149,6 +156,10 @@ export class ListaReservasComponent implements OnInit {
       }
     });
  }
+
+  ngAfterViewInit() {
+    this.listaReservas.paginator = this.paginator;
+  }
 
 
 }

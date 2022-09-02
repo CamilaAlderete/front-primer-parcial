@@ -56,7 +56,7 @@
   </div>
 
   <!---tabla -->
-  <div *ngIf="agenda.length>0" class="m-4 mat-elevation-z8 col-md-25">
+  <div *ngIf="agenda.data.length>0" class="m-4 mat-elevation-z8 col-md-25">
 
             <mat-table [dataSource]="agenda" class="col-md-25 mat-elevation-z1">
 
@@ -103,15 +103,20 @@
 
 
   <!---- en caso de que no haya elementos para mostrar---->
-  <div *ngIf="agenda.length==0" class="d-flex justify-content-center m-4 mat-elevation-z8 col-md-25">
+  <div *ngIf="agenda.data.length==0" class="d-flex justify-content-center m-4 mat-elevation-z8 col-md-25">
             <h3 class="text-title m-4">
               No hay turnos libres
             </h3>
-          </div>
-
-          <br><br>
-
   </div>
+
+  <!---- EL PAGINADOR NO DEBE ESTAR DENTRO DE UN *NGIF---->
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 25, 100]">
+  </mat-paginator>
+
+</div>
+
+
 
 
   <br><br><br>

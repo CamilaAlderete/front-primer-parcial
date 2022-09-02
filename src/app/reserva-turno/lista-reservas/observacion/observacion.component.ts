@@ -12,8 +12,8 @@ import {Reserva} from "../../../model/reserva";
 })
 export class ObservacionComponent implements OnInit {
 
-  observacion!: string | undefined;
-  flagAsistio!: string | undefined;
+  observacion!: string | null;
+  flagAsistio!: string | null;
   asistencia= [['S','Asistió'], ['N','No asistió']];
 
 
@@ -43,7 +43,7 @@ export class ObservacionComponent implements OnInit {
   }
 
   guardar(){
-    if(this.flagAsistio!= undefined && this.observacion!= undefined){
+    if(this.flagAsistio!= null && this.observacion!= null){
       this.actualizarReserva();
     }else{
       this.toastr.error('Debe completar todos los campos')
@@ -53,9 +53,9 @@ export class ObservacionComponent implements OnInit {
   actualizarReserva(){
 
     const r = {
-      idReserva: this.idReserva,
-      flagAsistio: this.flagAsistio,
-      observacion: this.observacion
+      "idReserva": this.idReserva,
+      "observacion": this.observacion,
+      "flagAsistio": this.flagAsistio
     }
     this.httpService.agregarObservacion(r).subscribe({
       next:(e)=>{

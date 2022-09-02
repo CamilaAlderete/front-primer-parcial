@@ -86,9 +86,11 @@
 
 
     <!---tabla -->
-    <div *ngIf="listaReservas.length>0" class="tabla mx-4 mat-elevation-z1 col-md-25">
+    <!----<div *ngIf="listaReservas.length>0" class="tabla mx-4 mat-elevation-z1 col-md-25">--->
+    <div *ngIf="listaReservas.data.length>0" class="tabla mx-4 mat-elevation-z1 col-md-25">
 
-      <mat-table [dataSource]="listaReservas" class="col-md-25 mat-elevation-z1">
+
+    <mat-table [dataSource]="listaReservas" class="col-md-25 mat-elevation-z1">
 
 
         <ng-container matColumnDef="idReserva">
@@ -122,20 +124,31 @@
           <mat-cell *matCellDef="let row"> {{row.horaFin}} </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="flagEstado">
+          <mat-header-cell *matHeaderCellDef > Estado</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.flagEstado}} </mat-cell>
+        </ng-container>
+
+      <ng-container matColumnDef="flagAsistio">
+        <mat-header-cell *matHeaderCellDef > Asistencia</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.flagAsistio}} </mat-cell>
+      </ng-container>
+
         <!----columna acciones---->
-        <ng-container matColumnDef="acciones">
+        <ng-container matColumnDef="acciones" class="col col-5">
           <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
           <mat-cell *matCellDef="let element" >
 
             <div class="d-flex justify-content-start" >
 
-              <button (click)="popUpEditarReserva(element.idReserva)" class="d-flex justify-content-between align-content-center btn btn-success btn-sm m-1" >
-                <mat-icon>edit</mat-icon>
-              </button>
+                <button (click)="popUpEditarReserva(element.idReserva)" class="d-flex justify-content-between align-content-center btn btn-outline-success btn-sm m-1" >
+                  <mat-icon>edit</mat-icon>
+                </button>
 
-              <button (click)="eliminar(element.idReserva)" class="d-flex justify-content-between align-content-center btn btn-danger btn-sm m-1" >
-                <mat-icon>delete</mat-icon>
-              </button>
+                <button (click)="eliminar(element.idReserva)" class="d-flex justify-content-between align-content-center btn btn-outline-danger btn-sm m-1" >
+                  <mat-icon>delete</mat-icon>
+                </button>
+
             </div>
 
           </mat-cell>
@@ -148,17 +161,23 @@
 
 
 
+
     </div>
 
 
     <!---- nada que mostrar---->
-    <div *ngIf="listaReservas.length==0" class="d-flex justify-content-center m-4 mat-elevation-z1 col-md-25">
+    <!---<div *ngIf="listaReservas.length==0" class="d-flex justify-content-center m-4 mat-elevation-z1 col-md-25">--->
+    <div *ngIf="listaReservas.data.length==0" class="d-flex justify-content-center m-4 mat-elevation-z1 col-md-25">
+
       <h3>
         No hay turnos reservados
       </h3>
     </div>
 
-    <br>
+    <!---- EL PAGINADOR NO DEBE ESTAR DENTRO DE UN *NGIF---->
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
 
 
   </div>

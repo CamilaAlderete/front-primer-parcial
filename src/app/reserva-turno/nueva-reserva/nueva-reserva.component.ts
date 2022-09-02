@@ -13,6 +13,7 @@ import {Paciente} from "../../model/paciente";
 import {PopupElegirPersonaService} from "../../service/popup-elegir-persona.service";
 import {MatPaginator} from "@angular/material/paginator";
 import {tap} from "rxjs";
+import {MatTableDataSource} from "@angular/material/table";
 
 
 @Component({
@@ -22,7 +23,10 @@ import {tap} from "rxjs";
 })
 export class NuevaReservaComponent implements OnInit {
 
-  agenda: Reserva[] = [];
+  //agenda: Reserva[] = [];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  agenda: MatTableDataSource<Reserva> = new MatTableDataSource();
   idProfesional!: number;
   idPaciente: number = 287; // por ahora
   fecha!: Date;
@@ -33,7 +37,6 @@ export class NuevaReservaComponent implements OnInit {
   empleado!: Paciente;
 
   //control en los campos del filtro
-  profesionalFormControl = new FormControl('', [Validators.required]);
   fechaFormControl = new FormControl('', [Validators.required]);
 
   displayedColumns: string[] = ['fecha', 'horaInicioCadena','horaFinCadena','acciones'];
@@ -80,16 +83,16 @@ export class NuevaReservaComponent implements OnInit {
 
   reservaTurno(turno: Reserva){
 
-    let json = {
-      "fechaCadena": turno.fechaCadena,
-      "horaInicioCadena": turno.horaInicioCadena,
-      "horaFinCadena": turno.horaFinCadena,
-      "idEmpleado": this.empleado,
-      "idCliente": this.cliente
+    let datos = {
+      fechaCadena: turno.fechaCadena,
+      horaInicioCadena: turno.horaInicioCadena,
+      horaFinCadena: turno.horaFinCadena,
+      idEmpleado: { "idPersona": this.empleado.idPersona },
+      idCliente: { "idPersona": this.cliente.idPersona}
     }
 
-    console.log(json)
-    let nuevaReserva: Reserva = JSON.parse( JSON.stringify(json) );
+    console.log(datos)
+    let nuevaReserva: Reserva = JSON.parse( JSON.stringify(datos) );
 
     this.reservaService.post(nuevaReserva).subscribe({
       next:(e)=>{
@@ -117,7 +120,7 @@ export class NuevaReservaComponent implements OnInit {
 
     this.pacienteService.getAgenda(this.empleado.idPersona, params).subscribe({
       next:(e: Reserva[]) =>{
-        this.agenda = e;
+        this.agenda.data = e;
 
       },
       error: (err: any)=>{
@@ -151,6 +154,10 @@ export class NuevaReservaComponent implements OnInit {
     this.popupElegirPersonaService.abrirSelector(true,"Fisioterapeuta").subscribe(result=>{
       this.empleado = result;
     });
+  }
+
+  ngAfterViewInit() {
+    this.agenda.paginator = this.paginator;
   }
 
 
