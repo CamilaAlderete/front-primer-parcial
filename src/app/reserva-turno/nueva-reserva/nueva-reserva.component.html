@@ -8,7 +8,7 @@
 
 
 
-<div class="mx-4 mat-elevation-z8 col-md-25">
+<div class="mx-4 mat-elevation-z1 col-md-25">
 
   <br><br>
   <!---filtros--->
@@ -56,9 +56,9 @@
   </div>
 
   <!---tabla -->
-  <div *ngIf="agenda.data.length>0" class="m-4 mat-elevation-z8 col-md-25">
+  <div class="m-4 mat-elevation-z1 col-md-25">
 
-            <mat-table [dataSource]="agenda" class="col-md-25 mat-elevation-z1">
+            <mat-table [dataSource]="agenda">
 
 
               <!---<ng-container matColumnDef="idReserva">
@@ -98,21 +98,21 @@
 
             </mat-table>
 
+            <!---- en caso de que no haya elementos para mostrar---->
+            <div *ngIf="agenda.data.length==0" class="d-flex justify-content-center">
+              <h3 class="text-title m-4">
+                No hay turnos libres
+              </h3>
+            </div>
+
+            <mat-paginator
+              [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
 
   </div>
 
+  <br><br>
 
-  <!---- en caso de que no haya elementos para mostrar---->
-  <div *ngIf="agenda.data.length==0" class="d-flex justify-content-center m-4 mat-elevation-z8 col-md-25">
-            <h3 class="text-title m-4">
-              No hay turnos libres
-            </h3>
-  </div>
-
-  <!---- EL PAGINADOR NO DEBE ESTAR DENTRO DE UN *NGIF---->
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 25, 100]">
-  </mat-paginator>
 
 </div>
 
