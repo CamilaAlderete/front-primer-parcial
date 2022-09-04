@@ -71,6 +71,11 @@
 
       <mat-divider></mat-divider>
 
+      <button *ngIf="estaLogueado()" mat-button routerLink="/logout" class="menu-button">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+
       <button mat-button routerLink="/cositas" class="menu-button">
         <mat-icon>star</mat-icon>
         <span>MIRAR!!!</span>

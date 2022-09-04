@@ -9,5 +9,6 @@ export class Paciente {
   tipoPersona!: string;
   fechaNacimiento!: string | null;
   nombreCompleto!: string;
+  usuarioLogin!: string;
 
 }

@@ -46,6 +46,8 @@ import { PopupElegirPersonaComponent } from './popup-elegir-persona/popup-elegir
 import { ListaReservasComponent } from './reserva-turno/lista-reservas/lista-reservas.component';
 import { NuevaReservaComponent } from './reserva-turno/nueva-reserva/nueva-reserva.component';
 import { ObservacionComponent } from './reserva-turno/lista-reservas/observacion/observacion.component';
+import { LoginComponent } from './login/login.component';
+import {CookieService} from "ngx-cookie-service";
 
 
 @NgModule({
@@ -72,7 +74,8 @@ import { ObservacionComponent } from './reserva-turno/lista-reservas/observacion
     PopupElegirPersonaComponent,
     ListaReservasComponent,
     NuevaReservaComponent,
-    ObservacionComponent
+    ObservacionComponent,
+    LoginComponent
   ],
   // librerias y modulos de angular y librerias externas
   imports: [
@@ -109,7 +112,8 @@ import { ObservacionComponent } from './reserva-turno/lista-reservas/observacion
       provide: MatDialogRef,
       useValue: {}
     },
-    { provide: LOCALE_ID, useValue: 'en-nz' }
+    { provide: LOCALE_ID, useValue: 'en-nz' },
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

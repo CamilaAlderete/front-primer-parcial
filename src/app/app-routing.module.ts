@@ -19,10 +19,13 @@ import {NuevaFichaClinicaComponent} from "./ficha-clinica/nueva-ficha-clinica/nu
 import {EditarFichaClinicaComponent} from "./ficha-clinica/editar-ficha-clinica/editar-ficha-clinica.component";
 import {ListaReservasComponent} from "./reserva-turno/lista-reservas/lista-reservas.component";
 import {NuevaReservaComponent} from "./reserva-turno/nueva-reserva/nueva-reserva.component";
+import {LoginComponent} from "./login/login.component";
+import {AuthGuardService} from "./service/auth-guard.service";
 
 const routes: Routes = [
   {
     path:'',
+    canActivate: [AuthGuardService],  // para requerir el login en caso de que no esté logueado
     children: [
       {path:'', redirectTo: 'home', pathMatch: 'full'}, //http://localhost:4200/home
       {path:'home', component:HomeComponent},           //http://localhost:4200/home
@@ -75,6 +78,14 @@ const routes: Routes = [
         ]
       }
     ]
+  },
+  {
+    path:'login',
+    component:LoginComponent
+  },
+  {
+    path:'logout',
+    component:LoginComponent
   }
 ];
 
