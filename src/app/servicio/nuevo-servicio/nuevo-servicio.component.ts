@@ -4,8 +4,10 @@ import {FormControl, Validators} from "@angular/forms";
 import {CategoriaService} from "../../service/categoria.service";
 import {SubcategoriaService} from "../../service/subcategoria.service";
 import {ServicioService} from "../../service/servicio.service";
+import {EXTRAproductoService} from "../../service/EXTRAproducto.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {EXTRAproducto} from "../../model/EXTRAproducto";
 
 @Component({
   selector: 'app-nuevo-servicio',
@@ -16,15 +18,10 @@ export class NuevoServicioComponent implements OnInit {
 
   titulo: String = "Nuevo servicio";
 
-//  listaCategorias!: Categoria[];  // la lista completa de categorias
-  listaSubCategorias!: Subcategoria[];  // la lista completa de subcategorias
-
-//  nuevoServicio: Servicio = new Servicio(); // el nuevo servicio siendo creado
-
+  listaProductos!: EXTRAproducto[];
 
   //campos= en vez del modelo de servicio:
   idProducto!: number;
-  idTipoProducto!: number;
   idPresentacionProducto!: number; // el id de la clase Servicio
   nombre!: string;
   descripcion!: string;
@@ -32,14 +29,14 @@ export class NuevoServicioComponent implements OnInit {
 
   // para validar los input del html
   textFormControl = new FormControl('', [Validators.required]);
-//  categoriaFormControl = new FormControl('', [Validators.required]);
-  subCategoriaFormControl = new FormControl('', [Validators.required]);
+  productoFormControl = new FormControl('', [Validators.required]);
 
   // inyecciones
   constructor(
     private httpCategoriaService: CategoriaService,
-    private httpSubcategoriaService: SubcategoriaService,
     private httpServicioService: ServicioService,
+    private httpEXTRAproductoService: EXTRAproductoService,
+
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService
@@ -47,28 +44,16 @@ export class NuevoServicioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // traer todas las categorías y subcategorias ya existentes en el server
+    // traer todas los productos ya existentes en el server
     this.getAll();
   }
 
   // Traer todas las categorías ya existentes en el server y guardarlas en el array subcategorias
   getAll() {
-    // this.httpCategoriaService.getAll().subscribe({
-    //     next: (datos) => {
-    //       console.log(datos.lista);
-    //       this.listaCategorias = datos.lista;
-    //     },
-    //     error: (err) => {
-    //       console.log(err);
-    //       this.toastr.error("No se pudo obtener la lista", "Error");
-    //     }
-    //   }
-    // );
-
-    this.httpSubcategoriaService.getAll().subscribe({
+    this.httpEXTRAproductoService.getAll().subscribe({
         next: (datos) => {
           console.log(datos.lista);
-          this.listaSubCategorias = datos.lista;
+          this.listaProductos = datos.lista;
         },
         error: (err) => {
           console.log(err);
@@ -79,9 +64,8 @@ export class NuevoServicioComponent implements OnInit {
   }
 
   guardar() {
-
     if (this.descripcion === '' || this.nombre === ''
-      || this.idProducto.toString() === '' || this.idTipoProducto.toString() === '') {
+      || this.idProducto.toString() === '') {
 
       this.toastr.error('Debe completar todos los campos', 'Error');
 
@@ -92,15 +76,13 @@ export class NuevoServicioComponent implements OnInit {
 
   guardarServicio() {
     let nuevoServicio = {
-      "idProducto": {
-        "idProducto": this.idProducto,
-        "idTipoProducto": this.idTipoProducto
-      },
+      "codigo":  String((Math.floor(Math.random() * (1000 - 0) + 0 )) + (Math.floor(Math.random() * (1000 - 0) + 0 )) + (Math.floor(Math.random() * (1000 - 0) + 0 ))),
+      "idProducto": this.idProducto,
       "nombre": this.nombre,
       "descripcion": this.descripcion
     }
     console.log(nuevoServicio);
-    this.httpServicioService.post(JSON.stringify(nuevoServicio))
+    this.httpServicioService.servicePost(nuevoServicio)
       .subscribe({
         next: (e) => {
           this.toastr.success('Servicio "' + this.nombre + '" creado exitosamente');

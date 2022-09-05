@@ -20,10 +20,10 @@ export class EditarPacienteComponent implements OnInit {
   listatipoPersona: string [] = ['FISICA','JURIDICA'];
   paciente: Paciente = new Paciente();  // el paciente que se está modificando actualmente
 
-
   // para validar el input del html
   textFormControl = new FormControl('', [Validators.required]);
 
+  date = new FormControl();
 
   // inyecciones
   constructor(
@@ -40,30 +40,30 @@ export class EditarPacienteComponent implements OnInit {
     this.getById();
   }
 
+
   // se busca el objeto de acuerdo a su id
   getById(){
     this.httpPacienteService.getById(this.paciente.idPersona)
       .subscribe({
         next: (e) => {
           this.paciente = e;
-
-          //le da formato a la fecha o algo asi
           let string= new DatePipe('en-US').transform(this.paciente.fechaNacimiento, 'MM-dd-yyyy');
           // @ts-ignore
-          this.fecha=new Date();
+          this.date = new FormControl(new Date(string));
 
         },
         error: (err) => {
           console.log(err);
           this.toastr.error('No se pudo obtener el paciente','Error');
-       //   this.atras(); //comentar esta línea en caso de querer mirar el error en consola
+          this.atras(); //comentar esta línea en caso de querer mirar el error en consola
         }
       })
   }
 
   guardar() {
+
     //le da formato a la fecha o algo asi
-    this.paciente.fechaNacimiento= new DatePipe('en-US').transform(this.fecha, 'yyyy-MM-dd hh:mm:ss');
+    this.paciente.fechaNacimiento= new DatePipe('en-US').transform(this.fecha.toString(), 'yyyy-MM-dd hh:mm:ss');
 
     // si no se cargó datos requeridos
     if (this.paciente.nombre === '' || this.paciente.apellido === '' || this.paciente.telefono === ''
@@ -91,8 +91,8 @@ export class EditarPacienteComponent implements OnInit {
   }
 
   // para que el input mat-select pueda inicializar su dato seleccionado
-  compararObjetosCategorias(object1: Paciente, object2: Paciente) {
-    return object1.idPersona == object2.idPersona;
+  compararObjetosTipoPersona(object1: String, object2: String) {
+    return object1===object2;
   }
 
   atras() {
