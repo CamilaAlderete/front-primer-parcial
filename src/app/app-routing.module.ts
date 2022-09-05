@@ -17,10 +17,15 @@ import {EditarServicioComponent} from "./servicio/editar-servicio/editar-servici
 import {ListaFichaClinicaComponent} from "./ficha-clinica/lista-ficha-clinica/lista-ficha-clinica.component";
 import {NuevaFichaClinicaComponent} from "./ficha-clinica/nueva-ficha-clinica/nueva-ficha-clinica.component";
 import {EditarFichaClinicaComponent} from "./ficha-clinica/editar-ficha-clinica/editar-ficha-clinica.component";
+import {ListaReservasComponent} from "./reserva-turno/lista-reservas/lista-reservas.component";
+import {NuevaReservaComponent} from "./reserva-turno/nueva-reserva/nueva-reserva.component";
+import {LoginComponent} from "./login/login.component";
+import {AuthGuardService} from "./service/auth-guard.service";
 
 const routes: Routes = [
   {
     path:'',
+    canActivate: [AuthGuardService],  // para requerir el login en caso de que no esté logueado
     children: [
       {path:'', redirectTo: 'home', pathMatch: 'full'}, //http://localhost:4200/home
       {path:'home', component:HomeComponent},           //http://localhost:4200/home
@@ -64,8 +69,23 @@ const routes: Routes = [
           { path: ':id/editar', component: EditarFichaClinicaComponent } //http://localhost:4200/ficha-clinica/1/editar
         ]
       },
-      {path:'cositas', component: CositasUtilesComponent}
+      {path:'cositas', component: CositasUtilesComponent},
+      {path: 'reserva-turno',
+        children: [
+          { path: '', redirectTo: 'lista', pathMatch: 'full'},
+          { path: 'lista', component: ListaReservasComponent },  //http://localhost:4200/reserva-turno/lista
+          { path: 'nueva', component: NuevaReservaComponent } //http://localhost:4200/reserva-turno/nuevo
+        ]
+      }
     ]
+  },
+  {
+    path:'login',
+    component:LoginComponent
+  },
+  {
+    path:'logout',
+    component:LoginComponent
   }
 ];
 

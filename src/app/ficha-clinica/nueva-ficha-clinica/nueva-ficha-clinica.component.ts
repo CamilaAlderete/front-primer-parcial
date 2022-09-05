@@ -7,7 +7,7 @@ import {FichaClinica} from "../../model/ficha-clinica";
 import {SubcategoriaService} from "../../service/subcategoria.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FichaClinicaServiceService} from "../../service/ficha-clinica-service.service";
-import {FormControl, Validators} from "@angular/forms";
+import {PopupElegirPersonaService} from "../../service/popup-elegir-persona.service";
 
 @Component({
   selector: 'app-nueva-ficha-clinica',
@@ -31,16 +31,13 @@ export class NuevaFichaClinicaComponent implements OnInit {
   // para traer la categoría seleccionada
   categoriaSeleccionada!: Categoria;
 
-  // para mostrar las validaciones al usuario
-  empleadoFormControl = new FormControl('', [Validators.required]);
-  clienteFormControl = new FormControl('', [Validators.required]);
-
   constructor(
     private httpCategoriaService: CategoriaService,
     private httpSubcategoriaService: SubcategoriaService,
     private httpFichaclinicaService: FichaClinicaServiceService,
     private route: ActivatedRoute,
     private router: Router,
+    private popupElegirPersonaService: PopupElegirPersonaService,
     private toastr: ToastrService
   ) {
     // traer del back las categorías para poder listarlas
@@ -98,5 +95,19 @@ export class NuevaFichaClinicaComponent implements OnInit {
 
   atras() {
     this.router.navigate(['../'], {relativeTo: this.route});
+  }
+
+  // para abrir el popup para elegir el cliente
+  popupElegirCliente() {
+    this.popupElegirPersonaService.abrirSelector(false,"Cliente").subscribe(result=>{
+      this.ficha.idCliente = result;
+    });
+  }
+
+  // para abrir el popup para elegir el empleado
+  popupElegirEmpleado() {
+    this.popupElegirPersonaService.abrirSelector(true,"Fisioterapeuta").subscribe(result=>{
+      this.ficha.idEmpleado = result;
+    });
   }
 }

@@ -12,6 +12,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { MatSidenav } from "@angular/material/sidenav";
 import { delay } from "rxjs/operators";
+import {LoginService} from "./service/login.service";
 
 
 @Component({
@@ -23,10 +24,14 @@ export class AppComponent {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
   categoriaIsExpanded = false;
+  serviciosIsExpanded = false;
 
   title = 'FrontEnd';
 
-  constructor(private observer: BreakpointObserver) { }
+  constructor(
+    private observer: BreakpointObserver,
+    private loginService: LoginService
+    ) { }
 
   ngAfterViewInit() {
     this.observer
@@ -43,6 +48,10 @@ export class AppComponent {
       });
   }
 
+  // para saber si el usuario inició o no sesión
+  estaLogueado() {
+    return this.loginService.estaLogueado();
+  }
 }
 
 

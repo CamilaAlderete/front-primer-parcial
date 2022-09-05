@@ -9,6 +9,8 @@ import {MatPaginator} from "@angular/material/paginator";
 import {CategoriaService} from "../../service/categoria.service";
 import {SubcategoriaService} from "../../service/subcategoria.service";
 import {DatePipe} from "@angular/common";
+import {PopupElegirPersonaService} from "../../service/popup-elegir-persona.service";
+import {Paciente} from "../../model/paciente";
 
 @Component({
   selector: 'app-lista-ficha-clinica',
@@ -22,8 +24,8 @@ export class ListaFichaClinicaComponent implements OnInit {
   // los campos de los filtros. Uso el undefined porque así puedo limpiar los campos igualando a undefined las variables
   fechaDesde!: Date | undefined;
   fechaHasta!: Date | undefined;
-  empleado!: String | undefined;
-  cliente!: number | undefined;
+  empleado!: Paciente | undefined;
+  cliente!: Paciente | undefined;
   categoria!: Categoria | undefined;
   subcategoria!: Subcategoria | undefined;
 
@@ -51,6 +53,7 @@ export class ListaFichaClinicaComponent implements OnInit {
     private httpService: FichaClinicaServiceService,
     private httpCategoriaService: CategoriaService,
     private httpSubcategoriaService: SubcategoriaService,
+    private popupElegirPersonaService: PopupElegirPersonaService,
     private toastr: ToastrService
   ) { }
 
@@ -97,13 +100,13 @@ export class ListaFichaClinicaComponent implements OnInit {
     // los filtros a aplicar. Se van guardando nomas los campos que no estén vacíos
     let filtros: any = {}
     if(this.subcategoria){
-      filtros["idTipoProducto"] = {"idTipoProducto": this.subcategoria.idTipoProducto};
+      filtros["idTipoProducto"] = {idTipoProducto: this.subcategoria.idTipoProducto};
     }
     if(this.cliente){
-      filtros["idCliente"] = {idPersona: this.cliente};
+      filtros["idCliente"] = {idPersona: this.cliente.idPersona};
     }
     if(this.empleado){
-      filtros["idEmpleado"] = {idPersona: this.empleado};
+      filtros["idEmpleado"] = {idPersona: this.empleado.idPersona};
     }
     if(this.fechaDesde && this.fechaHasta){
       filtros["fechaDesdeCadena"] = this.formatearFecha(this.fechaDesde);
@@ -125,7 +128,13 @@ export class ListaFichaClinicaComponent implements OnInit {
 
   // para recibir la información de que se está cambiando el orden, y poder pedirle al back ya ordenado
   sortChange(sortState: Sort) {
-      // le paso en los parámetros nomas lo que quiero ordenar y cómo ordenar
+    // le paso en los parámetros nomas lo que quiero ordenar y cómo ordenar
+    if (this.deshabilitarPaginado) {
+      this.getAll({
+        orderBy: sortState.active,  // el elemento a ordenar ya viene del html
+        orderDir: sortState.direction  // la dirección ya viene del angular mat
+      });
+    } else {
       this.getAll({
         inicio: 1,
         cantidad: this.paginator.pageSize,
@@ -133,6 +142,7 @@ export class ListaFichaClinicaComponent implements OnInit {
         orderDir: sortState.direction  // la dirección ya viene del angular mat
       });
     }
+  }
 
   cambioPaginacion() {
     // pedirle a sort que vuelva a traer los datos del back pero en base a estas nuevas condiciones
@@ -193,5 +203,19 @@ export class ListaFichaClinicaComponent implements OnInit {
     this.listaSubcategorias = undefined;
 
     this.getAll();
+  }
+
+  // para abrir el popup para elegir el cliente
+  popupElegirCliente() {
+    this.popupElegirPersonaService.abrirSelector(false,"Cliente").subscribe(result=>{
+      this.cliente = result;
+    });
+  }
+
+  // para abrir el popup para elegir el empleado
+  popupElegirEmpleado() {
+    this.popupElegirPersonaService.abrirSelector(true,"Fisioterapeuta").subscribe(result=>{
+      this.empleado = result;
+    });
   }
 }

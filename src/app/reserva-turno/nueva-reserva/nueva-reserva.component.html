@@ -1,0 +1,122 @@
+<!-- titulo---->
+<br>
+<div class="d-flex justify-content-center">
+  <h2 class="text-title">
+    {{ titulo }}
+  </h2>
+</div>
+
+
+
+<div class="mx-4 mat-elevation-z1 col-md-25">
+
+  <br><br>
+  <!---filtros--->
+
+  <div class="container col-10">
+
+
+    <div class="row justify-content-between align-items-center">
+
+
+        <div class="col-lg-6">
+          <div class="col-lg-1"> Profesional: </div>
+          <div>
+            <mat-form-field appearance="fill" style="width: 75%">
+              <input matInput disabled="true" placeholder="{{empleado ? empleado.nombreCompleto : ''}}">
+            </mat-form-field>
+            &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()"><mat-icon>search</mat-icon></button>
+
+          </div>
+
+        </div>
+
+
+        <div class="col-lg-6">
+          <div class="col-lg-1"> Fecha: </div>
+          <mat-form-field appearance="fill" style="width: 100%">
+            <mat-label>Fecha</mat-label>
+            <input matInput [matDatepicker]="pickerDesde" [(ngModel)]="fecha" placeholder="dd/mm/aaaa" [formControl]="fechaFormControl">
+            <mat-datepicker-toggle matSuffix [for]="pickerDesde"></mat-datepicker-toggle>
+            <mat-datepicker #pickerDesde></mat-datepicker>
+
+            <mat-error *ngIf="fechaFormControl.hasError('required')">
+              La fecha es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+
+        <div class="col-lg-4">
+          <button type="button" (click)="filtrar()" class="btn btn-primary btn">Buscar</button>
+        </div>
+
+    </div>
+
+  </div>
+
+  <!---tabla -->
+  <div class="m-4 mat-elevation-z1 col-md-25">
+
+            <mat-table [dataSource]="agenda">
+
+
+              <!---<ng-container matColumnDef="idReserva">
+                <mat-header-cell *matHeaderCellDef> ID reserva </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.idReserva}} </mat-cell>
+              </ng-container>--->
+
+              <ng-container matColumnDef="fecha">
+                <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.fecha.split(' ')[0] }} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="horaInicioCadena">
+                <mat-header-cell *matHeaderCellDef> Inicio </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.horaInicioCadena.slice(0, 2) }}:{{ row.horaInicioCadena.slice(2) }} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="horaFinCadena">
+                <mat-header-cell *matHeaderCellDef> Fin </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.horaFinCadena.slice(0, 2) }}:{{ row.horaFinCadena.slice(2) }} </mat-cell>
+              </ng-container>
+
+              <!----columna acciones---->
+              <ng-container matColumnDef="acciones">
+                <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+                <mat-cell *matCellDef="let element" >
+                  <div>
+                    <button class="btn btn-success btn-sm m-2" (click)="reservar(element)" >
+                      Reservar
+                    </button>
+                  </div>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+            </mat-table>
+
+            <!---- en caso de que no haya elementos para mostrar---->
+            <div *ngIf="agenda.data.length==0" class="d-flex justify-content-center">
+              <h3 class="text-title m-4">
+                No hay turnos libres
+              </h3>
+            </div>
+
+            <mat-paginator
+              [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
+
+  </div>
+
+  <br><br>
+
+
+</div>
+
+
+
+
+  <br><br><br>
