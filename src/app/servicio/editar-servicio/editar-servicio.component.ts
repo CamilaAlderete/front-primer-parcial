@@ -5,6 +5,8 @@ import {ServicioService} from "../../service/servicio.service";
 import {SubcategoriaService} from "../../service/subcategoria.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {EXTRAproducto} from "../../model/EXTRAproducto";
+import {EXTRAproductoService} from "../../service/EXTRAproducto.service";
 
 @Component({
   selector: 'app-editar-servicio',
@@ -15,10 +17,11 @@ export class EditarServicioComponent implements OnInit {
 
   titulo = 'Editar servicio'
   listaSubcategoria!: Subcategoria [];  // para mostrar la lista de subcategorias
+  listaProductos!: EXTRAproducto[];
 
   //campos= en vez del modelo de servicio:
+  codigo!: string;
   idProducto!: number;
-  subcategoria!: Subcategoria;
   idPresentacionProducto!: number; // el id de la clase Servicio
   nombre!: string;
   descripcion!: string;
@@ -26,12 +29,14 @@ export class EditarServicioComponent implements OnInit {
 
    // para validar el input del html
    textFormControl = new FormControl('', [Validators.required]);
+   productoFormControl = new FormControl('', [Validators.required]);
 
 
   // inyecciones
   constructor(
     private httpServicioService: ServicioService,
     private httpSubcategoriaService: SubcategoriaService,
+    private httpEXTRAproductoService: EXTRAproductoService,
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService
@@ -39,7 +44,7 @@ export class EditarServicioComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // traer todas las subcategorias ya existentes en el server
+    // traer todas los productos ya existentes en el server
     this.getAll();
 
     // traer el servicio actual
@@ -52,14 +57,10 @@ export class EditarServicioComponent implements OnInit {
     this.httpServicioService.getById(this.idPresentacionProducto)
       .subscribe({
         next: (e) => {
-         // let servicio = JSON.parse(e.toString());
           // @ts-ignore
-          this.idProducto= e.idProducto.idProducto; //no hay model de este
+          this.codigo= e.codigo;
           // @ts-ignore
-          this.subcategoria= e.idProducto.idTipoProducto; //subcategoria es
-          // @ts-ignore
-      //    this.subcategoria.descripcion= e.idProducto.idTipoProducto.descripcion; //subcategoria es
-
+          this.idProducto= e.idProducto;
           // @ts-ignore
           this.idPresentacionProducto= e.idPresentacionProducto; // el id de la clase Servicio
           // @ts-ignore
@@ -75,16 +76,16 @@ export class EditarServicioComponent implements OnInit {
       })
   }
 
-  // Traer todas las subcategorías ya existentes en el server y guardarlas en el array subcategorias
+  // Traer todas los productos ya existentes en el server y guardarlas en el array
   getAll() {
-    this.httpSubcategoriaService.getAll().subscribe({
+    this.httpEXTRAproductoService.getAll().subscribe({
         next: (datos) => {
           console.log(datos.lista);
-          this.listaSubcategoria= datos.lista;
+          this.listaProductos = datos.lista;
         },
         error: (err) => {
           console.log(err);
-          this.toastr.error("No se pudo obtener la lista de subcategorias", "Error");
+          this.toastr.error("No se pudo obtener la lista", "Error");
         }
       }
     );
@@ -92,7 +93,7 @@ export class EditarServicioComponent implements OnInit {
 
   guardar() {
     // si no se cargó el servicio
-    if( this.descripcion === '' ||  this.nombre === '' || this.subcategoria.idTipoProducto.toString() === ''
+    if( this.descripcion === '' ||  this.nombre === ''
     ||  this.idProducto.toString() === ''){
       this.toastr.error('Debe completar todos los campos', 'Error');
     }else{
@@ -102,16 +103,14 @@ export class EditarServicioComponent implements OnInit {
 
   guardarServicio(){
     let editarServicio = {
-      "idProducto": {
-        "idPresentacionProducto": this.idPresentacionProducto,
-        "idProducto": this.idProducto,
-        "idTipoProducto": this.subcategoria.idTipoProducto
-      },
+      "idPresentacionProducto": this.idPresentacionProducto,
+      "codigo": this.codigo,
+      "idProducto": this.idProducto,
       "nombre": this.nombre,
       "descripcion": this.descripcion
     }
     console.log(editarServicio);
-    this.httpServicioService.put(JSON.stringify(editarServicio))
+    this.httpServicioService.servicePut(editarServicio)
       .subscribe({
         next: (e) => {
           this.toastr.success('Servicio "'+ this.nombre + '" editado exitosamente');
@@ -129,7 +128,7 @@ export class EditarServicioComponent implements OnInit {
   }
 
   // para que el input mat-select pueda inicializar su dato seleccionado
-  compararObjetosSubCategorias(object1: Subcategoria, object2: Subcategoria) {
-    return object1.idTipoProducto == object2.idTipoProducto;
+  compararObjetosProducto(object1: EXTRAproducto, object2: EXTRAproducto) {
+    return object1.idProducto == object2.idProducto;
   }
 }

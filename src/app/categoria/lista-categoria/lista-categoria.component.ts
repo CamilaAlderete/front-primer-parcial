@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpService} from "../../service/http.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {listadatos} from "../../model/datos";
 import {Categoria} from "../../model/categoria";
 import {CategoriaService} from "../../service/categoria.service";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {MatSort, Sort} from "@angular/material/sort";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-lista-categoria',
@@ -14,11 +18,15 @@ import {CategoriaService} from "../../service/categoria.service";
 export class ListaCategoriaComponent implements OnInit {
 
   //atributos
-  lista: Categoria[] = [];
+  //lista: Categoria[] = [];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  lista: MatTableDataSource<Categoria> = new MatTableDataSource();
   titulo = 'Categorias';
 
   //columnas del la tabla (ojo: si no se colocan todas las columnas correspondientes en el html no se va poder ver nada)
-  displayedColumns: string[] = ['id','descripcion','acciones'];
+  displayedColumns: string[] = ['idCategoria','descripcion','acciones'];
 
 
   //inyeccion de dependencias
@@ -32,16 +40,28 @@ export class ListaCategoriaComponent implements OnInit {
   //apenas se inicia, se llama a la funcion getAll
   //obtener la lista debe hacerse antes de renderizar la página
   ngOnInit(): void {
-    this.getAll();
+
+    let params = {
+      //inicio: 0,
+      //cantidad: 5,
+      orderBy: 'idCategoria' ,
+      orderDir: 'asc'
+    }
+
+    this.getAll(params);
   }
 
   //trae todas las listas
-  getAll(){
-    this.httpService.getAll()
+  getAll(queryParams: {}){
+    this.httpService.getAll(queryParams)
       .subscribe({
         next: (e) => {
           console.log(e)
-          this.lista = e.lista
+          this.lista = new MatTableDataSource(e.lista);
+          this.lista.paginator = this.paginator;
+          this.lista.sort = this.sort;
+
+
         },
         error: (err) =>{
           console.log(err);
@@ -56,7 +76,7 @@ export class ListaCategoriaComponent implements OnInit {
       .subscribe({
         next: (e) => {
           this.toastr.success('Categoria eliminada');
-          this.getAll();
+          this.getAll({});
         },
         error: (err) =>{
           console.log(err);
@@ -65,5 +85,14 @@ export class ListaCategoriaComponent implements OnInit {
 
       });
   }
+
+
+
+  ngAfterViewInit() {
+    this.lista.paginator = this.paginator;
+  }
+
+
+
 
 }

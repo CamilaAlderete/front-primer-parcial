@@ -19,10 +19,21 @@ import {NuevaFichaClinicaComponent} from "./ficha-clinica/nueva-ficha-clinica/nu
 import {EditarFichaClinicaComponent} from "./ficha-clinica/editar-ficha-clinica/editar-ficha-clinica.component";
 import {ListaHorarioComponent} from "./horario/lista-horario/lista-horario.component";
 import {NuevoHorarioComponent} from "./horario/nuevo-horario/nuevo-horario.component";
+import {ListaReservasComponent} from "./reserva-turno/lista-reservas/lista-reservas.component";
+import {NuevaReservaComponent} from "./reserva-turno/nueva-reserva/nueva-reserva.component";
+import {LoginComponent} from "./login/login.component";
+import {AuthGuardService} from "./service/auth-guard.service";
+import {
+  ListaHorarioExcepcionComponent
+} from "./horario-excepcion/lista-horario-excepcion/lista-horario-excepcion.component";
+import {
+  NuevoHorarioExcepcionComponent
+} from "./horario-excepcion/nuevo-horario-excepcion/nuevo-horario-excepcion.component";
 
 const routes: Routes = [
   {
     path:'',
+    canActivate: [AuthGuardService],  // para requerir el login en caso de que no esté logueado
     children: [
       {path:'', redirectTo: 'home', pathMatch: 'full'}, //http://localhost:4200/home
       {path:'home', component:HomeComponent},           //http://localhost:4200/home
@@ -74,8 +85,31 @@ const routes: Routes = [
           { path: ':id/editar', component: EditarFichaClinicaComponent } //http://localhost:4200/horario/1/editar
         ]
       },
+      {path: 'reserva-turno',
+        children: [
+          { path: '', redirectTo: 'lista', pathMatch: 'full'},
+          { path: 'lista', component: ListaReservasComponent },  //http://localhost:4200/reserva-turno/lista
+          { path: 'nueva', component: NuevaReservaComponent } //http://localhost:4200/reserva-turno/nuevo
+        ]
+      },
+      {path: 'horario-excepcion',
+        children: [
+          { path: '', redirectTo: 'lista', pathMatch: 'full'},
+          { path: 'lista', component: ListaHorarioExcepcionComponent },  //http://localhost:4200/horario-excepcion/lista
+          { path: 'nuevo', component: NuevoHorarioExcepcionComponent } //http://localhost:4200/horario-excepcion/nuevo
+        ]
+      },
       {path:'cositas', component: CositasUtilesComponent}
+
     ]
+  },
+  {
+    path:'login',
+    component:LoginComponent
+  },
+  {
+    path:'logout',
+    component:LoginComponent
   }
 ];
 

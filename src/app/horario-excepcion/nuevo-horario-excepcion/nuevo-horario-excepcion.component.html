@@ -1,0 +1,98 @@
+<!-- titulo---->
+<br>
+<div class="d-flex justify-content-center">
+  <h2 class="text-title">
+    {{ titulo }}
+  </h2>
+</div>
+
+<!-- el contenido -->
+<div class="mx-4 mat-elevation-z8 col-md-25 mt-3">
+
+  <br>
+
+  <!-- los campos -->
+  <div class="container col-10">
+
+    <!-- la primera fila -->
+    <div class="row align-items-center">
+
+      <!-- fecha-->
+      <div class="col-lg-1"> Fecha:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 100%">
+          <mat-label>Fecha</mat-label>
+          <input matInput [matDatepicker]="pickerFecha" [(ngModel)]="horarioExcepcion.fechaCadena" placeholder="dd/mm/aaaa" required>
+          <mat-datepicker-toggle matSuffix [for]="pickerFecha"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFecha></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <!-- Empleado -->
+      <div class="col-lg-1"> Empleado:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 75%">
+          <input matInput disabled="true"
+                 placeholder="{{horarioExcepcion.idEmpleado ? horarioExcepcion.idEmpleado.nombre : ''}}" required>
+        </mat-form-field>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()">Buscar</button>
+      </div>
+
+    </div>
+
+    <!-- segunda fila -->
+    <div class="row align-items-center">
+
+      <!-- Hora apertura -->
+      <div class="col-lg-1"> Hora apertura:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 100%">
+          <input matInput type="time" [(ngModel)]="horarioExcepcion.horaAperturaCadena" min="00:00" max="23:59">
+        </mat-form-field>
+      </div>
+
+      <!-- Hora cierre -->
+      <div class="col-lg-1"> Hora cierre:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 100%">
+          <input matInput type="time" [(ngModel)]="horarioExcepcion.horaCierreCadena" min="00:00" max="23:59">
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <!-- tercera fila -->
+    <div class="row align-items-center">
+
+      <div class="col-lg-1"> Intervalo minutos:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 100%">
+          <input matInput type="number" [(ngModel)]="horarioExcepcion.intervaloMinutos" min="0" max="1440">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-1"> Habilitar?:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 100%">
+          <mat-select required [(ngModel)]="horarioExcepcion.flagEsHabilitar">
+            <mat-option *ngFor="let opcion of opcionesHabilitar" [value]="opcion">
+              {{opcion}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- los botones de guardar y cancelar -->
+    <div class="row justify-content-end">
+      <div class="col-lg-4">
+        <button type="button" (click)="guardarHorario()" class="m-3 btn btn-primary btn">Guardar</button>
+        <button type="button" (click)="atras()" class=" m-3 btn btn-danger btn">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+</div>
+

@@ -50,6 +50,9 @@
         <span>Servicios</span>
       </button>
 
+
+
+
       <!---routerlink lleva a la direccion http://localhost:4200/persona ------>
       <button mat-button routerLink="/paciente" class="menu-button">
         <mat-icon>person</mat-icon>
@@ -61,12 +64,27 @@
         <span>Horarios</span>
       </button>
 
+      <button mat-button routerLink="/reserva-turno" class="menu-button" >
+        <mat-icon>event</mat-icon>
+        <span>Reservas</span>
+      </button>
+
       <button mat-button routerLink="/ficha-clinica" class="menu-button">
         <mat-icon>list_alt</mat-icon>
         <span>Fichas</span>
       </button>
 
+      <button mat-button routerLink="/horario-excepcion" class="menu-button">
+        <mat-icon>schedule</mat-icon>
+        <span>Horarios</span>
+      </button>
+
       <mat-divider></mat-divider>
+
+      <button *ngIf="estaLogueado()" mat-button routerLink="/logout" class="menu-button">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
 
       <button mat-button routerLink="/cositas" class="menu-button">
         <mat-icon>star</mat-icon>

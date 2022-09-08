@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -27,14 +27,14 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-import {MatTableModule} from "@angular/material/table";
+import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import { CositasUtilesComponent } from './cositas-utiles/cositas-utiles/cositas-utiles.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import {MatSelectModule} from '@angular/material/select';
 import {MatListModule} from "@angular/material/list";
 import {MatPaginatorModule} from "@angular/material/paginator";
@@ -43,6 +43,13 @@ import { ListaFichaClinicaComponent } from './ficha-clinica/lista-ficha-clinica/
 import {NuevaFichaClinicaComponent} from "./ficha-clinica/nueva-ficha-clinica/nueva-ficha-clinica.component";
 import { EditarFichaClinicaComponent } from './ficha-clinica/editar-ficha-clinica/editar-ficha-clinica.component';
 import { PopupElegirPersonaComponent } from './popup-elegir-persona/popup-elegir-persona.component';
+import { ListaReservasComponent } from './reserva-turno/lista-reservas/lista-reservas.component';
+import { NuevaReservaComponent } from './reserva-turno/nueva-reserva/nueva-reserva.component';
+import { ObservacionComponent } from './reserva-turno/lista-reservas/observacion/observacion.component';
+import { LoginComponent } from './login/login.component';
+import {CookieService} from "ngx-cookie-service";
+import { ListaHorarioExcepcionComponent } from './horario-excepcion/lista-horario-excepcion/lista-horario-excepcion.component';
+import { NuevoHorarioExcepcionComponent } from './horario-excepcion/nuevo-horario-excepcion/nuevo-horario-excepcion.component';
 import { ListaHorarioComponent } from './horario/lista-horario/lista-horario.component';
 import { NuevoHorarioComponent } from './horario/nuevo-horario/nuevo-horario.component';
 
@@ -69,40 +76,52 @@ import { NuevoHorarioComponent } from './horario/nuevo-horario/nuevo-horario.com
     NuevaFichaClinicaComponent,
     EditarFichaClinicaComponent,
     PopupElegirPersonaComponent,
+    ListaReservasComponent,
+    NuevaReservaComponent,
+    ObservacionComponent,
+    LoginComponent,
+    ListaHorarioExcepcionComponent,
+    NuevoHorarioExcepcionComponent,
     ListaHorarioComponent,
     NuevoHorarioComponent,
   ],
   // librerias y modulos de angular y librerias externas
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    LayoutModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDividerModule,
-    HttpClientModule,
-    ToastrModule.forRoot(),
-    MatTableModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatListModule,
-    MatPaginatorModule,
-    MatSortModule,
-    ReactiveFormsModule
-
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        LayoutModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatDividerModule,
+        HttpClientModule,
+        ToastrModule.forRoot(),
+        MatTableModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatDialogModule,
+        MatSelectModule,
+        MatListModule,
+        MatPaginatorModule,
+        MatSortModule,
+        ReactiveFormsModule,
+        MatDialogModule
+    ],
   providers: [
     //para usar datepicker
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
+    { provide: LOCALE_ID, useValue: 'en-nz' },
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

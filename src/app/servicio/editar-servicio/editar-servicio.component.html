@@ -35,31 +35,22 @@
               </mat-error>
             </mat-form-field>
             &nbsp;
+            <!--- Seleccionar producto ---->
             <mat-form-field appearance="fill" class="col-md-5">
-              <mat-label>ID Producto</mat-label>
-              <input matInput type="text" [(ngModel)]="idProducto">
-
-              <!-- para validar la entrada -->
-              <mat-error *ngIf="textFormControl.hasError('required')">
-                El producto es <strong>requerido</strong>
-              </mat-error>
-            </mat-form-field>
-            &nbsp;
-            <mat-form-field appearance="fill" class="col-md-5">
-              <mat-label>Subcategoría</mat-label>
-              <mat-select [value]="subcategoria" [(ngModel)]="subcategoria"
-                          [compareWith]="compararObjetosSubCategorias">
-                <mat-option *ngFor="let l of listaSubcategoria" [value]="l">
-                  {{ l.descripcion }}
+              <mat-label>Producto</mat-label>
+              <mat-select [value]="idProducto" [(ngModel)]="idProducto"
+                          [formControl]="productoFormControl"  [compareWith]="compararObjetosProducto">
+                <mat-option *ngFor="let l of listaProductos" [value]="l">
+                  {{ l.idProducto }} - {{l.descripcion }}
                 </mat-option>
               </mat-select>
 
               <!-- para validar la entrada -->
-              <mat-error *ngIf="textFormControl.hasError('required')">
-                La subcategoría es <strong>requerida</strong>
+              <mat-error *ngIf="productoFormControl.hasError('required')">
+                El producto  es <strong>requerido</strong>
               </mat-error>
             </mat-form-field>
-
+            &nbsp;
           </p>
 
           <div class="col-md-6 d-flex justify-content-around">
@@ -74,9 +65,6 @@
         </div>
       </div>
     </div>
-
-
-
   </div>
 </div>
 

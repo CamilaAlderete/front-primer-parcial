@@ -3,6 +3,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort, Sort} from "@angular/material/sort";
 import {ServicioService} from "../../service/servicio.service";
+import {ExistenciaProductoService} from "../../service/existenciaProducto.service";
 import {ToastrService} from "ngx-toastr";
 
 @Component({
@@ -11,6 +12,11 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./lista-servicio.component.css']
 })
 export class ListaServicioComponent implements OnInit {
+
+
+  //para gets especiales:
+  idProductoGET!: string;
+  precioProducto!: ArrayBuffer | Object | {};
 
   titulo = "Servicios"; // título de la página
   listaServicios: MatTableDataSource<String>;  // datos listados en la página
@@ -35,6 +41,8 @@ export class ListaServicioComponent implements OnInit {
   // dependencias
   constructor(
     private httpService: ServicioService, // El service de servicio
+    private httpExistenciaProducto: ExistenciaProductoService,
+
     private toastr: ToastrService //para notificaciones en pantalla
   ) {
     // para inicializar en vacío la lista
@@ -161,5 +169,65 @@ export class ListaServicioComponent implements OnInit {
 
     }
 
+  }
+
+  presentaciones(id: number) {
+    let tipoProducto = {
+      "idProducto": {
+        "idTipoProducto": {
+          "idTipoProducto": id
+        }
+      }
+    }
+    this.httpService.getAll({ejemplo: JSON.stringify(tipoProducto)}).subscribe(
+      {
+        next: (datos) => {
+          console.log(datos.lista);
+          this.listaServicios.data = datos.lista;
+        },
+        error: (err) => {
+          console.log(err);
+          this.toastr.error("No se pudo obtener la lista de presentaciones", "Error");
+        }
+      }
+    );
+  }
+
+  idProducto(id: number) {
+    let producto = {
+      "idTipoProducto": {
+        "idTipoProducto": id
+      }
+    }
+    this.httpService.getAll({ejemplo: JSON.stringify(producto)}).subscribe(
+      {
+        next: (datos) => {
+          console.log(datos);
+          this.listaServicios.data = datos.lista;
+        },
+        error: (err) => {
+          console.log(err);
+          this.toastr.error("No se pudo obtener el ID de producto", "Error");
+        }
+      }
+    );
+  }
+
+  precio(id: number) {
+    let precio = {
+      "idPresentacionProductoTransient": id
+    }
+    this.httpExistenciaProducto.serviceGet({ejemplo: JSON.stringify(precio)}).subscribe(
+      {
+        next: (datos) => {
+          console.log(datos);
+          this.precioProducto = datos;
+        },
+        error: (err) => {
+          console.log(err);
+          this.toastr.error("No se pudo obtener el precio", "Error");
+        }
+      }
+    );
   }
 }

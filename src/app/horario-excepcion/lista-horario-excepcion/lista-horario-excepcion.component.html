@@ -1,0 +1,117 @@
+<!-- titulo---->
+<br>
+<div class="d-flex justify-content-center">
+  <h2 class="text-title">
+    {{ titulo }}
+  </h2>
+</div>
+
+<!-- el contenido -->
+<div class="mx-4 mat-elevation-z8 col-md-25 mt-3">
+
+  <br>
+  <h4 class="text-title m-3">
+    Filtros de búsqueda
+  </h4>
+
+  <!-- la sección para el filtro -->
+  <div class="container col-10">
+
+    <!-- la primera fila -->
+    <div class="row align-items-center">
+
+      <!-- fecha-->
+      <div class="col-lg-1"> Fecha:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 100%">
+          <mat-label>Fecha</mat-label>
+          <input matInput [matDatepicker]="pickerFecha" [(ngModel)]="fecha" placeholder="dd/mm/aaaa">
+          <mat-datepicker-toggle matSuffix [for]="pickerFecha"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFecha></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <!-- Empleado -->
+      <div class="col-lg-1"> Empleado:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 75%">
+          <input matInput disabled="true" placeholder="{{empleado ? empleado.nombre : ''}}">
+        </mat-form-field>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()">Buscar</button>
+      </div>
+
+    </div>
+
+    <!----los botones de agregar, buscar y limpiar---->
+    <div class="row justify-content-between">
+
+      <div class="col-lg-8">
+        <button type="button" class="m-3 btn btn-success btn" routerLink="../nuevo">Agregar excepción</button>
+      </div>
+
+      <div class="col-lg-4">
+        <button type="button" (click)="filtrarTabla()" class="m-3 btn btn-primary btn">Buscar</button>
+        <button type="button" (click)="limpiarFiltros()" class=" m-3 btn btn-primary btn">Limpiar</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- la tabla -->
+  <div class="mx-4 mat-elevation-z8 col-md-25">
+
+    <mat-table [dataSource]="listaHorariosExcepcion" class="col-md-25 mat-elevation-z1" matSort
+      (matSortChange)="sortChange($event)">
+
+      <ng-container matColumnDef="fecha">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.fecha}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="idEmpleado.nombre">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Empleado </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idEmpleado.nombreCompleto}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="horaApertura">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Hora Apertura </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.horaApertura}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="horaCierre">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Hora Cierre </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.horaCierre}} </mat-cell>
+      </ng-container>
+
+      <!----columna acciones---->
+      <ng-container matColumnDef="acciones">
+        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+        <mat-cell *matCellDef="let element" >
+          <div>
+            <button class="btn btn-danger btn-sm m-2 " (click)="eliminar(element.idHorarioExcepcion)">Eliminar</button>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+    <mat-paginator (page)="cambioPaginacion()" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Página de horarios"></mat-paginator>
+
+    <!-- Row shown when there is no matching data. -->
+    <div *ngIf="listaHorariosExcepcion.length==0" class="text-center">
+      <br>
+      No hay horarios que coincidan...
+      <br>
+      <br>
+    </div>
+
+  </div>
+
+  <br>
+  <br>
+  <br>
+
+</div>
+
