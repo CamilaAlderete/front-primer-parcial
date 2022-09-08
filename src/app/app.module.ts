@@ -48,6 +48,8 @@ import { NuevaReservaComponent } from './reserva-turno/nueva-reserva/nueva-reser
 import { ObservacionComponent } from './reserva-turno/lista-reservas/observacion/observacion.component';
 import { LoginComponent } from './login/login.component';
 import {CookieService} from "ngx-cookie-service";
+import { ListaHorarioExcepcionComponent } from './horario-excepcion/lista-horario-excepcion/lista-horario-excepcion.component';
+import { NuevoHorarioExcepcionComponent } from './horario-excepcion/nuevo-horario-excepcion/nuevo-horario-excepcion.component';
 
 
 @NgModule({
@@ -75,35 +77,37 @@ import {CookieService} from "ngx-cookie-service";
     ListaReservasComponent,
     NuevaReservaComponent,
     ObservacionComponent,
-    LoginComponent
+    LoginComponent,
+    ListaHorarioExcepcionComponent,
+    NuevoHorarioExcepcionComponent,
   ],
   // librerias y modulos de angular y librerias externas
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    LayoutModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDividerModule,
-    HttpClientModule,
-    ToastrModule.forRoot(),
-    MatTableModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatListModule,
-    MatPaginatorModule,
-    MatSortModule,
-    ReactiveFormsModule,
-    MatDialogModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        LayoutModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatDividerModule,
+        HttpClientModule,
+        ToastrModule.forRoot(),
+        MatTableModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatDialogModule,
+        MatSelectModule,
+        MatListModule,
+        MatPaginatorModule,
+        MatSortModule,
+        ReactiveFormsModule,
+        MatDialogModule
+    ],
   providers: [
     //para usar datepicker
     MatDatepickerModule,

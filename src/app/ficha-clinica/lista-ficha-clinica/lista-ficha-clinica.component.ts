@@ -136,7 +136,7 @@ export class ListaFichaClinicaComponent implements OnInit {
       });
     } else {
       this.getAll({
-        inicio: 1,
+        inicio: 0,
         cantidad: this.paginator.pageSize,
         orderBy: sortState.active,  // el elemento a ordenar ya viene del html
         orderDir: sortState.direction  // la dirección ya viene del angular mat
