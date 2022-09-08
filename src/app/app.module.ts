@@ -43,6 +43,8 @@ import { ListaFichaClinicaComponent } from './ficha-clinica/lista-ficha-clinica/
 import {NuevaFichaClinicaComponent} from "./ficha-clinica/nueva-ficha-clinica/nueva-ficha-clinica.component";
 import { EditarFichaClinicaComponent } from './ficha-clinica/editar-ficha-clinica/editar-ficha-clinica.component';
 import { PopupElegirPersonaComponent } from './popup-elegir-persona/popup-elegir-persona.component';
+import { ListaHorarioComponent } from './horario/lista-horario/lista-horario.component';
+import { NuevoHorarioComponent } from './horario/nuevo-horario/nuevo-horario.component';
 
 
 @NgModule({
@@ -67,6 +69,8 @@ import { PopupElegirPersonaComponent } from './popup-elegir-persona/popup-elegir
     NuevaFichaClinicaComponent,
     EditarFichaClinicaComponent,
     PopupElegirPersonaComponent,
+    ListaHorarioComponent,
+    NuevoHorarioComponent,
   ],
   // librerias y modulos de angular y librerias externas
   imports: [

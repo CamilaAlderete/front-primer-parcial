@@ -1,0 +1,98 @@
+<!-- titulo---->
+<br>
+<div class="d-flex justify-content-center">
+  <h2 class="text-title">
+    {{ titulo }}
+  </h2>
+</div>
+
+<!-- el contenido -->
+<div class="mx-4 mat-elevation-z8 col-md-25 mt-3">
+
+  <!-- los campos -->
+  <div class="container col-10">
+
+    <!-- la fila cero, la fila para dejar espacio en blanco -->
+    <div class="row align-items-center">
+      <div class="col-lg-12"><br></div>
+    </div>
+
+    <!-- la primera fila -->
+    <div class="row align-items-center">
+
+      <!-- dia de servicio-->
+      <mat-form-field appearance="fill" class="col-md-5">
+        <mat-label>Dia</mat-label>
+        <input matInput type="text" [(ngModel)]="dia"  [formControl]="textFormControl">
+        <!-- para validar la entrada -->
+        <mat-error *ngIf="textFormControl.hasError('required')">
+          El dia  es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Hora de apertura-->
+      <mat-form-field appearance="fill" class="col-md-5">
+        <mat-label>Hora de Apertura</mat-label>
+        <input matInput type="time" [(ngModel)]="horaapertura"  [formControl]="textFormControl">
+        <!-- para validar la entrada -->
+        <mat-error *ngIf="textFormControl.hasError('required')">
+          El dia  es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Hora de Cierre-->
+      <mat-form-field appearance="fill" class="col-md-5">
+        <mat-label>Hora de Cierre</mat-label>
+        <input matInput type="time" [(ngModel)]="horacierre"  [formControl]="textFormControl">
+        <!-- para validar la entrada -->
+        <mat-error *ngIf="textFormControl.hasError('required')">
+          El dia  es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Intervalo-->
+      <mat-form-field appearance="fill" class="col-md-5">
+        <mat-label>Intervalo en minutos</mat-label>
+        <input matInput type="number" [(ngModel)]="intervalo"  [formControl]="textFormControl">
+        <!-- para validar la entrada -->
+        <mat-error *ngIf="textFormControl.hasError('required')">
+          El dia  es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+
+
+
+    </div>
+
+    <!-- la tercera fila -->
+    <div class="row align-items-center">
+
+      <!-- Empleado -->
+      <div class="col-lg-1"> Empleado:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 75%">
+          <input matInput disabled="true" placeholder="{{horario.idEmpleado ? horario.idEmpleado.nombre : ''}}">
+        </mat-form-field>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()">Buscar</button>
+      </div>
+
+    </div>
+
+    <!-- los botones de guardar y cancelar -->
+    <div class="row justify-content-end">
+      <div class="col-lg-4">
+        <button type="button" (click)="guardarHorario()" class="m-3 btn btn-primary btn">Guardar</button>
+        <button type="button" (click)="atras()" class=" m-3 btn btn-danger btn">Cancelar</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<br>
+<br>
+<br>
+<br>
+

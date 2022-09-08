@@ -17,6 +17,8 @@ import {EditarServicioComponent} from "./servicio/editar-servicio/editar-servici
 import {ListaFichaClinicaComponent} from "./ficha-clinica/lista-ficha-clinica/lista-ficha-clinica.component";
 import {NuevaFichaClinicaComponent} from "./ficha-clinica/nueva-ficha-clinica/nueva-ficha-clinica.component";
 import {EditarFichaClinicaComponent} from "./ficha-clinica/editar-ficha-clinica/editar-ficha-clinica.component";
+import {ListaHorarioComponent} from "./horario/lista-horario/lista-horario.component";
+import {NuevoHorarioComponent} from "./horario/nuevo-horario/nuevo-horario.component";
 
 const routes: Routes = [
   {
@@ -62,6 +64,14 @@ const routes: Routes = [
           { path: 'lista', component: ListaFichaClinicaComponent },  //http://localhost:4200/ficha-clinica/lista
           { path: 'nueva', component: NuevaFichaClinicaComponent }, //http://localhost:4200/ficha-clinica/nueva
           { path: ':id/editar', component: EditarFichaClinicaComponent } //http://localhost:4200/ficha-clinica/1/editar
+        ]
+      },
+      {path: 'horario',
+        children: [
+          { path: '', redirectTo: 'lista', pathMatch: 'full'},
+          { path: 'lista', component: ListaHorarioComponent },  //http://localhost:4200/horario/lista
+          { path: 'nuevo', component: NuevoHorarioComponent }, //http://localhost:4200/horario/nuevo
+          { path: ':id/editar', component: EditarFichaClinicaComponent } //http://localhost:4200/horario/1/editar
         ]
       },
       {path:'cositas', component: CositasUtilesComponent}
