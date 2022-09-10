@@ -14,6 +14,7 @@ import {PopupElegirPersonaService} from "../../service/popup-elegir-persona.serv
 import {MatPaginator} from "@angular/material/paginator";
 import {tap} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
+import {CookieService} from "ngx-cookie-service";
 
 
 @Component({
@@ -28,7 +29,7 @@ export class NuevaReservaComponent implements OnInit {
 
   agenda: MatTableDataSource<Reserva> = new MatTableDataSource();
   idProfesional!: number;
-  idPaciente: number = 287; // por ahora
+  idPaciente!: number;
   fecha!: Date;
   titulo= 'Reserva De Turno'
 
@@ -50,6 +51,7 @@ export class NuevaReservaComponent implements OnInit {
     private reservaService: ReservaService,
     public dialog: MatDialog,
     private popupElegirPersonaService: PopupElegirPersonaService,
+    private cookies:CookieService,
 
   ) { }
 
@@ -58,7 +60,7 @@ export class NuevaReservaComponent implements OnInit {
   }
 
   getPaciente(){
-    this.pacienteService.getById(this.idPaciente).subscribe({
+    this.pacienteService.getById( Number(this.cookies.get('userId')) ).subscribe({
       next:(e) =>{
         this.cliente = e;
       },
@@ -72,7 +74,6 @@ export class NuevaReservaComponent implements OnInit {
   reservar(turno: Reserva){
 
     if( this.empleado!=null && this.cliente!= null){
-      //console.log(turno)
       this.reservaTurno(turno);
     }else{
       this.toastr.error('No se puede reservar turno', 'Error');
@@ -142,12 +143,6 @@ export class NuevaReservaComponent implements OnInit {
 
   atras() {
     this.router.navigate(['../'], {relativeTo: this.route});
-  }
-
-  popupElegirCliente() {
-    this.popupElegirPersonaService.abrirSelector(false,"Cliente").subscribe(result=>{
-      this.cliente = result;
-    });
   }
 
   popupElegirEmpleado() {
