@@ -33,7 +33,7 @@ export class ReporteResumidoComponent implements OnInit {
   empleado!: Paciente | undefined;
 
 
-  displayedColumns: string[] = ['fechaHora','idEmpleado.nombreCompleto','idCliente.nombreCompleto', 'presupuesto', 'idTipoProducto.descripcion'];
+  displayedColumns: string[] = ['fechaHora','nombreEmpleado','nombreCliente', 'presupuesto', 'tipoProducto'];
 
   @ViewChild('tabla') tabla!: ElementRef; //pdf
 
@@ -58,7 +58,7 @@ export class ReporteResumidoComponent implements OnInit {
         },
         error: (err) =>{
           console.log(err);
-          this.toastr.error('No se pudo obtener las servicios', 'Error');
+          this.toastr.error('No se pudo obtener los servicios', 'Error');
         }
 
       });

@@ -98,14 +98,14 @@
         <mat-cell *matCellDef="let row"> {{row.fechaHora}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="idEmpleado.nombreCompleto">
+      <ng-container matColumnDef="nombreEmpleado">
         <mat-header-cell *matHeaderCellDef > Profesional </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.idEmpleado.nombreCompleto}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="idCliente.nombreCompleto">
+      <ng-container matColumnDef="nombreCliente">
         <mat-header-cell *matHeaderCellDef > Cliente </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.idCliente.nombreCompleto}} </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.idFichaClinica.idCliente.nombreCompleto}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="presupuesto">
@@ -114,9 +114,9 @@
       </ng-container>
 
 
-      <ng-container matColumnDef="idTipoProducto.descripcion">
+      <ng-container matColumnDef="tipoProducto">
         <mat-header-cell *matHeaderCellDef > Tipo Producto </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.idTipoProducto.descripcion}} </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.idFichaClinica.idTipoProducto.descripcion}} </mat-cell>
       </ng-container>
 
 
