@@ -1,0 +1,149 @@
+<!-- titulo---->
+<br>
+<div class="d-flex justify-content-center">
+  <h2 class="text-title">
+    Reporte Resumido
+  </h2>
+</div>
+
+
+
+<div class="mx-3 mat-elevation-z8 col-md-25">
+
+  <br>
+  <h4 class="text-title m-3">
+    Filtros de búsqueda
+  </h4>
+
+  <!---filtros--->
+
+  <div class="container col-11">
+
+
+    <div class="row align-items-center">
+
+
+      <div class="col-lg-1"> Fecha desde:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 100%">
+          <mat-label>Fecha</mat-label>
+          <input matInput [matDatepicker]="pickerDesde" [(ngModel)]="fechaDesde" placeholder="dd/mm/aaaa">
+          <mat-datepicker-toggle matSuffix [for]="pickerDesde"></mat-datepicker-toggle>
+          <mat-datepicker #pickerDesde></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+
+      <div class="col-lg-1"> Fecha hasta:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill"  style="width: 100%">
+          <mat-label>Fecha</mat-label>
+          <input matInput [matDatepicker]="pickerHasta" [(ngModel)]="fechaHasta" placeholder="dd/mm/aaaa">
+          <mat-datepicker-toggle matSuffix [for]="pickerHasta"></mat-datepicker-toggle>
+          <mat-datepicker #pickerHasta></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+
+    <div class="row align-items-center">
+
+
+      <div class="col-lg-1"> Empleado:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 75%">
+          <input matInput disabled="true" placeholder="{{empleado ? empleado.nombreCompleto : ''}}">
+        </mat-form-field>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()"><mat-icon>search</mat-icon></button>
+      </div>
+
+
+      <div class="col-lg-1"> Cliente:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 75%">
+          <input matInput disabled="true" placeholder="{{cliente ? cliente.nombreCompleto : ''}}">
+        </mat-form-field>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupElegirCliente()"><mat-icon>search</mat-icon></button>
+      </div>
+
+    </div>
+
+
+
+    <div class="d-flex justify-content-between">
+
+      <button type="button" (click)="filtrar()" class="m-3 btn btn-primary btn">Buscar</button>
+      <button type="button" (click)="limpiarFiltro()" class=" m-3 btn btn-primary btn">Limpiar</button>
+      <button type="button" class="m-3 btn btn-success btn" (click)="exportarPdf()"> PDF</button>
+      <button type="button" class="m-3 btn btn-success btn" (click)="exporter.exportTable('xlsx', {fileName:'reporte-resumido'})"> XLS</button>
+
+
+
+    </div>
+
+  </div>
+
+
+
+
+  <!---tabla -->
+  <div class="tabla mx-4 mat-elevation-z1 col-md-25" id="tabla" #tabla>
+
+
+    <mat-table [dataSource]="servicios" matTableExporter  #exporter="matTableExporter">
+
+
+      <ng-container matColumnDef="fechaHora">
+        <mat-header-cell *matHeaderCellDef > Fecha </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.fechaHora}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="idEmpleado.nombreCompleto">
+        <mat-header-cell *matHeaderCellDef > Profesional </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idEmpleado.nombreCompleto}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="idCliente.nombreCompleto">
+        <mat-header-cell *matHeaderCellDef > Cliente </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idCliente.nombreCompleto}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="presupuesto">
+        <mat-header-cell *matHeaderCellDef > Presupuesto</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.presupuesto}} </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="idTipoProducto.descripcion">
+        <mat-header-cell *matHeaderCellDef > Tipo Producto </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idTipoProducto.descripcion}} </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+    <!---- en caso de que no haya elementos para mostrar---->
+    <div *ngIf="servicios.length==0" class="d-flex justify-content-center">
+      <h3 class="text-title m-4">
+          No hay servicios
+      </h3>
+    </div>
+
+
+
+
+  </div>
+
+
+  <br>
+  <br>
+
+</div>
+
+
+<br>
+<br>
+

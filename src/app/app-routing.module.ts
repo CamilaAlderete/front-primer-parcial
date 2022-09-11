@@ -29,6 +29,8 @@ import {
 import {
   NuevoHorarioExcepcionComponent
 } from "./horario-excepcion/nuevo-horario-excepcion/nuevo-horario-excepcion.component";
+import {ReporteResumidoComponent} from "./reporte/reporte-resumido/reporte-resumido.component";
+import {ReporteDetalladoComponent} from "./reporte/reporte-detallado/reporte-detallado.component";
 
 const routes: Routes = [
   {
@@ -99,7 +101,9 @@ const routes: Routes = [
           { path: 'nuevo', component: NuevoHorarioExcepcionComponent } //http://localhost:4200/horario-excepcion/nuevo
         ]
       },
-      {path:'cositas', component: CositasUtilesComponent}
+      {path:'cositas', component: CositasUtilesComponent},
+      {path:'reporte-resumido', component: ReporteResumidoComponent},
+      {path:'reporte-detallado', component: ReporteDetalladoComponent},
 
     ]
   },
