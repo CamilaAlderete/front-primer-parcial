@@ -5,10 +5,44 @@
     {{ titulo }}
   </h2>
 </div>
-<!----botón nuevo----->
 <div class="m-3 px-4">
   <button class="btn btn-success btn-sm" routerLink="../nuevo"> Nuevo Horario
   </button>&nbsp;&nbsp;&nbsp;
+</div>
+
+<div class="mx-3 mat-elevation-z8 col-md-25">
+
+  <br>
+  <h4 class="text-title m-3">
+    Filtros de búsqueda
+  </h4>
+
+  <!---filtros--->
+
+  <div class="container col-11">
+    <!-- Empleado -->
+    <div class="col-lg-1"> Empleado:</div>
+    <div class="col-lg-5">
+      <mat-form-field appearance="fill" style="width: 75%">
+        <input matInput disabled="true" placeholder="{{empleado ? empleado.nombre : ''}}">
+      </mat-form-field>
+      &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()">Buscar</button>
+    </div>
+
+    <!-----dia------>
+    <div class="col-lg-1"> Dia:</div>
+    <div class="col-lg-5">
+      <mat-form-field appearance="fill" class="col-md-5">
+        <input matInput type="text" [(ngModel)]="dia"  [formControl]="textFormControl">
+      </mat-form-field>
+    </div>
+
+  </div>
+  <button type="button" (click)="limpiarFiltro()" class=" m-3 btn btn-primary btn">Limpiar</button>
+  <button type="button" (click)="filtrar()" class="m-3 btn btn-primary btn">Buscar</button>
+  <!----botón nuevo----->
+
+
 </div>
 <!-- la tabla -->
 <div class="mx-4 mat-elevation-z8 col-md-25">
@@ -81,3 +115,4 @@
 <br>
 <br>
 <br>
+

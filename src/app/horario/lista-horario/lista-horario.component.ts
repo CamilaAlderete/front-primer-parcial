@@ -5,6 +5,9 @@ import {ToastrService} from "ngx-toastr";
 import {MatSort, Sort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {Horario} from "../../model/horario";
+import {Paciente} from "../../model/paciente";
+import {PopupElegirPersonaService} from "../../service/popup-elegir-persona.service";
+import {FormControl, Validators} from "@angular/forms";
 
 
 @Component({
@@ -23,22 +26,27 @@ export class ListaHorarioComponent implements OnInit {
     'idEmpleado.nombre',
     'idEmpleado.apellido',
   ];
+  dia!: number | undefined;
+  empleado!: Paciente | undefined;
 
   // para la paginación de la tabla y el ordenamiento
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  // para validar los input del html
+  textFormControl = new FormControl('', [Validators.required]);
 
   // dependencias
   constructor(
     private httpService: HorarioService, // El service de servicio
-    private toastr: ToastrService //para notificaciones en pantalla
+    private toastr: ToastrService, //para notificaciones en pantalla
+    private popupElegirPersonaService: PopupElegirPersonaService,
   ) {
     // para inicializar en vacío la lista
     this.listaHorarios = new MatTableDataSource();
 
 
     // para que la tabla pueda filtrar también los elementos anidados
-    this.listaHorarios.filterPredicate = (data, filter:string)=> {
+    this.listaHorarios.filterPredicate = (data, filter: string) => {
       const accumulator = (currentTerm: any, key: any) => {
         return this.nestedFilterCheck(currentTerm, data, key);
       };
@@ -49,7 +57,7 @@ export class ListaHorarioComponent implements OnInit {
       return dataStr.indexOf(transformedFilter) !== -1;
 
     };
-    };
+  };
 
 
   ngOnInit(): void {
@@ -62,8 +70,6 @@ export class ListaHorarioComponent implements OnInit {
     this.listaHorarios.sort = this.sort;
   }
 
-
-
   // para el input de filtro que está arriba de la tabla
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -75,7 +81,7 @@ export class ListaHorarioComponent implements OnInit {
   }
 
 
-  getAll(queryParams:{}={}) {
+  getAll(queryParams: {} = {}) {
     this.httpService.getAll(queryParams).subscribe({
         next: (datos) => {
           console.log(datos.lista);
@@ -95,7 +101,7 @@ export class ListaHorarioComponent implements OnInit {
 
     // en caso de que sean las columnas que angular material no puede ordenar por sí mismo porque están
     // anidados los objetos, ya que en otro caso entonces no hace falta pedir _todo de nuevo del back
-    if(sortState.active.includes('.')){
+    if (sortState.active.includes('.')) {
 
       // le paso en los parámetros nomas lo que quiero ordenar y cómo ordenar
       this.getAll({
@@ -106,6 +112,7 @@ export class ListaHorarioComponent implements OnInit {
     }
 
   }
+
   // también para que la tabla pueda filtrar también los elementos anidados
   // el del constructor utiliza esta función
   nestedFilterCheck(search: any, data: any, key: string) {
@@ -123,14 +130,32 @@ export class ListaHorarioComponent implements OnInit {
 
   }
 
-
   consoleLog(event: MouseEvent) {
     console.log(event);
   }
 
 
+  limpiarFiltro() {
+    this.dia = undefined;
+    this.empleado = undefined;
+  }
 
 
+  filtrar() {
+    let filtros: any = {}
+    if (this.dia ) {
+      filtros["dia"] = this.dia;
+    }
+    if (this.empleado) {
+      filtros["idEmpleado"] = {idPersona: this.empleado?.idPersona};
+    }
+    this.getAll({ejemplo: JSON.stringify(filtros)});
+  }
 
+  popupElegirEmpleado() {
+    this.popupElegirPersonaService.abrirSelector(true,"Fisioterapeuta").subscribe(result=>{
+      this.empleado = result;
+    });
+  }
 }
 
