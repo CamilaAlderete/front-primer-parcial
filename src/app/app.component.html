@@ -65,7 +65,7 @@
       </button>
 
       <button mat-button routerLink="/reserva-turno" class="menu-button" >
-        <mat-icon>event</mat-icon>
+        <mat-icon>date_range</mat-icon>
         <span>Reservas</span>
       </button>
 
@@ -79,16 +79,31 @@
         <span>Horarios</span>
       </button>
 
+
+
+      <button mat-button class="menu-button" (click)="reportesIsExpanded = !reportesIsExpanded">
+        <mat-icon *ngIf="!reportesIsExpanded">receipt</mat-icon>
+        <mat-icon *ngIf="reportesIsExpanded">list</mat-icon>   <!-- para cambiar el ícono si se expande -->
+        <span>Reportes</span>
+      </button>
+
+      <button *ngIf="reportesIsExpanded" mat-button routerLink="/reporte-resumido" class="menu-button"
+              (click)="reportesIsExpanded = !reportesIsExpanded">
+        <mat-icon>navigate_next</mat-icon>
+        <span>Reporte Resumido</span>
+      </button>
+
+      <button *ngIf="reportesIsExpanded" mat-button routerLink="/reporte-detallado" class="menu-button"
+              (click)="reportesIsExpanded = !reportesIsExpanded">
+        <mat-icon>navigate_next</mat-icon>
+        <span>Reporte Detallado</span>
+      </button>
+
       <mat-divider></mat-divider>
 
       <button *ngIf="estaLogueado()" mat-button routerLink="/logout" class="menu-button">
         <mat-icon>logout</mat-icon>
         <span>Logout</span>
-      </button>
-
-      <button mat-button routerLink="/cositas" class="menu-button">
-        <mat-icon>star</mat-icon>
-        <span>MIRAR!!!</span>
       </button>
 
     </mat-sidenav>

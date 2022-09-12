@@ -25,6 +25,8 @@ export class AppComponent {
   sidenav!: MatSidenav;
   categoriaIsExpanded = false;
   serviciosIsExpanded = false;
+  reportesIsExpanded = false;
+
 
   title = 'FrontEnd';
 

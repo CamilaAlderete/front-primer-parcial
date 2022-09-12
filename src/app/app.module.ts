@@ -52,6 +52,9 @@ import { ListaHorarioExcepcionComponent } from './horario-excepcion/lista-horari
 import { NuevoHorarioExcepcionComponent } from './horario-excepcion/nuevo-horario-excepcion/nuevo-horario-excepcion.component';
 import { ListaHorarioComponent } from './horario/lista-horario/lista-horario.component';
 import { NuevoHorarioComponent } from './horario/nuevo-horario/nuevo-horario.component';
+import { ReporteResumidoComponent } from './reporte/reporte-resumido/reporte-resumido.component';
+import { ReporteDetalladoComponent } from './reporte/reporte-detallado/reporte-detallado.component';
+import {MatTableExporterModule} from "mat-table-exporter";
 
 
 @NgModule({
@@ -84,6 +87,8 @@ import { NuevoHorarioComponent } from './horario/nuevo-horario/nuevo-horario.com
     NuevoHorarioExcepcionComponent,
     ListaHorarioComponent,
     NuevoHorarioComponent,
+    ReporteResumidoComponent,
+    ReporteDetalladoComponent,
   ],
   // librerias y modulos de angular y librerias externas
     imports: [
@@ -110,7 +115,8 @@ import { NuevoHorarioComponent } from './horario/nuevo-horario/nuevo-horario.com
         MatPaginatorModule,
         MatSortModule,
         ReactiveFormsModule,
-        MatDialogModule
+        MatDialogModule,
+        MatTableExporterModule
     ],
   providers: [
     //para usar datepicker

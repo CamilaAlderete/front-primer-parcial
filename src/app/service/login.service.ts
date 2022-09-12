@@ -44,6 +44,7 @@ export class LoginService {
       if (user.usuarioLogin == usuario){
         // loguear al usuario
         this.cookies.set("username", usuario);
+        this.cookies.set("userId", user.idPersona.toString());
         this.toastr.success('Ha iniciado sesión');
         this.router.navigate(['/']);
         return;
@@ -62,6 +63,7 @@ export class LoginService {
   // para cerrar sesión
   logout(){
     this.cookies.delete("username");
+    this.cookies.delete("userId");
   }
 
 }

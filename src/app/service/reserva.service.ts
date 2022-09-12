@@ -6,13 +6,15 @@ import {HttpClient} from "@angular/common/http";
 import {url_base} from "./url";
 import {Observable} from "rxjs";
 import {listadatos} from "../model/datos";
+import {CookieService} from "ngx-cookie-service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservaService extends HttpService<Reserva, number>{
 
-  constructor(httpClient: HttpClient) {
+
+  constructor(httpClient: HttpClient, private cookies: CookieService) {
     super( httpClient, url_base,'reserva');
   }
 
@@ -20,8 +22,8 @@ export class ReservaService extends HttpService<Reserva, number>{
     return this.httpClient.post<Reserva>(this.url+ "/"   + this.endpoint, t,
       {
         headers:{
-          'usuario':'usuario2',
-          //"usuario": localStorage.getItem('userSession') as string,
+          //'usuario':'usuario2',
+          'usuario': this.cookies.get('username'),
         }
       });
   }
