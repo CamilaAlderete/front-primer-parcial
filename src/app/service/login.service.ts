@@ -31,6 +31,21 @@ export class LoginService {
         next: (datos) => {
           console.log(datos.lista);
           this.listaUsuariosSistema = datos.lista;
+
+          // ver si el usuario es uno del sistema
+          for (var user of this.listaUsuariosSistema){
+            if (user.usuarioLogin == usuario){
+              // loguear al usuario
+              this.cookies.set("username", usuario);
+              this.cookies.set("userId", user.idPersona.toString());
+              this.toastr.success('Ha iniciado sesión');
+              this.router.navigate(['/']);
+              return;
+            }
+          }
+
+          // si llega acá, entonces no es un usuario del sistema
+          this.toastr.error("No es un usuario del sistema", "Error");
         },
         error: (err) => {
           console.log(err);
@@ -39,20 +54,6 @@ export class LoginService {
       }
     );
 
-    // ver si el usuario es uno del sistema
-    for (var user of this.listaUsuariosSistema){
-      if (user.usuarioLogin == usuario){
-        // loguear al usuario
-        this.cookies.set("username", usuario);
-        this.cookies.set("userId", user.idPersona.toString());
-        this.toastr.success('Ha iniciado sesión');
-        this.router.navigate(['/']);
-        return;
-      }
-    }
-
-    // si llega acá, entonces no es un usuario del sistema
-    this.toastr.error("No es un usuario del sistema", "Error");
   }
 
   // para saber si hay un usuario que ha iniciado sesión

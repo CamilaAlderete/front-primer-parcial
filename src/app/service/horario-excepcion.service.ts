@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpService} from "./http.service";
 import {HorarioExcepcion} from "../model/horario-excepcion";
 import {url_base} from "./url";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
 import {Observable} from "rxjs";
 import {Paciente} from "../model/paciente";
@@ -26,6 +26,9 @@ export class HorarioExcepcionService extends HttpService<HorarioExcepcion, numbe
   }
 
   override post(horario: HorarioExcepcion): Observable<HorarioExcepcion>  {
+    const headers: HttpHeaders = new HttpHeaders()
+      .append('usuario','usuario2');
+
     let horarioExcepcionPost: HorarioExcepcionPost = {
       fechaCadena: this.formatearFecha(horario.fechaCadena),
       horaAperturaCadena: horario.horaAperturaCadena.replace(':',''),
@@ -35,7 +38,7 @@ export class HorarioExcepcionService extends HttpService<HorarioExcepcion, numbe
       intervaloMinutos: horario.intervaloMinutos
     }
     console.log(horarioExcepcionPost);
-    return this.httpClient.post<HorarioExcepcion>(this.url+ "/"   + this.endpoint, horarioExcepcionPost);
+    return this.httpClient.post<HorarioExcepcion>(this.url+ "/"   + this.endpoint, horarioExcepcionPost, {headers:headers});
   }
 
   //le da formato a la fecha o algo asi

@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
 
   // para iniciar sesión al usuario
   login() {
+    console.log("El usuario es: " + this.usuario);
     this.loginService.login(this.usuario);
   }
 
