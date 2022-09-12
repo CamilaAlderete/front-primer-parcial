@@ -47,7 +47,8 @@
       <div class="col-lg-1"> Hora apertura:</div>
       <div class="col-lg-5">
         <mat-form-field appearance="fill" style="width: 100%">
-          <input matInput type="time" [(ngModel)]="horarioExcepcion.horaAperturaCadena" min="00:00" max="23:59">
+          <input matInput type="time" [(ngModel)]="horarioExcepcion.horaAperturaCadena" min="00:00" max="23:59"
+                 disabled="{{horarioExcepcion.flagEsHabilitar=='N'}}">
         </mat-form-field>
       </div>
 
@@ -55,7 +56,8 @@
       <div class="col-lg-1"> Hora cierre:</div>
       <div class="col-lg-5">
         <mat-form-field appearance="fill" style="width: 100%">
-          <input matInput type="time" [(ngModel)]="horarioExcepcion.horaCierreCadena" min="00:00" max="23:59">
+          <input matInput type="time" [(ngModel)]="horarioExcepcion.horaCierreCadena" min="00:00" max="23:59"
+                 disabled="{{horarioExcepcion.flagEsHabilitar=='N'}}">
         </mat-form-field>
       </div>
 
@@ -66,8 +68,9 @@
 
       <div class="col-lg-1"> Intervalo minutos:</div>
       <div class="col-lg-5">
-        <mat-form-field appearance="fill" style="width: 100%">
-          <input matInput type="number" [(ngModel)]="horarioExcepcion.intervaloMinutos" min="0" max="1440">
+        <mat-form-field  appearance="fill" style="width: 100%">
+          <input matInput type="number" [(ngModel)]="horarioExcepcion.intervaloMinutos" min="0" max="1440"
+                 disabled="{{horarioExcepcion.flagEsHabilitar=='N'}}">
         </mat-form-field>
       </div>
 
