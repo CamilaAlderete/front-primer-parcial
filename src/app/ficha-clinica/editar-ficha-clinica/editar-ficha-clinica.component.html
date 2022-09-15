@@ -114,44 +114,63 @@
       </div>
     </div>
 
-<!--    &lt;!&ndash; la sexta y séptima fila, servicios creados a partir de esta ficha &ndash;&gt;-->
-<!--    <div class="row align-items-center">-->
-<!--      <div class="col-lg-12">-->
-<!--        <h3>Servicios creados a partir de esta ficha:</h3>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="row align-items-center">-->
-<!--      <div class="col-lg-12">-->
-<!--        <div class="mx-4 mat-elevation-z8 col-md-25">-->
+    <!-- la sexta y séptima fila, servicios creados a partir de esta ficha -->
+    <!-- Estarán con hidden="true" hasta que esté el módulo de servicios, porque usa sus datos -->
+    <div class="row align-items-center" hidden="true">
+      <div class="col-lg-12">
+        <h3>Servicios creados a partir de esta ficha:</h3>
+      </div>
+    </div>
+    <div class="row align-items-center" hidden="true">
+      <div class="col-lg-12">
+        <div class="mat-elevation-z8">
 
-<!--          <mat-table [dataSource]="listaServicios" class="col-md-25 mat-elevation-z1" matSort>-->
+          <mat-table [dataSource]="listaServicios" class="col-md-25 mat-elevation-z1" matSort>
 
-<!--            <ng-container matColumnDef="fechaHoraCadenaFormateada">-->
-<!--              <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </mat-header-cell>-->
-<!--              <mat-cell *matCellDef="let row"> {{row.fechaHoraCadenaFormateada}} </mat-cell>-->
-<!--            </ng-container>-->
+            <ng-container matColumnDef="fechaHoraCadenaFormateada">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.fechaHoraCadenaFormateada}} </mat-cell>
+            </ng-container>
 
-<!--            <ng-container matColumnDef="presupuesto">-->
-<!--              <mat-header-cell *matHeaderCellDef mat-sort-header> Presupuesto </mat-header-cell>-->
-<!--              <mat-cell *matCellDef="let row"> {{row.presupuesto}} </mat-cell>-->
-<!--            </ng-container>-->
+            <ng-container matColumnDef="presupuesto">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Presupuesto </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.presupuesto}} </mat-cell>
+            </ng-container>
 
-<!--            &lt;!&ndash;&#45;&#45;columna acciones&#45;&#45;&ndash;&gt;-->
-<!--            <ng-container matColumnDef="acciones">-->
-<!--              <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>-->
-<!--              <mat-cell *matCellDef="let element" >-->
-<!--                <div>-->
-<!--                  <button class="btn btn-primary btn-sm m-2" [routerLink]="'../../servicio/'+ element.idPresentacionProducto + '/editar'">Editar</button>-->
-<!--                  <button class="btn btn-danger btn-sm m-2 " (click)="eliminarServicio(element.idPresentacionProducto)">Eliminar</button>-->
-<!--                </div>-->
-<!--              </mat-cell>-->
-<!--            </ng-container>-->
+            <!----columna acciones---->
+            <ng-container matColumnDef="acciones">
+              <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+              <mat-cell *matCellDef="let element" >
+                <div>
+                  <button class="btn btn-primary btn-sm m-2" [routerLink]="'../../servicio/'+ element.idServicio + '/editar'">Editar</button>
+                </div>
+              </mat-cell>
+            </ng-container>
 
-<!--          </mat-table>-->
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+          </mat-table>
+
+          <!---- en caso de que no haya elementos para mostrar---->
+          <div *ngIf="listaServicios.data.length==0" class="d-flex justify-content-center">
+            <h3 class="text-title m-4">
+              No hay Servicios creados
+            </h3>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
 
   </div>
 

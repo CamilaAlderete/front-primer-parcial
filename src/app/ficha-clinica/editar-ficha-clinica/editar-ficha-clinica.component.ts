@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FichaClinica} from "../../model/ficha-clinica";
 import {CategoriaService} from "../../service/categoria.service";
 import {SubcategoriaService} from "../../service/subcategoria.service";
@@ -8,6 +8,8 @@ import {ToastrService} from "ngx-toastr";
 import {ListaServicioComponent} from "../../servicio/lista-servicio/lista-servicio.component";
 import {ServicioService} from "../../service/servicio.service";
 import {Servicio} from "../../model/servicio";
+import {MatSort} from "@angular/material/sort";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-editar-ficha-clinica',
@@ -21,13 +23,30 @@ export class EditarFichaClinicaComponent implements OnInit {
   // la ficha
   ficha: FichaClinica = new FichaClinica();
 
-  // los servicios creados a partir de esta ficha
-  listaServicios: String[] = [];
+  // los servicios creados a partir de esta ficha, por ahora son sólo datos de prueba
+  listaServicios = new MatTableDataSource([
+    {
+      'fechaHoraCadenaFormateada': 'fecha',
+      'presupuesto': 'pres',
+      'acciones': 'acc',
+      'idServicio': '1'
+    },
+    {
+      'fechaHoraCadenaFormateada': '2fecha',
+      'presupuesto': 'pres2',
+      'acciones': 'acc2',
+      'idServicio': '2'
+    }
+  ]);
+
   displayedColumns: string[] = [
     'fechaHoraCadenaFormateada',
     'presupuesto',
     'acciones'
   ];
+
+  // para poder ordenar por columnas
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private httpCategoriaService: CategoriaService,
@@ -44,6 +63,11 @@ export class EditarFichaClinicaComponent implements OnInit {
   ngOnInit(): void {
     this.getFicha();
     // this.getServicios();
+  }
+
+  ngAfterViewInit() {
+    // para poder ordenar por columnas
+    this.listaServicios.sort = this.sort;
   }
 
   // traer la ficha del back
@@ -79,27 +103,16 @@ export class EditarFichaClinicaComponent implements OnInit {
     this.router.navigate(['../../'], {relativeTo: this.route});
   }
 
-  eliminarServicio(idPresentacionProducto: number) {
-    this.httpServiceServicio.delete(idPresentacionProducto).subscribe(
-      {
-        next: (e) => {
-          this.toastr.success('Servicio eliminado');
-          this.getServicios();
-        },
-        error: (err) => {
-          console.log(err);
-          this.toastr.error('Error al eliminar Servicio', 'Error');
-        }
-      }
-    );
-  }
-
   // traer toda la lista de servicios creados a partir de esta ficha
   getServicios(){
-    this.httpServiceServicio.getAll({"idFichaClinica":{"idFichaClinica":this.ficha.idFichaClinica}}).subscribe({
+    let filtroFicha: {} = {
+      "idFichaClinica":{"idFichaClinica":this.ficha.idFichaClinica}
+    }
+
+    this.httpServiceServicio.getAll({ejemplo: JSON.stringify(filtroFicha)}).subscribe({
         next: (datos) => {
           console.log(datos.lista);
-          this.listaServicios = datos.lista;
+          //this.listaServicios = datos.lista;
         },
         error: (err) => {
           console.log(err);
