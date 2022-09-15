@@ -1,6 +1,6 @@
 <!-- titulo---->
 <br>
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center" #titulo>
   <h2 class="text-title">
     Reporte Resumido
   </h2>
@@ -87,34 +87,34 @@
 
 
   <!---tabla -->
-  <div class="tabla mx-4 mat-elevation-z1 col-md-25" id="tabla" #tabla>
+  <div class="tabla mx-4 mat-elevation-z1 col-md-25">
 
 
-    <mat-table [dataSource]="servicios" matTableExporter  #exporter="matTableExporter">
+    <mat-table [dataSource]="servicios" id="tabla" #tabla matTableExporter  #exporter="matTableExporter">
 
 
-      <ng-container matColumnDef="fechaHora">
+      <ng-container matColumnDef="Fecha">
         <mat-header-cell *matHeaderCellDef > Fecha </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.fechaHora}} </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.fechaHora.split(' ')[0]}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="nombreEmpleado">
+      <ng-container matColumnDef="Profesional">
         <mat-header-cell *matHeaderCellDef > Profesional </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.idEmpleado.nombreCompleto}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="nombreCliente">
+      <ng-container matColumnDef="Cliente">
         <mat-header-cell *matHeaderCellDef > Cliente </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.idFichaClinica.idCliente.nombreCompleto}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="presupuesto">
+      <ng-container matColumnDef="Presupuesto">
         <mat-header-cell *matHeaderCellDef > Presupuesto</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.presupuesto}} </mat-cell>
       </ng-container>
 
 
-      <ng-container matColumnDef="tipoProducto">
+      <ng-container matColumnDef="Tipo Producto">
         <mat-header-cell *matHeaderCellDef > Tipo Producto </mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.idFichaClinica.idTipoProducto.descripcion}} </mat-cell>
       </ng-container>

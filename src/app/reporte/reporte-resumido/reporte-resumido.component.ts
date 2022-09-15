@@ -3,15 +3,13 @@ import {DatePipe} from "@angular/common";
 import {ToastrService} from "ngx-toastr";
 import {ActivatedRoute} from "@angular/router";
 import {PopupElegirPersonaService} from "../../service/popup-elegir-persona.service";
-import {MatTableDataSource} from "@angular/material/table";
-import {Reserva} from "../../model/reserva";
 import {Paciente} from "../../model/paciente";
-import {Servicio} from "../../model/servicio";
-import {ServicioService} from "../../service/servicio.service";
+//import {Servicio} from "../../model/servicio";
+//import {ServicioService} from "../../service/servicio.service";
 
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import {HttpParams} from "@angular/common/http";
+import {Servicio2Service} from "../../service/servicio2.service";
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-reporte-resumido',
@@ -33,7 +31,7 @@ export class ReporteResumidoComponent implements OnInit {
   empleado!: Paciente | undefined;
 
 
-  displayedColumns: string[] = ['fechaHora','nombreEmpleado','nombreCliente', 'presupuesto', 'tipoProducto'];
+  displayedColumns: string[] = ['Fecha','Profesional','Cliente', 'Presupuesto', 'Tipo Producto'];
 
   @ViewChild('tabla') tabla!: ElementRef; //pdf
 
@@ -41,14 +39,15 @@ export class ReporteResumidoComponent implements OnInit {
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private popupElegirPersonaService: PopupElegirPersonaService,
-    private httpService: ServicioService, //arreglar service, porque url no corresponde
+    private httpService: Servicio2Service,
 
   ) { }
 
   ngOnInit(): void {
+    this.getAll({});
   }
 
-  /*getAll(queryParams:{}){
+  getAll(queryParams:{}){
     this.httpService.getAll(queryParams)
       .subscribe({
         next: (e) => {
@@ -62,15 +61,15 @@ export class ReporteResumidoComponent implements OnInit {
         }
 
       });
-  }*/
+  }
 
   filtrar(){
 
     let filtros: any = {}
-    if(this.idPaciente){
-      filtros["idCliente"] = {idPersona: this.cliente?.idPersona};
+    if(this.cliente){
+      filtros["idFichaClinica"] = { idCliente :{idPersona: this.cliente?.idPersona} };
     }
-    if(this.idProfesional){
+    if(this.empleado){
       filtros["idEmpleado"] = {idPersona: this.empleado?.idPersona};
     }
     if(this.fechaDesde && this.fechaHasta){
@@ -79,13 +78,13 @@ export class ReporteResumidoComponent implements OnInit {
     }
 
 
-    //this.getAll({ejemplo: JSON.stringify(filtros)});
+    this.getAll({ejemplo: JSON.stringify(filtros)});
 
   }
 
   limpiarFiltro(){
-    this.idProfesional = undefined;
-    this.idPaciente = undefined;
+    this.cliente = undefined;
+    this.empleado = undefined;
     this.fechaDesde = undefined;
     this.fechaHasta = undefined;
 
@@ -109,16 +108,32 @@ export class ReporteResumidoComponent implements OnInit {
     return new DatePipe('en-US').transform(fecha, 'yyyyMMdd')
   }
 
+
   exportarPdf(){
-    html2canvas(this.tabla.nativeElement, { scale: 3 }).then((canvas) => {
-      const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
-      const fileWidth = 200;
-      const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
-      let PDF = new jsPDF('p', 'mm', 'a4',);
-      PDF.addImage(imageGeneratedFromTemplate, 'PNG', 0, 5, fileWidth, generatedImageHeight,);
-      PDF.html(this.tabla.nativeElement.innerHTML)
-      PDF.save('reporte-resumido.pdf');
+
+    let pdf = new jsPDF();
+    pdf.setFontSize(11);
+    pdf.text("Reporte resumido de servicios", pdf.internal.pageSize.getWidth() / 2, 10, {align: 'center'});
+
+    autoTable(pdf, {
+      head: [this.displayedColumns],
+      body: this.getLista(),
     });
+
+    pdf.save('reporte-resumido.pdf')
+
+  }
+
+
+
+  getLista(){
+    let lista:any =  []
+    for( let s of this.servicios){
+      let item = [s.fechaHora.split(' ')[0], s.idEmpleado.nombreCompleto, s.idFichaClinica.idCliente.nombreCompleto, s.presupuesto, s.idFichaClinica.idTipoProducto.descripcion]
+      lista.push(item);
+    }
+
+    return lista;
   }
 
 
