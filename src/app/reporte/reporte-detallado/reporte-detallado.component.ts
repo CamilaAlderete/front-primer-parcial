@@ -194,7 +194,7 @@ export class ReporteDetalladoComponent implements OnInit {
   getLista(){
     let lista:any =  []
     for( let s of this.servicios){
-      let item = [s.fechaHora.split(' ')[0], s.idEmpleado.nombreCompleto, s.idFichaClinica.idCliente.nombreCompleto, s.presupuesto, s.idFichaClinica.idTipoProducto.descripcion]
+      let item = [s.idServicio.fechaHora.split(" ")[0], s.idServicio.idFichaClinica.idEmpleado.nombreCompleto, s.idServicio.idFichaClinica.idCliente.nombreCompleto, s.idPresentacionProducto.existenciaProducto.precioVenta, s.cantidad, s.idPresentacionProducto.existenciaProducto.precioVenta * s.cantidad, s.idPresentacionProducto.nombre]
       lista.push(item);
     }
 
