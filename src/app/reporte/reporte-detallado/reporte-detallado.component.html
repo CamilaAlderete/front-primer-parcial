@@ -45,9 +45,9 @@
       <div class="col-lg-1"> Presentación de producto:</div>
       <div class="col-lg-5">
         <mat-form-field appearance="fill" style="width: 75%">
-          <input matInput disabled="true" placeholder="">
+          <input matInput disabled="true" placeholder="{{presentacionProducto ? presentacionProducto.nombre : ''}}">
         </mat-form-field>
-        &nbsp;<button mat-raised-button color="primary"><mat-icon>search</mat-icon></button>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupPresentacionProducto()"><mat-icon>search</mat-icon></button>
       </div>
 
 
@@ -95,50 +95,50 @@
 
 
   <!---tabla -->
-  <div class="tabla mx-4 mat-elevation-z1 col-md-25" id="tabla" #tabla>
+  <div class="tabla mx-4 mat-elevation-z1 col-md-25">
 
 
     <mat-table [dataSource]="servicios" matTableExporter  #exporter="matTableExporter">
 
 
-      <ng-container matColumnDef="fechaHora">
+      <ng-container matColumnDef="Fecha">
         <mat-header-cell *matHeaderCellDef > Fecha </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.fechaHora}} </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.idServicio.fechaHora.split(" ")[0]}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="nombreEmpleado">
+      <ng-container matColumnDef="Profesional">
         <mat-header-cell *matHeaderCellDef > Profesional </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.idEmpleado.nombreCompleto}} </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.idServicio.idFichaClinica.idEmpleado.nombreCompleto}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="nombreCliente">
+      <ng-container matColumnDef="Cliente">
         <mat-header-cell *matHeaderCellDef > Cliente </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.idFichaClinica.idCliente.nombreCompleto}} </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.idServicio.idFichaClinica.idCliente.nombreCompleto}} </mat-cell>
       </ng-container>
 
 
       <!---esta en detalle de servicio---->
-      <ng-container matColumnDef="precioUnitario">
+      <ng-container matColumnDef="Precio Unitario">
         <mat-header-cell *matHeaderCellDef > Precio unitario </mat-header-cell>
-        <mat-cell *matCellDef="let row"> </mat-cell>
+        <mat-cell *matCellDef="let row">{{row.idPresentacionProducto.existenciaProducto.precioVenta}} </mat-cell>
       </ng-container>
 
       <!---esta en detalle--->
-      <ng-container matColumnDef="cantidad">
+      <ng-container matColumnDef="Cantidad">
         <mat-header-cell *matHeaderCellDef > Cantidad </mat-header-cell>
-        <mat-cell *matCellDef="let row">  </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.cantidad}} </mat-cell>
       </ng-container>
 
       <!---calcular multiplicando--->
-      <ng-container matColumnDef="total">
+      <ng-container matColumnDef="Total">
         <mat-header-cell *matHeaderCellDef > Total </mat-header-cell>
-        <mat-cell *matCellDef="let row">  </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.idPresentacionProducto.existenciaProducto.precioVenta * row.cantidad}} </mat-cell>
       </ng-container>
 
       <!---la presentación de producto que está en el detalle--->
-      <ng-container matColumnDef="nombrePresentacionProducto">
+      <ng-container matColumnDef="Presentacion Producto">
         <mat-header-cell *matHeaderCellDef > Nombre </mat-header-cell>
-        <mat-cell *matCellDef="let row">  </mat-cell>
+        <mat-cell *matCellDef="let row"> {{row.idPresentacionProducto.nombre}} </mat-cell>
       </ng-container>
 
 

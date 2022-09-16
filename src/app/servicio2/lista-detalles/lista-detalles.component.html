@@ -1,0 +1,123 @@
+<!-- titulo---->
+<br>
+<div class="d-flex justify-content-center" #titulo>
+  <h2 class="text-title">
+    Detalles
+  </h2>
+</div>
+
+
+
+<div class="mx-3 mat-elevation-z8 col-md-25">
+
+  <br>
+
+  <h4 class="text-title mx-4">
+    Nuevo servicio:
+  </h4>
+
+
+  <div class="container col-12">
+
+
+    <div class="d-flex col-11">
+
+
+      <div class="col-lg-1"> Presentacion producto:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 75%">
+          <input matInput disabled="true" placeholder="{{presentacionProducto ? presentacionProducto.nombre : ''}}">
+        </mat-form-field>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupPresentacionProducto()"><mat-icon>search</mat-icon></button>
+      </div>
+
+
+      <div class="col-lg-1"> Cantidad:</div>
+      <div class="col-lg-4">
+        <mat-form-field appearance="fill">
+          <mat-label>Cantidad</mat-label>
+          <input  matInput type="number" [(ngModel)]="cantidad" min="1">
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-1">
+        <button class="btn btn-success btn-sm m-1" (click)="guardar()" >Agregar</button>
+      </div>
+
+    </div>
+
+
+
+
+
+  </div>
+
+
+
+
+  <!---tabla -->
+  <div class="tabla mx-4 mat-elevation-z1 col-md-25">
+
+
+    <mat-table [dataSource]="detalles" >
+
+      <ng-container matColumnDef="Servicio">
+        <mat-header-cell *matHeaderCellDef >Id Servicio </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idServicio.idServicio}} </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="Cantidad">
+        <mat-header-cell *matHeaderCellDef > Cantidad </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.cantidad}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Presentacion Producto">
+        <mat-header-cell *matHeaderCellDef > Presentacion Producto </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idPresentacionProducto.nombre}} </mat-cell>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="Acciones">
+        <mat-header-cell *matHeaderCellDef > Acciones </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div>
+            <!---button class="btn btn-primary btn-sm m-1" [routerLink]="'../servicio/'+ row.idServicio + '/detalles'">
+              Detalles
+            </button---->
+            <button class="btn btn-danger btn-sm m-1" (click)="eliminar(row?.idDetalle)" >
+              Eliminar
+            </button>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+    <!---- en caso de que no haya elementos para mostrar---->
+    <div *ngIf="detalles?.length==0" class="d-flex justify-content-center">
+      <h3 class="text-title m-4">
+        No hay detalles
+      </h3>
+    </div>
+
+
+
+
+  </div>
+
+
+  <br>
+  <br>
+
+</div>
+
+
+<br>
+<br>
+

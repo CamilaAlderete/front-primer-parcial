@@ -9,6 +9,20 @@ import {Paciente} from "../../model/paciente";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import {HttpParams} from "@angular/common/http";
+import {Servicio2Service} from "../../service/servicio2.service";
+import autoTable from "jspdf-autotable";
+import {PopupPresentacionProductoService} from "../../service/popup-presentacion-producto.service";
+
+type Filtro = {
+  fechaDesde ?: string,
+  fechaHasta?: string,
+  idEmpleado?: number,
+  idCliente?: number,
+  idCategoria?: number,
+  idTipoProducto?: number,
+  idPresentacionProducto?: number,
+};
+
 
 @Component({
   selector: 'app-reporte-detallado',
@@ -25,26 +39,31 @@ export class ReporteDetalladoComponent implements OnInit {
   idProfesional!: number | undefined;
   idPaciente!: number | undefined;
   idPresentacionProducto!: number | undefined;
+  presentacionProducto: any = undefined;
+
 
   cliente!: Paciente | undefined;
   empleado!: Paciente | undefined;
 
-  displayedColumns: string[] = ['fechaHora','nombreEmpleado','nombreCliente', 'precioUnitario', 'cantidad', 'total', 'nombrePresentacionProducto'];
-
-  @ViewChild('tabla') tabla!: ElementRef; //pdf
+  displayedColumns: string[] = ['Fecha','Profesional','Cliente', 'Precio Unitario', 'Cantidad', 'Total', 'Presentacion Producto'];
 
   constructor(
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private popupElegirPersonaService: PopupElegirPersonaService,
-    private httpService: ServicioService, //arreglar service, porque url no corresponde
+    private httpService: Servicio2Service,
+    private popUpPresentacionProducto: PopupPresentacionProductoService
+
 
   ) { }
 
   ngOnInit(): void {
+
+    let params = new HttpParams().set('detalle', 'S');
+    this.getAll(params);
   }
 
-  /*getAll(queryParams:{}){
+  getAll(queryParams:{}){
     this.httpService.getAll(queryParams)
       .subscribe({
         next: (e) => {
@@ -58,28 +77,67 @@ export class ReporteDetalladoComponent implements OnInit {
         }
 
       });
-  }*/
+  }
+
+  /*
+
+
+  let data = {
+        idServicio: {
+          idFichaClinica: {
+            idCliente: {idPersona: this.cliente.idPersona}
+          },
+          idEmpleado: {
+            idPersona: this.empleado.idPersona
+          },
+          fechaDesdeCadena: this.formatearFecha(this.fechaDesde),
+          fechaHastaCadena: this.formatearFecha(this.fechaHasta)
+        },
+        idPresentacionProducto: {
+          idPresentacionProducto: this.presentacionProducto.idPresentacionProducto
+        }
+      }
+
+  */
 
   filtrar(){
 
     let filtros: any = {}
-    if(this.idPaciente){
-      filtros["idCliente"] = {idPersona: this.cliente?.idPersona};
+    if(this.cliente){
+      filtros["idServicio"] = {
+        idFichaClinica: {
+          idCliente: {idPersona: this.cliente.idPersona}
+        }
+      };
     }
-    if(this.idProfesional){
-      filtros["idEmpleado"] = {idPersona: this.empleado?.idPersona};
+    if(this.empleado){
+      filtros["idServicio"] = {
+        idEmpleado: {
+        idPersona: this.empleado.idPersona
+        },
+        ...filtros["idServicio"]
+      };
     }
     if(this.fechaDesde && this.fechaHasta){
-      filtros["fechaDesdeCadena"] = this.formatearFecha(this.fechaDesde);
-      filtros["fechaHastaCadena"] = this.formatearFecha(this.fechaHasta);
+      filtros["idServicio"] = {
+        fechaDesdeCadena: this.formatearFecha(this.fechaDesde),
+        fechaHastaCadena: this.formatearFecha(this.fechaHasta),
+        ...filtros["idServicio"]
+      }
     }
+
+    if(this.presentacionProducto){
+      filtros["idPresentacionProducto"] = {idPresentacionProducto: this.presentacionProducto.idPresentacionProducto};
+    }
+
+    console.log(filtros);
 
     if(this.fechaDesde && this.fechaHasta){
       let params = new HttpParams()
         .set('detalle', 'S')
-        .set('ejemplo', filtros)
+        .set('ejemplo', JSON.stringify(filtros));
 
-      //this.getAll(params);
+      this.getAll(params);
 
     }else{
       this.toastr.error('Debe completar las fechas', 'Error');
@@ -95,6 +153,7 @@ export class ReporteDetalladoComponent implements OnInit {
     this.fechaDesde = undefined;
     this.fechaHasta = undefined;
     this.idPresentacionProducto = undefined;
+    this.presentacionProducto = undefined;
 
   }
 
@@ -117,14 +176,34 @@ export class ReporteDetalladoComponent implements OnInit {
   }
 
   exportarPdf(){
-    html2canvas(this.tabla.nativeElement, { scale: 3 }).then((canvas) => {
-      const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
-      const fileWidth = 200;
-      const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
-      let PDF = new jsPDF('p', 'mm', 'a4',);
-      PDF.addImage(imageGeneratedFromTemplate, 'PNG', 0, 5, fileWidth, generatedImageHeight,);
-      PDF.html(this.tabla.nativeElement.innerHTML)
-      PDF.save('reporte-resumido.pdf');
+
+    let pdf = new jsPDF();
+    pdf.setFontSize(11);
+    pdf.text("Reporte resumido de servicios", pdf.internal.pageSize.getWidth() / 2, 10, {align: 'center'});
+
+    autoTable(pdf, {
+      head: [this.displayedColumns],
+      body: this.getLista(),
+    });
+
+    pdf.save('reporte-detallado.pdf')
+
+  }
+
+  //cambiar
+  getLista(){
+    let lista:any =  []
+    for( let s of this.servicios){
+      let item = [s.idServicio.fechaHora.split(" ")[0], s.idServicio.idFichaClinica.idEmpleado.nombreCompleto, s.idServicio.idFichaClinica.idCliente.nombreCompleto, s.idPresentacionProducto.existenciaProducto.precioVenta, s.cantidad, s.idPresentacionProducto.existenciaProducto.precioVenta * s.cantidad, s.idPresentacionProducto.nombre]
+      lista.push(item);
+    }
+
+    return lista;
+  }
+
+  popupPresentacionProducto(){
+    this.popUpPresentacionProducto.abrirSelector().subscribe(result=>{
+      this.presentacionProducto = result;
     });
   }
 

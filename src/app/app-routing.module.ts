@@ -31,6 +31,8 @@ import {
 } from "./horario-excepcion/nuevo-horario-excepcion/nuevo-horario-excepcion.component";
 import {ReporteResumidoComponent} from "./reporte/reporte-resumido/reporte-resumido.component";
 import {ReporteDetalladoComponent} from "./reporte/reporte-detallado/reporte-detallado.component";
+import {ListaServicio2Component} from "./servicio2/lista-servicio2/lista-servicio2.component";
+import {ListaDetallesComponent} from "./servicio2/lista-detalles/lista-detalles.component";
 
 const routes: Routes = [
   {
@@ -76,7 +78,11 @@ const routes: Routes = [
           { path: '', redirectTo: 'lista', pathMatch: 'full'},
           { path: 'lista', component: ListaFichaClinicaComponent },  //http://localhost:4200/ficha-clinica/lista
           { path: 'nueva', component: NuevaFichaClinicaComponent }, //http://localhost:4200/ficha-clinica/nueva
-          { path: ':id/editar', component: EditarFichaClinicaComponent } //http://localhost:4200/ficha-clinica/1/editar
+          { path: ':id/editar', component: EditarFichaClinicaComponent }, //http://localhost:4200/ficha-clinica/1/editar
+          { path: ':id/servicio', component: ListaServicio2Component },
+          { path: ':id/servicio/:idServicio/detalles', component: ListaDetallesComponent }
+
+
         ]
       },
       {path: 'horario',

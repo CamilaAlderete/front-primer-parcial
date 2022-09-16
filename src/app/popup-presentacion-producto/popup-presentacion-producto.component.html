@@ -1,0 +1,57 @@
+<!-- titulo---->
+<div class="d-flex justify-content-center">
+  <br>
+  <h2 class="text-title">
+    Presentacion de producto
+  </h2>
+</div>
+
+<!-- la tabla -->
+
+<!-- field para la búsqueda -->
+<mat-form-field appearance="standard" class="m-3" style="width: 92%; min-width: 644px;">
+  <mat-label>Busque por nombre...</mat-label>
+  <input matInput type="text" placeholder="" [(ngModel)]="nombre" >
+</mat-form-field>
+
+<button class="btn btn-success btn-sm m-1" (click)="filtrar()" >Buscar</button>
+
+
+<mat-table [dataSource]="lista" class="col-md-25 mat-elevation-z1" [style]="estiloTabla">
+
+
+  <!-- Columna id paciente -->
+  <ng-container matColumnDef="idPresentacionProducto">
+    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.idPresentacionProducto}}</mat-cell>
+  </ng-container>
+
+  <!-- Columna nombre paciente -->
+  <ng-container matColumnDef="nombre">
+    <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.nombre}}</mat-cell>
+  </ng-container>
+
+
+
+  <!----columna acciones---->
+  <ng-container matColumnDef="acciones">
+    <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+    <mat-cell *matCellDef="let element" >
+      <div>
+        <!-- al darle clic, enviar el dato -->
+        <button class="btn btn-primary btn-sm m-2" [mat-dialog-close]="element">Elegir</button>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  <!-- Row shown when there is no matching data. -->
+  <mat-row *matNoDataRow>
+    <mat-cell colspan="4">No hay coincidencias...</mat-cell>
+  </mat-row>
+</mat-table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>

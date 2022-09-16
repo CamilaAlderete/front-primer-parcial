@@ -1,0 +1,119 @@
+<!-- titulo---->
+<br>
+<div class="d-flex justify-content-center" #titulo>
+  <h2 class="text-title">
+    Servicios
+  </h2>
+</div>
+
+
+
+<div class="mx-3 mat-elevation-z8 col-md-25">
+
+  <br>
+
+    <h4 class="text-title mx-4">
+      Nuevo servicio:
+    </h4>
+
+
+    <div class="d-flex mx-4 align-items-center col-12">
+      <mat-form-field class="example-full-width m-1 col-5" appearance="fill">
+
+         <mat-label>Observación</mat-label>
+         <input  matInput type="text" [(ngModel)]="observacion" [formControl]="textFormControl">
+
+          <mat-error *ngIf="textFormControl.hasError('required')">
+            La observación es <strong>requerida</strong>
+          </mat-error>
+
+      </mat-form-field>
+
+      <div>
+        <button class="btn btn-success btn-sm m-1" (click)="guardar()" >Agregar</button>
+      </div>
+    </div>
+
+
+  <!---tabla -->
+  <div class="tabla mx-4 mat-elevation-z1 col-md-25">
+
+
+    <mat-table [dataSource]="servicios" >
+
+
+      <ng-container matColumnDef="Fecha">
+        <mat-header-cell *matHeaderCellDef > Fecha </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.fechaHora.split(' ')[0]}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Profesional">
+        <mat-header-cell *matHeaderCellDef > Profesional </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idEmpleado.nombreCompleto}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Cliente">
+        <mat-header-cell *matHeaderCellDef > Cliente </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idFichaClinica.idCliente.nombreCompleto}} </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="Presupuesto">
+        <mat-header-cell *matHeaderCellDef > Presupuesto</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.presupuesto}} </mat-cell>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="Observacion">
+        <mat-header-cell *matHeaderCellDef > Observacion </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.observacion}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Estado">
+        <mat-header-cell *matHeaderCellDef > Estado </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.flagEstado}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Acciones">
+        <mat-header-cell *matHeaderCellDef > Observacion </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div>
+            <button class="btn btn-primary btn-sm m-1" [routerLink]="'../servicio/'+ row.idServicio + '/detalles'">
+              Detalles
+            </button>
+            <!---button class="btn btn-danger btn-sm m-1" (click)="eliminar(row.idServicio)" >
+              Eliminar
+            </button---->
+          </div>
+        </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+    <!---- en caso de que no haya elementos para mostrar---->
+    <div *ngIf="servicios.length==0" class="d-flex justify-content-center">
+      <h3 class="text-title m-4">
+        No hay servicios
+      </h3>
+    </div>
+
+
+
+
+  </div>
+
+
+  <br>
+  <br>
+
+</div>
+
+
+<br>
+<br>
+
