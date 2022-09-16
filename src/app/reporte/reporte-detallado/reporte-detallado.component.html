@@ -42,7 +42,7 @@
         </mat-form-field>
       </div>
 
-      <div class="col-lg-1"> Presentación de producto:</div>
+      <div class="col-lg-1"> Presentación Producto:</div>
       <div class="col-lg-5">
         <mat-form-field appearance="fill" style="width: 75%">
           <input matInput disabled="true" placeholder="{{presentacionProducto ? presentacionProducto.nombre : ''}}">
@@ -81,7 +81,7 @@
     <div class="d-flex justify-content-between">
 
       <button type="button" (click)="filtrar()" class="m-3 btn btn-primary btn">Buscar</button>
-      <button type="button" (click)="limpiarFiltro()" class=" m-3 btn btn-primary btn">Limpiar</button>
+      <button type="button" (click)="limpiarFiltro()" class=" m-3 btn btn-danger btn">Limpiar</button>
       <button type="button" class="m-3 btn btn-success btn" (click)="exportarPdf()"> PDF</button>
       <button type="button" class="m-3 btn btn-success btn" (click)="exporter.exportTable('xlsx', {fileName:'reporte-detallado'})"> XLS</button>
 

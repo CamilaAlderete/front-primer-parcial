@@ -114,6 +114,8 @@ export class ListaReservasComponent implements OnInit {
     this.idPaciente = undefined;
     this.fechaDesde = undefined;
     this.fechaHasta = undefined;
+    this.empleado = undefined;
+    this.cliente = undefined;
 
   }
 
@@ -128,8 +130,6 @@ export class ListaReservasComponent implements OnInit {
       this.empleado = result;
     });
   }
-
-
 
   formatearFecha(fecha: Date){
     return new DatePipe('en-US').transform(fecha, 'yyyyMMdd')
@@ -160,6 +160,5 @@ export class ListaReservasComponent implements OnInit {
   ngAfterViewInit() {
     this.listaReservas.paginator = this.paginator;
   }
-
 
 }

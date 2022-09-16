@@ -5,6 +5,12 @@ import {MatSort, Sort} from "@angular/material/sort";
 import {ServicioService} from "../../service/servicio.service";
 import {ExistenciaProductoService} from "../../service/existenciaProducto.service";
 import {ToastrService} from "ngx-toastr";
+import {SubcategoriaService} from "../../service/subcategoria.service";
+import {Subcategoria} from "../../model/subcategoria";
+import {FormControl, Validators} from "@angular/forms";
+import {PopupPresentacionProductoService} from "../../service/popup-presentacion-producto.service";
+import {precio_presentacionProducto} from "../../model/precio_presentacionProducto";
+import {PopupElegirSubcategoriaService} from "../../service/popup-elegir-subcategoria.service";
 
 @Component({
   selector: 'app-lista-servicio',
@@ -13,13 +19,20 @@ import {ToastrService} from "ngx-toastr";
 })
 export class ListaServicioComponent implements OnInit {
 
+  listaSubCategorias!: Subcategoria[];  // la lista completa de Subcategorías
 
-  //para gets especiales:
-  idProductoGET!: string;
-  precioProducto!: ArrayBuffer | Object | {};
+  idSubCategoria!: number | undefined;
+  subCategoria!: Subcategoria | undefined;
+
+  //para gets especiales
+  precioProducto!: precio_presentacionProducto;
 
   titulo = "Servicios"; // título de la página
   listaServicios: MatTableDataSource<String>;  // datos listados en la página
+
+  textFormControl = new FormControl('', [Validators.required]);
+
+
   displayedColumns: string[] = [
     'idPresentacionProducto',
     'nombre',
@@ -42,6 +55,9 @@ export class ListaServicioComponent implements OnInit {
   constructor(
     private httpService: ServicioService, // El service de servicio
     private httpExistenciaProducto: ExistenciaProductoService,
+    private httpSubCategoriaService: SubcategoriaService,
+    private popupElegirPresentacionProductoService: PopupPresentacionProductoService,
+    private popupElegirSubcategoriaService: PopupElegirSubcategoriaService,
 
     private toastr: ToastrService //para notificaciones en pantalla
   ) {
@@ -65,7 +81,8 @@ export class ListaServicioComponent implements OnInit {
   // apenas se inicializa
   ngOnInit(): void {
     // traer los servicios ya existentes en el server
-    this.getAll();
+    this.getAllsubCategorias();
+    this.getAllPRIMERO();
   }
 
   // para que el mat-table pueda paginar y filtrar
@@ -105,7 +122,29 @@ export class ListaServicioComponent implements OnInit {
    * Traer todas los servicios ya existentes en el server y guardarlas en el array servicios.
    * Puede recibir query params en caso de necesitar, omitir si no se necesita
    * */
-  getAll(queryParams:{}={}) {
+  getAll(id: number) {
+    let tipoProducto = {
+      "idProducto": {
+        "idTipoProducto": {
+          "idTipoProducto": id
+        }
+      }
+    }
+    this.httpService.getAll({ejemplo: JSON.stringify(tipoProducto)}).subscribe(
+      {
+        next: (datos) => {
+          console.log(datos.lista);
+          this.listaServicios.data = datos.lista;
+        },
+        error: (err) => {
+          console.log(err);
+          this.toastr.error("No se pudo obtener la lista de servicios", "Error");
+        }
+      }
+    );
+  }
+
+  getAllPRIMERO(queryParams:{}={}) {
     this.httpService.getAll(queryParams).subscribe({
         next: (datos) => {
           console.log(datos.lista);
@@ -119,6 +158,55 @@ export class ListaServicioComponent implements OnInit {
     );
   }
 
+  getAllQuery(queryParams:{}){
+    this.httpService.getAll(queryParams)
+      .subscribe({
+        next: (e) => {
+          console.log(e)
+          this.listaServicios.data = e.lista
+        },
+        error: (err) =>{
+          console.log(err);
+          this.toastr.error('No se pudo obtener la lista de servicios', 'Error');
+        }
+
+      });
+  }
+
+
+  filtrar() {
+    let filtros: any = {}
+    if (this.subCategoria) {
+      filtros["idProducto"] = {
+          "idTipoProducto": {
+            "idTipoProducto": this.subCategoria?.idTipoProducto
+          }
+      }
+      this.getAllQuery({ejemplo: JSON.stringify(filtros)});
+    }
+  }
+
+  limpiarFiltro(){
+    this.idSubCategoria = undefined;
+    this.subCategoria = undefined;
+    this.getAllPRIMERO();
+  }
+
+  // Traer todas las subcategorías ya existentes en el server y guardarlas en el array subcategorias
+  getAllsubCategorias() {
+    this.httpSubCategoriaService.getAll().subscribe({
+        next: (datos) => {
+          console.log(datos.lista);
+          this.listaSubCategorias = datos.lista;
+        },
+        error: (err) => {
+          console.log(err);
+          this.toastr.error("No se pudo obtener la lista de subcategorias", "Error");
+        }
+      }
+    );
+  }
+
   consoleLog(event: MouseEvent) {
     console.log(event);
   }
@@ -127,8 +215,8 @@ export class ListaServicioComponent implements OnInit {
     this.httpService.delete(id)
       .subscribe({
         next: (e) => {
-          this.toastr.success('Servicio eliminado');
-          this.getAll();
+          // this.toastr.success('Servicio eliminado');
+          // this.getAllPRIMERO();
         },
         error: (err) =>{
           console.log(err);
@@ -143,7 +231,7 @@ export class ListaServicioComponent implements OnInit {
       {
         next: (e) => {
           this.toastr.success('Servicio eliminado');
-          this.getAll();
+          this.getAllPRIMERO();
         },
         error: (err) => {
           console.log(err);
@@ -162,58 +250,27 @@ export class ListaServicioComponent implements OnInit {
     if(sortState.active.includes('.')){
 
       // le paso en los parámetros nomas lo que quiero ordenar y cómo ordenar
-      this.getAll({
+      let envio = {
         orderBy: sortState.active,  // el elemento a ordenar ya viene del html
-        orderDir: sortState.direction  // la dirección ya viene del angular mat
-      });
+        orderDir: sortState.direction,  // la dirección ya viene del angular mat
+      }
 
+      this.httpService.getAll({ejemplo: JSON.stringify(envio)}).subscribe(
+        {
+          next: (datos) => {
+            console.log(datos.lista);
+            this.listaServicios.data = datos.lista;
+          },
+          error: (err) => {
+            console.log(err);
+            this.toastr.error("No se pudo obtener la lista de presentaciones", "Error");
+          }
+        }
+      );
     }
-
   }
 
-  presentaciones(id: number) {
-    let tipoProducto = {
-      "idProducto": {
-        "idTipoProducto": {
-          "idTipoProducto": id
-        }
-      }
-    }
-    this.httpService.getAll({ejemplo: JSON.stringify(tipoProducto)}).subscribe(
-      {
-        next: (datos) => {
-          console.log(datos.lista);
-          this.listaServicios.data = datos.lista;
-        },
-        error: (err) => {
-          console.log(err);
-          this.toastr.error("No se pudo obtener la lista de presentaciones", "Error");
-        }
-      }
-    );
-  }
-
-  idProducto(id: number) {
-    let producto = {
-      "idTipoProducto": {
-        "idTipoProducto": id
-      }
-    }
-    this.httpService.getAll({ejemplo: JSON.stringify(producto)}).subscribe(
-      {
-        next: (datos) => {
-          console.log(datos);
-          this.listaServicios.data = datos.lista;
-        },
-        error: (err) => {
-          console.log(err);
-          this.toastr.error("No se pudo obtener el ID de producto", "Error");
-        }
-      }
-    );
-  }
-
-  precio(id: number) {
+  precio(id: number, nombre: string) {
     let precio = {
       "idPresentacionProductoTransient": id
     }
@@ -221,7 +278,9 @@ export class ListaServicioComponent implements OnInit {
       {
         next: (datos) => {
           console.log(datos);
-          this.precioProducto = datos;
+          this.precioProducto = datos.lista[0];
+          this.toastr.success("PRECIO: GS. " + this.precioProducto.precioVenta, "Servicio: "+nombre);
+
         },
         error: (err) => {
           console.log(err);
@@ -230,4 +289,13 @@ export class ListaServicioComponent implements OnInit {
       }
     );
   }
+
+  popupElegirSubcategoria() {
+    this.popupElegirSubcategoriaService.abrirSelector().subscribe(result => {
+      this.subCategoria = result;
+    });
+  }
+
+
+
 }

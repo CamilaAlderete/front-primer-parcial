@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {Observable} from "rxjs";
 import {Paciente} from "../model/paciente";
-import {PopupElegirPersonaComponent} from "../popup-elegir-persona/popup-elegir-persona.component";
 import {PopupPresentacionProductoComponent} from "../popup-presentacion-producto/popup-presentacion-producto.component";
 
 @Injectable({

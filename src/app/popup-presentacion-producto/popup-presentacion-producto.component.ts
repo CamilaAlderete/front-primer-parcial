@@ -2,17 +2,14 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
-import {Paciente} from "../model/paciente";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {PacienteService} from "../service/paciente.service";
 import {ToastrService} from "ngx-toastr";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {Servicio2Service} from "../service/servicio2.service";
 import {delay} from "rxjs/operators";
 import {HttpParams} from "@angular/common/http";
-import {DatePipe} from "@angular/common";
-import {Reserva} from "../model/reserva";
-import {listadatos} from "../model/datos";
+import {ExistenciaProductoService} from "../service/existenciaProducto.service";
+import {precio_presentacionProducto} from "../model/precio_presentacionProducto";
 
 @Component({
   selector: 'app-popup-presentacion-producto',
@@ -23,6 +20,11 @@ export class PopupPresentacionProductoComponent implements OnInit {
 // para hacer responsive
   estiloTabla: string = "";
   nombre = '';
+  idPresentacionProducto = "";
+
+  //para get de precio ambos:
+  precioProducto!: precio_presentacionProducto;
+  precioBandera: boolean = false;
 
   // para la paginación de la tabla y el ordenamiento
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -34,12 +36,13 @@ export class PopupPresentacionProductoComponent implements OnInit {
     'nombre',
     'acciones'
   ];
+
   constructor(
     public dialogRef: MatDialogRef<PopupPresentacionProductoComponent>,
     private httpService: Servicio2Service,
     private toastr: ToastrService,
-    private observer: BreakpointObserver
-
+    private observer: BreakpointObserver,
+    private httpExistenciaProducto: ExistenciaProductoService
   ) {
 
     this.lista = new MatTableDataSource();
@@ -49,7 +52,7 @@ export class PopupPresentacionProductoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  filtrar(){
+  filtrar() {
 
     let params = new HttpParams()
       .set('ejemplo', `{"nombre": "${this.nombre}"}`)
@@ -59,15 +62,15 @@ export class PopupPresentacionProductoComponent implements OnInit {
 
   }
 
-  getPresentacionProducto(params:{}){
+  getPresentacionProducto(params: {}) {
     this.httpService.getPresentacionProducto(params).subscribe({
-      next:(e) =>{
+      next: (e) => {
         this.lista.data = e.lista;
 
       },
-      error: (err: any)=>{
+      error: (err: any) => {
         console.log(err);
-        this.toastr.error('No se pudo obtener la presentacion de producto', 'Error');
+        this.toastr.error('No se pudo obtener la presentación del producto', 'Error');
       }
     });
 
@@ -90,4 +93,22 @@ export class PopupPresentacionProductoComponent implements OnInit {
       });
   }
 
+  // precio(id: number) {
+  //   let precio = {
+  //     "idPresentacionProductoTransient": id
+  //   }
+  //   this.httpExistenciaProducto.serviceGet({ejemplo: JSON.stringify(precio)}).subscribe(
+  //     {
+  //       next: (datos) => {
+  //         console.log(datos);
+  //         this.precioProducto = datos;
+  //         this.precioBandera = true;
+  //       },
+  //       error: (err) => {
+  //         console.log(err);
+  //         this.toastr.error("No se pudo obtener el precio del producto/servicio", "Error");
+  //       }
+  //     }
+  //   );
+  //}
 }

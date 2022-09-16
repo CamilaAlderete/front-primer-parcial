@@ -9,15 +9,57 @@
 
 <!----botón nuevo----->
 <div class="m-3 px-4">
-  <button class="btn btn-success btn-sm" routerLink="../nueva">Nuevo Servicio
-  </button>&nbsp;&nbsp;&nbsp;
-  <button class="btn btn-dark btn-sm">Ver ID Producto
-  </button>&nbsp;&nbsp;&nbsp;
-  <button class="btn btn-dark btn-sm">Ver Precio Producto
-  </button>&nbsp;&nbsp;&nbsp;
-  <button class="btn btn-dark btn-sm">Ver Presentaciones
-  </button>&nbsp;&nbsp;&nbsp;
+  <button class="btn btn-success btn-sm" routerLink="../nueva">Nuevo Servicio</button> &nbsp;&nbsp;&nbsp;
 </div>
+
+
+
+
+<div class="mx-3 mat-elevation-z8 col-md-25">
+
+  <br>
+  <h4 class="text-title m-3">
+    Filtros de búsqueda
+  </h4>
+
+  <!---filtros--->
+  <div class="container col-11">
+    <div class="row align-items-center">
+      <div class="col-lg-2"> SubCategoría:</div>
+      <div class="col-lg-5">
+        <mat-form-field appearance="fill" style="width: 75%">
+          <input matInput disabled="true" placeholder="{{subCategoria ? subCategoria.descripcion : ''}}">
+        </mat-form-field>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupElegirSubcategoria()"><mat-icon>search</mat-icon></button>
+
+      </div>
+    </div>
+
+
+    <div class="d-flex justify-content-between">
+      <button type="button" (click)="limpiarFiltro()" class="m-3 btn btn-danger">Limpiar</button>
+      <button type="button" (click)="filtrar()" class="m-3 btn btn-primary">Buscar</button>
+    </div>
+
+  </div>
+
+<!--&lt;!&ndash;- Seleccionar categoría &#45;&#45;&ndash;&gt;-->
+<!--<p>Seleccione la categoría:</p>-->
+<!--<mat-form-field appearance="fill" class="col-md-6">-->
+<!--  <mat-label>Seleccionar SubCategoría</mat-label>-->
+
+<!--  <mat-select [(ngModel)]="idSubCategoria"  [formControl]="textFormControl">-->
+<!--    <mat-option *ngFor="let l of listaSubCategorias" [value]="l">-->
+<!--      {{ l.descripcion }}-->
+<!--    </mat-option>-->
+
+<!--  </mat-select>-->
+<!--  &lt;!&ndash; para validar la entrada &ndash;&gt;-->
+<!--  <mat-error *ngIf="textFormControl.hasError('required')">-->
+<!--    La SubCategoría es <strong>requerida</strong>-->
+<!--  </mat-error>-->
+
+<!--</mat-form-field>-->
 
 
 <!-- la tabla -->
@@ -94,6 +136,7 @@
       <mat-cell *matCellDef="let element" >
         <div>
           <button class="btn btn-primary btn-sm m-2" [routerLink]="'../'+ element.idPresentacionProducto + '/editar'">Editar</button>
+          <button class="btn btn-dark btn-sm m-2" (click)="precio(element.idPresentacionProducto, element.nombre)" >Precio</button>
           <button class="btn btn-danger btn-sm m-2 " (click)="eliminar(element.idPresentacionProducto)">Eliminar</button>
         </div>
       </mat-cell>
