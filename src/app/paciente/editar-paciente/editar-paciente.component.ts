@@ -63,7 +63,7 @@ export class EditarPacienteComponent implements OnInit {
   guardar() {
 
     //le da formato a la fecha o algo asi
-    this.paciente.fechaNacimiento= new DatePipe('en-US').transform(this.fecha.toString(), 'yyyy-MM-dd hh:mm:ss');
+    this.paciente.fechaNacimiento= new DatePipe('en-US').transform(this.fecha, 'yyyy-MM-dd hh:mm:ss');
 
     // si no se cargó datos requeridos
     if (this.paciente.nombre === '' || this.paciente.apellido === '' || this.paciente.telefono === ''

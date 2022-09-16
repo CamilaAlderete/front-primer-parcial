@@ -10,7 +10,7 @@
   </button>&nbsp;&nbsp;&nbsp;
 </div>
 
-<div class="mx-3 mat-elevation-z8 col-md-25">
+<div class="mx-3 mat-elevation-z1 col-md-25">
 
   <br>
   <h4 class="text-title m-3">
@@ -20,99 +20,108 @@
   <!---filtros--->
 
   <div class="container col-11">
-    <!-- Empleado -->
-    <div class="col-lg-1"> Empleado:</div>
-    <div class="col-lg-5">
-      <mat-form-field appearance="fill" style="width: 75%">
-        <input matInput disabled="true" placeholder="{{empleado ? empleado.nombre : ''}}">
-      </mat-form-field>
-      &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()">Buscar</button>
+
+    <div class="row align-items-center">
+
+      <!--empleado---->
+      <div class="col-lg-2"> Empleado:</div>
+      <div class="col-lg-4">
+        <mat-form-field appearance="fill" style="width: 75%">
+          <input matInput disabled="true" placeholder="{{empleado ? empleado.nombre : ''}}">
+        </mat-form-field>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupElegirEmpleado()">Buscar</button>
+      </div>
+
+      <!-----dia------>
+      <div class="col-lg-2"> Día:</div>
+      <div class="col-lg-4">
+        <mat-form-field appearance="fill" class="col-md-5">
+          <input matInput type="text" [(ngModel)]="dia"  [formControl]="textFormControl">
+        </mat-form-field>
+      </div>
     </div>
 
-    <!-----dia------>
-    <div class="col-lg-1"> Día:</div>
-    <div class="col-lg-5">
-      <mat-form-field appearance="fill" class="col-md-5">
-        <input matInput type="text" [(ngModel)]="dia"  [formControl]="textFormControl">
-      </mat-form-field>
+    <div class="d-flex justify-content-between">
+
+      <button type="button" (click)="limpiarFiltro()" class=" m-3 btn btn-danger">Limpiar</button>
+      <button type="button" (click)="filtrar()" class="m-3 btn btn-primary">Buscar</button>
     </div>
 
   </div>
-  <button type="button" (click)="limpiarFiltro()" class=" m-3 btn btn-danger">Limpiar</button>
-  <button type="button" (click)="filtrar()" class="m-3 btn btn-primary">Buscar</button>
-  <!----botón nuevo----->
 
+
+  <!-- la tabla -->
+  <div class="mx-4 mat-elevation-z1 col-md-25">
+
+    <!-- field para la búsqueda -->
+    <mat-form-field appearance="standard" class="m-3" style="width: 92%;">
+      <mat-label>Busque en todas las columnas...</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+    </mat-form-field>
+
+    <mat-table [dataSource]="listaHorarios" class="col-md-25 mat-elevation-z1" matSort
+               (matSortChange)="sortChange($event)">
+
+      <!-- Columna descripción subcategoría -->
+      <!--  Para el caso de querer tener activado el Sorting de la columna:
+            matColumnDef tiene que tener el mismo nombre que usás en el mat-cell, sino no va a funcionar el ordenamiento
+            porque material asume que por default tienen el mismo nombre.
+
+            ejemplo: matColumnDef="descripcion" y en el mat-cell está row.descripcion.
+            O sea, a los dos se le pone "descripcion" en este ejemplo
+      -->
+
+      <!-- Columna dia  -->
+      <ng-container matColumnDef="dia">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Dia </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.dia}} </mat-cell>
+      </ng-container>
+      <!-- Columna Hora de Apertura -->
+      <ng-container matColumnDef="horaAperturaCadena">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Hora Apertura </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.horaAperturaCadena}} </mat-cell>
+      </ng-container>
+      <!-- Columna Hora de Cierre -->
+      <ng-container matColumnDef="horaCierreCadena">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Hora Cierre </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.horaCierreCadena}} </mat-cell>
+      </ng-container>
+      <!-- Columna Intervalo -->
+      <ng-container matColumnDef="intervaloMinutos">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Intervalo </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.intervaloMinutos}} </mat-cell>
+      </ng-container>
+      <!-- Columna Nombre -->
+      <ng-container matColumnDef="idEmpleado.nombre">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idEmpleado.nombre}} </mat-cell>
+      </ng-container>
+
+      <!-- Columna Apellido-->
+      <ng-container matColumnDef="idEmpleado.apellido">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Apellido</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.idEmpleado.apellido}}</mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+      <!-- Row shown when there is no matching data. -->
+      <mat-row *matNoDataRow>
+        <mat-cell colspan="4">No hay coincidencias..."{{input.value}}"</mat-cell>
+      </mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  </div>
+
+  <br>
+  <br>
 
 </div>
-<!-- la tabla -->
-<div class="mx-4 mat-elevation-z8 col-md-25">
-
-  <!-- field para la búsqueda -->
-  <mat-form-field appearance="standard" class="m-3" style="width: 92%;">
-    <mat-label>Busque en todas las columnas...</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
-  </mat-form-field>
-
-  <mat-table [dataSource]="listaHorarios" class="col-md-25 mat-elevation-z1" matSort
-             (matSortChange)="sortChange($event)">
-
-    <!-- Columna descripción subcategoría -->
-    <!--  Para el caso de querer tener activado el Sorting de la columna:
-          matColumnDef tiene que tener el mismo nombre que usás en el mat-cell, sino no va a funcionar el ordenamiento
-          porque material asume que por default tienen el mismo nombre.
-
-          ejemplo: matColumnDef="descripcion" y en el mat-cell está row.descripcion.
-          O sea, a los dos se le pone "descripcion" en este ejemplo
-    -->
-
-    <!-- Columna dia  -->
-    <ng-container matColumnDef="dia">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Dia </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.dia}} </mat-cell>
-    </ng-container>
-    <!-- Columna Hora de Apertura -->
-    <ng-container matColumnDef="horaAperturaCadena">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Hora Apertura </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.horaAperturaCadena}} </mat-cell>
-    </ng-container>
-    <!-- Columna Hora de Cierre -->
-    <ng-container matColumnDef="horaCierreCadena">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Hora Cierre </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.horaCierreCadena}} </mat-cell>
-    </ng-container>
-    <!-- Columna Intervalo -->
-    <ng-container matColumnDef="intervaloMinutos">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Intervalo </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.intervaloMinutos}} </mat-cell>
-    </ng-container>
-    <!-- Columna Nombre -->
-    <ng-container matColumnDef="idEmpleado.nombre">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.idEmpleado.nombre}} </mat-cell>
-    </ng-container>
-
-    <!-- Columna Apellido-->
-    <ng-container matColumnDef="idEmpleado.apellido">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Apellido</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.idEmpleado.apellido}}</mat-cell>
-    </ng-container>
 
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-
-    <!-- Row shown when there is no matching data. -->
-    <mat-row *matNoDataRow>
-      <mat-cell colspan="4">No hay coincidencias..."{{input.value}}"</mat-cell>
-    </mat-row>
-  </mat-table>
-
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-</div>
-
-
-<br>
-<br>
 <br>
 <br>
 

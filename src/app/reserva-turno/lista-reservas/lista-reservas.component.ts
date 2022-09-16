@@ -24,7 +24,7 @@ export class ListaReservasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
 
-  titulo = "Reserva de Turnos - listado";
+  titulo = "Reserva de Turnos - Listado";
   hoy = new Date();
   listaReservas: MatTableDataSource<Reserva> = new MatTableDataSource();
   //listaReservas: Reserva[]=[];

@@ -13,18 +13,18 @@
   <br>
 
   <h4 class="text-title mx-4">
-    Nuevo servicio:
+    Nuevo detalle:
   </h4>
 
 
   <div class="container col-12">
 
 
-    <div class="d-flex col-11">
+    <div class="row align-items-center mx-4">
 
 
       <div class="col-lg-2"> Presentación Producto:</div>
-      <div class="col-lg-5">
+      <div class="col-lg-4">
         <mat-form-field appearance="fill" style="width: 75%">
           <input matInput disabled="true" placeholder="{{presentacionProducto ? presentacionProducto.nombre : ''}}">
         </mat-form-field>
@@ -32,17 +32,16 @@
       </div>
 
 
-      <div class="col-lg-1"> Cantidad:</div>
+      <div class="col-lg-2"> Cantidad:</div>
       <div class="col-lg-4">
         <mat-form-field appearance="fill">
           <mat-label>Cantidad</mat-label>
           <input  matInput type="number" [(ngModel)]="cantidad" min="1">
         </mat-form-field>
+        <button class="btn btn-success btn-sm m-3" (click)="guardar()" >Agregar</button>
       </div>
 
-      <div class="col-lg-1">
-        <button class="btn btn-success btn-sm m-1" (click)="guardar()" >Agregar</button>
-      </div>
+
 
     </div>
 
