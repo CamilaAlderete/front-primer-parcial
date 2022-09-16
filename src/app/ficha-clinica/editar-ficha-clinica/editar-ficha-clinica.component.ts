@@ -10,6 +10,8 @@ import {ServicioService} from "../../service/servicio.service";
 import {Servicio} from "../../model/servicio";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
+import {Servicio2Service} from "../../service/servicio2.service";
+import {Servicio2} from "../../model/servicio2";
 
 @Component({
   selector: 'app-editar-ficha-clinica',
@@ -24,20 +26,7 @@ export class EditarFichaClinicaComponent implements OnInit {
   ficha: FichaClinica = new FichaClinica();
 
   // los servicios creados a partir de esta ficha, por ahora son sólo datos de prueba
-  listaServicios = new MatTableDataSource([
-    {
-      'fechaHoraCadenaFormateada': 'fecha',
-      'presupuesto': 'pres',
-      'acciones': 'acc',
-      'idServicio': '1'
-    },
-    {
-      'fechaHoraCadenaFormateada': '2fecha',
-      'presupuesto': 'pres2',
-      'acciones': 'acc2',
-      'idServicio': '2'
-    }
-  ]);
+  listaServicios: MatTableDataSource<Servicio2> = new MatTableDataSource<Servicio2>();
 
   displayedColumns: string[] = [
     'fechaHoraCadenaFormateada',
@@ -52,6 +41,7 @@ export class EditarFichaClinicaComponent implements OnInit {
     private httpCategoriaService: CategoriaService,
     private httpSubcategoriaService: SubcategoriaService,
     private httpFichaclinicaService: FichaClinicaServiceService,
+    private httpServicio2Service: Servicio2Service,
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
@@ -61,8 +51,7 @@ export class EditarFichaClinicaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getFicha();
-    // this.getServicios();
+    this.getFichaYServicios();
   }
 
   ngAfterViewInit() {
@@ -70,18 +59,23 @@ export class EditarFichaClinicaComponent implements OnInit {
     this.listaServicios.sort = this.sort;
   }
 
-  // traer la ficha del back
-  getFicha(){
+  // traer la ficha y los servicios a partir de la ficha del back
+  getFichaYServicios(){
     this.httpFichaclinicaService.getById(this.route.snapshot.params['id']).subscribe({
       next: (dato) => {
+
         console.log(dato);
         this.ficha = dato;
+
+        // traer los servicios creados a partir de la ficha
+        this.getServicios();
+
       },
       error: (err) => {
         console.log(err);
         this.toastr.error("No se pudo obtener la ficha clínica");
       }
-  });
+    });
   }
 
   // guardar cambios
@@ -106,13 +100,13 @@ export class EditarFichaClinicaComponent implements OnInit {
   // traer toda la lista de servicios creados a partir de esta ficha
   getServicios(){
     let filtroFicha: {} = {
-      "idFichaClinica":{"idFichaClinica":this.ficha.idFichaClinica}
+      idFichaClinica:{idFichaClinica:this.ficha.idFichaClinica}
     }
 
-    this.httpServiceServicio.getAll({ejemplo: JSON.stringify(filtroFicha)}).subscribe({
+    this.httpServicio2Service.getAll({ejemplo: JSON.stringify(filtroFicha)}).subscribe({
         next: (datos) => {
           console.log(datos.lista);
-          //this.listaServicios = datos.lista;
+          this.listaServicios.data = datos.lista;
         },
         error: (err) => {
           console.log(err);
