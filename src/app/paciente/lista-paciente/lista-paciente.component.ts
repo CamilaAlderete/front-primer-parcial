@@ -183,21 +183,4 @@ export class ListaPacienteComponent implements OnInit {
       }
     );
   }
-  filtro() {
-    // let fisio = {
-    //   "soloUsuariosDelSistema":true
-    // }
-    // this.httpService.getAll({ejemplo: JSON.stringify(fisio)}).subscribe(
-    //   {
-    //     next: (datos) => {
-    //       console.log(datos.lista);
-    //       this.listaPacientes.data = datos.lista;
-    //     },
-    //     error: (err) => {
-    //       console.log(err);
-    //       this.toastr.error("No se pudo obtener la lista de fisioterapeutas", "Error");
-    //     }
-    //   }
-    // );
-  }
 }

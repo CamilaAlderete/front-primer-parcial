@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpService} from "./http.service";
-import {Categoria} from "../model/categoria";
 import {Reserva} from "../model/reserva";
 import {HttpClient} from "@angular/common/http";
 import {url_base} from "./url";
 import {Observable} from "rxjs";
-import {listadatos} from "../model/datos";
 import {CookieService} from "ngx-cookie-service";
 
 @Injectable({

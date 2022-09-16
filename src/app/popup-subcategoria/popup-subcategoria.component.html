@@ -2,7 +2,7 @@
 <div class="d-flex justify-content-center">
   <br>
   <h2 class="text-title">
-    Presentacion de producto
+    SubCategoría
   </h2>
 </div>
 
@@ -10,8 +10,8 @@
 
 <!-- field para la búsqueda -->
 <mat-form-field appearance="standard" class="m-3" style="width: 92%; min-width: 644px;">
-  <mat-label>Busque por nombre...</mat-label>
-  <input matInput type="text" placeholder="" [(ngModel)]="nombre" >
+  <mat-label>Busque por descripción...</mat-label>
+  <input matInput type="text" placeholder="" [(ngModel)]="descripcion" >
 </mat-form-field>
 
 <button class="btn btn-success btn-sm m-1" (click)="filtrar()" >Buscar</button>
@@ -20,16 +20,16 @@
 <mat-table [dataSource]="lista" class="col-md-25 mat-elevation-z1" [style]="estiloTabla">
 
 
-  <!-- Columna id paciente -->
-  <ng-container matColumnDef="idPresentacionProducto">
+  <!-- Columna id subcategoria -->
+  <ng-container matColumnDef="idTipoProducto">
     <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{row.idPresentacionProducto}}</mat-cell>
+    <mat-cell *matCellDef="let row"> {{row.idTipoProducto}}</mat-cell>
   </ng-container>
 
-  <!-- Columna nombre paciente -->
-  <ng-container matColumnDef="nombre">
-    <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{row.nombre}}</mat-cell>
+  <!-- Columna descripcion subcategoria -->
+  <ng-container matColumnDef="descripcion">
+    <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.descripcion}}</mat-cell>
   </ng-container>
 
 
@@ -41,7 +41,6 @@
       <div>
         <!-- al darle clic, enviar el dato -->
         <button class="btn btn-primary btn-sm m-2" [mat-dialog-close]="element">Elegir</button>
-<!--        <button class="btn btn-secondary btn-sm m-2" (click)="precio(element.idPresentacionProducto)">Ver Precio</button>-->
       </div>
     </mat-cell>
   </ng-container>
@@ -56,12 +55,3 @@
 </mat-table>
 
 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-
-<div *ngIf="precioBandera">
-  <div class="d-flex justify-content-center">
-    <br>
-    <h4 class="text-title">
-      Precio del producto/Servicio <b>{{nombre}}</b> es <b>Gs. {{precioProducto}}</b>
-    </h4>
-  </div>
-</div>

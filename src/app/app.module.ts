@@ -58,6 +58,7 @@ import {MatTableExporterModule} from "mat-table-exporter";
 import { ListaServicio2Component } from './servicio2/lista-servicio2/lista-servicio2.component';
 import { ListaDetallesComponent } from './servicio2/lista-detalles/lista-detalles.component';
 import { PopupPresentacionProductoComponent } from './popup-presentacion-producto/popup-presentacion-producto.component';
+import { PopupSubcategoriaComponent } from './popup-subcategoria/popup-subcategoria.component';
 
 
 @NgModule({
@@ -95,6 +96,7 @@ import { PopupPresentacionProductoComponent } from './popup-presentacion-product
     ListaServicio2Component,
     ListaDetallesComponent,
     PopupPresentacionProductoComponent,
+    PopupSubcategoriaComponent
   ],
   // librerias y modulos de angular y librerias externas
     imports: [

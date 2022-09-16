@@ -3,6 +3,10 @@ import {HttpService} from "./http.service";
 import {HttpClient, HttpEvent, HttpHeaders, HttpResponse} from "@angular/common/http";
 import { url_base} from "./url";
 import {Observable} from "rxjs";
+import {precio_presentacionProducto} from "../model/precio_presentacionProducto";
+import {Reserva} from "../model/reserva";
+import {listadatos} from "../model/datos";
+import {CookieService} from "ngx-cookie-service";
 
 
 //Hereda del http service generico
@@ -12,15 +16,15 @@ import {Observable} from "rxjs";
 })
 export class ExistenciaProductoService extends HttpService<String, number>{
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient, private cookies: CookieService) {
     super( httpClient, url_base,'existenciaProducto');
   }
 
   //hecho para poder ponerle el usuario en el header
-  serviceGet(t:{}): Observable<ArrayBuffer> | Observable<Blob> | Observable<string> | Observable<HttpEvent<ArrayBuffer>> | Observable<HttpEvent<Blob>> | Observable<HttpEvent<string>> | Observable<HttpEvent<Object>> | Observable<HttpEvent<{}>> | Observable<HttpResponse<ArrayBuffer>> | Observable<HttpResponse<Blob>> | Observable<HttpResponse<string>> | Observable<HttpResponse<Object>> | Observable<HttpResponse<{}>> | Observable<Object> | Observable<{}>{
+  serviceGet(t:{}):Observable<listadatos<precio_presentacionProducto>> {
     const headers: HttpHeaders = new HttpHeaders()
       .append('usuario','usuario2')
 
-    return this.httpClient.post<{  }>(this.url+ "/"   + this.endpoint, t,{headers:headers});
+  return this.httpClient.get<listadatos<precio_presentacionProducto>>(this.url+ "/"+ this.endpoint,{params: t, headers:{ 'usuario': this.cookies.get('username')}});
   }
 }
