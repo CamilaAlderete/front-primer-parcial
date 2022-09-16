@@ -45,9 +45,9 @@
       <div class="col-lg-1"> Presentación de producto:</div>
       <div class="col-lg-5">
         <mat-form-field appearance="fill" style="width: 75%">
-          <input matInput disabled="true" placeholder="">
+          <input matInput disabled="true" placeholder="{{presentacionProducto ? presentacionProducto.nombre : ''}}">
         </mat-form-field>
-        &nbsp;<button mat-raised-button color="primary"><mat-icon>search</mat-icon></button>
+        &nbsp;<button mat-raised-button color="primary" (click)="popupPresentacionProducto()"><mat-icon>search</mat-icon></button>
       </div>
 
 

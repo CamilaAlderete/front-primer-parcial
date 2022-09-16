@@ -11,6 +11,18 @@ import html2canvas from 'html2canvas';
 import {HttpParams} from "@angular/common/http";
 import {Servicio2Service} from "../../service/servicio2.service";
 import autoTable from "jspdf-autotable";
+import {PopupPresentacionProductoService} from "../../service/popup-presentacion-producto.service";
+
+type Filtro = {
+  fechaDesde ?: string,
+  fechaHasta?: string,
+  idEmpleado?: number,
+  idCliente?: number,
+  idCategoria?: number,
+  idTipoProducto?: number,
+  idPresentacionProducto?: number,
+};
+
 
 @Component({
   selector: 'app-reporte-detallado',
@@ -27,6 +39,8 @@ export class ReporteDetalladoComponent implements OnInit {
   idProfesional!: number | undefined;
   idPaciente!: number | undefined;
   idPresentacionProducto!: number | undefined;
+  presentacionProducto: any = undefined;
+
 
   cliente!: Paciente | undefined;
   empleado!: Paciente | undefined;
@@ -37,11 +51,16 @@ export class ReporteDetalladoComponent implements OnInit {
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private popupElegirPersonaService: PopupElegirPersonaService,
-    private httpService: Servicio2Service, //arreglar service, porque url no corresponde
+    private httpService: Servicio2Service,
+    private popUpPresentacionProducto: PopupPresentacionProductoService
+
 
   ) { }
 
   ngOnInit(): void {
+
+    let params = new HttpParams().set('detalle', 'S');
+    this.getAll(params);
   }
 
   getAll(queryParams:{}){
@@ -60,26 +79,65 @@ export class ReporteDetalladoComponent implements OnInit {
       });
   }
 
+  /*
+
+
+  let data = {
+        idServicio: {
+          idFichaClinica: {
+            idCliente: {idPersona: this.cliente.idPersona}
+          },
+          idEmpleado: {
+            idPersona: this.empleado.idPersona
+          },
+          fechaDesdeCadena: this.formatearFecha(this.fechaDesde),
+          fechaHastaCadena: this.formatearFecha(this.fechaHasta)
+        },
+        idPresentacionProducto: {
+          idPresentacionProducto: this.presentacionProducto.idPresentacionProducto
+        }
+      }
+
+  */
+
   filtrar(){
 
     let filtros: any = {}
     if(this.cliente){
-      filtros["idCliente"] = {idPersona: this.cliente.idPersona};
+      filtros["idServicio"] = {
+        idFichaClinica: {
+          idCliente: {idPersona: this.cliente.idPersona}
+        }
+      };
     }
     if(this.empleado){
-      filtros["idEmpleado"] = {idPersona: this.empleado.idPersona};
+      filtros["idServicio"] = {
+        idEmpleado: {
+        idPersona: this.empleado.idPersona
+        },
+        ...filtros["idServicio"]
+      };
     }
     if(this.fechaDesde && this.fechaHasta){
-      filtros["fechaDesdeCadena"] = this.formatearFecha(this.fechaDesde);
-      filtros["fechaHastaCadena"] = this.formatearFecha(this.fechaHasta);
+      filtros["idServicio"] = {
+        fechaDesdeCadena: this.formatearFecha(this.fechaDesde),
+        fechaHastaCadena: this.formatearFecha(this.fechaHasta),
+        ...filtros["idServicio"]
+      }
     }
+
+    if(this.presentacionProducto){
+      filtros["idPresentacionProducto"] = {idPresentacionProducto: this.presentacionProducto.idPresentacionProducto};
+    }
+
+    console.log(filtros);
 
     if(this.fechaDesde && this.fechaHasta){
       let params = new HttpParams()
         .set('detalle', 'S')
-        .set('ejemplo', filtros)
+        .set('ejemplo', JSON.stringify(filtros));
 
-      //this.getAll(params);
+      this.getAll(params);
 
     }else{
       this.toastr.error('Debe completar las fechas', 'Error');
@@ -95,6 +153,7 @@ export class ReporteDetalladoComponent implements OnInit {
     this.fechaDesde = undefined;
     this.fechaHasta = undefined;
     this.idPresentacionProducto = undefined;
+    this.presentacionProducto = undefined;
 
   }
 
@@ -140,6 +199,12 @@ export class ReporteDetalladoComponent implements OnInit {
     }
 
     return lista;
+  }
+
+  popupPresentacionProducto(){
+    this.popUpPresentacionProducto.abrirSelector().subscribe(result=>{
+      this.presentacionProducto = result;
+    });
   }
 
 
