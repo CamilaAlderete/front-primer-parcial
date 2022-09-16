@@ -9,6 +9,8 @@ import {Paciente} from "../../model/paciente";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import {HttpParams} from "@angular/common/http";
+import {Servicio2Service} from "../../service/servicio2.service";
+import autoTable from "jspdf-autotable";
 
 @Component({
   selector: 'app-reporte-detallado',
@@ -29,22 +31,20 @@ export class ReporteDetalladoComponent implements OnInit {
   cliente!: Paciente | undefined;
   empleado!: Paciente | undefined;
 
-  displayedColumns: string[] = ['fechaHora','nombreEmpleado','nombreCliente', 'precioUnitario', 'cantidad', 'total', 'nombrePresentacionProducto'];
-
-  @ViewChild('tabla') tabla!: ElementRef; //pdf
+  displayedColumns: string[] = ['Fecha','Profesional','Cliente', 'Precio Unitario', 'Cantidad', 'Total', 'Presentacion Producto'];
 
   constructor(
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private popupElegirPersonaService: PopupElegirPersonaService,
-    private httpService: ServicioService, //arreglar service, porque url no corresponde
+    private httpService: Servicio2Service, //arreglar service, porque url no corresponde
 
   ) { }
 
   ngOnInit(): void {
   }
 
-  /*getAll(queryParams:{}){
+  getAll(queryParams:{}){
     this.httpService.getAll(queryParams)
       .subscribe({
         next: (e) => {
@@ -58,16 +58,16 @@ export class ReporteDetalladoComponent implements OnInit {
         }
 
       });
-  }*/
+  }
 
   filtrar(){
 
     let filtros: any = {}
-    if(this.idPaciente){
-      filtros["idCliente"] = {idPersona: this.cliente?.idPersona};
+    if(this.cliente){
+      filtros["idCliente"] = {idPersona: this.cliente.idPersona};
     }
-    if(this.idProfesional){
-      filtros["idEmpleado"] = {idPersona: this.empleado?.idPersona};
+    if(this.empleado){
+      filtros["idEmpleado"] = {idPersona: this.empleado.idPersona};
     }
     if(this.fechaDesde && this.fechaHasta){
       filtros["fechaDesdeCadena"] = this.formatearFecha(this.fechaDesde);
@@ -117,15 +117,29 @@ export class ReporteDetalladoComponent implements OnInit {
   }
 
   exportarPdf(){
-    html2canvas(this.tabla.nativeElement, { scale: 3 }).then((canvas) => {
-      const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
-      const fileWidth = 200;
-      const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
-      let PDF = new jsPDF('p', 'mm', 'a4',);
-      PDF.addImage(imageGeneratedFromTemplate, 'PNG', 0, 5, fileWidth, generatedImageHeight,);
-      PDF.html(this.tabla.nativeElement.innerHTML)
-      PDF.save('reporte-resumido.pdf');
+
+    let pdf = new jsPDF();
+    pdf.setFontSize(11);
+    pdf.text("Reporte resumido de servicios", pdf.internal.pageSize.getWidth() / 2, 10, {align: 'center'});
+
+    autoTable(pdf, {
+      head: [this.displayedColumns],
+      body: this.getLista(),
     });
+
+    pdf.save('reporte-detallado.pdf')
+
+  }
+
+  //cambiar
+  getLista(){
+    let lista:any =  []
+    for( let s of this.servicios){
+      let item = [s.fechaHora.split(' ')[0], s.idEmpleado.nombreCompleto, s.idFichaClinica.idCliente.nombreCompleto, s.presupuesto, s.idFichaClinica.idTipoProducto.descripcion]
+      lista.push(item);
+    }
+
+    return lista;
   }
 
 

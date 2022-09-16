@@ -55,6 +55,9 @@ import { NuevoHorarioComponent } from './horario/nuevo-horario/nuevo-horario.com
 import { ReporteResumidoComponent } from './reporte/reporte-resumido/reporte-resumido.component';
 import { ReporteDetalladoComponent } from './reporte/reporte-detallado/reporte-detallado.component';
 import {MatTableExporterModule} from "mat-table-exporter";
+import { ListaServicio2Component } from './servicio2/lista-servicio2/lista-servicio2.component';
+import { ListaDetallesComponent } from './servicio2/lista-detalles/lista-detalles.component';
+import { PopupPresentacionProductoComponent } from './popup-presentacion-producto/popup-presentacion-producto.component';
 
 
 @NgModule({
@@ -89,6 +92,9 @@ import {MatTableExporterModule} from "mat-table-exporter";
     NuevoHorarioComponent,
     ReporteResumidoComponent,
     ReporteDetalladoComponent,
+    ListaServicio2Component,
+    ListaDetallesComponent,
+    PopupPresentacionProductoComponent,
   ],
   // librerias y modulos de angular y librerias externas
     imports: [
