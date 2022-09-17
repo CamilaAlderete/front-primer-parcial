@@ -5,6 +5,7 @@ import {url_base} from "./url";
 import {Horario} from "../model/horario";
 import {FichaClinica} from "../model/ficha-clinica";
 import {Observable} from "rxjs";
+import {CookieService} from "ngx-cookie-service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import {Observable} from "rxjs";
 
 export class HorarioService extends HttpService<Horario, number> {
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient, private cookies: CookieService) {
     super(httpClient, url_base, 'personaHorarioAgenda');
   }
 
@@ -20,7 +21,7 @@ export class HorarioService extends HttpService<Horario, number> {
     return this.httpClient.post<Horario>(this.url+ "/"   + this.endpoint, t,
       {
         headers:{
-          'usuario':'usuario2',
+          'usuario': this.cookies.get('username'),
           //"usuario": localStorage.getItem('userSession') as string,
         }
       });

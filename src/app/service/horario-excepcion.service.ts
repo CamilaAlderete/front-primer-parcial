@@ -6,6 +6,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
 import {Observable} from "rxjs";
 import {Paciente} from "../model/paciente";
+import {CookieService} from "ngx-cookie-service";
 
 // para poder hacer post de un HorarioExcepcion
 interface HorarioExcepcionPost {
@@ -21,13 +22,13 @@ interface HorarioExcepcionPost {
 })
 export class HorarioExcepcionService extends HttpService<HorarioExcepcion, number>{
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient, private cookies: CookieService) {
     super(httpClient, url_base, 'horarioExcepcion');
   }
 
   override post(horario: HorarioExcepcion): Observable<HorarioExcepcion>  {
     const headers: HttpHeaders = new HttpHeaders()
-      .append('usuario','usuario2');
+      .append('usuario',this.cookies.get('username'));
 
     let horarioExcepcionPost: HorarioExcepcionPost = {
       fechaCadena: this.formatearFecha(horario.fechaCadena),

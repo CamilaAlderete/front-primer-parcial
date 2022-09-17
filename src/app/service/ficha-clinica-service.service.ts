@@ -4,6 +4,7 @@ import {url_base} from "./url";
 import {HttpService} from "./http.service";
 import {FichaClinica} from "../model/ficha-clinica";
 import {Observable} from "rxjs";
+import {CookieService} from "ngx-cookie-service";
 
 // interfaz para poder postear una ficha clínica
 interface FichaClinicaPost {
@@ -25,14 +26,14 @@ interface FichaClinicaPut {
 })
 export class FichaClinicaServiceService extends HttpService<FichaClinica,number>{
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient, private cookies: CookieService) {
     super(httpClient, url_base, 'fichaClinica');
   }
 
   // override hecho para poder ponerle el usuario en el header
   override post(t:FichaClinica | FichaClinicaPost): Observable<FichaClinica>{
     const headers: HttpHeaders = new HttpHeaders()
-      .append('usuario','usuario2')
+      .append('usuario',this.cookies.get('username'));
 
     // para que el back pueda aceptar la FichaClinica
     const sentData: FichaClinicaPost = {
@@ -50,7 +51,7 @@ export class FichaClinicaServiceService extends HttpService<FichaClinica,number>
   // override hecho para poder poner el usuario en el header
   override put(t: FichaClinica | FichaClinicaPut): Observable<FichaClinica> {
     const headers: HttpHeaders = new HttpHeaders()
-      .append('usuario','usuario2')
+      .append('usuario',this.cookies.get('username'));
 
     // para que el back pueda aceptar la FichaClinica
     const sentData: FichaClinicaPut = {

@@ -23,7 +23,7 @@ export class ExistenciaProductoService extends HttpService<String, number>{
   //hecho para poder ponerle el usuario en el header
   serviceGet(t:{}):Observable<listadatos<precio_presentacionProducto>> {
     const headers: HttpHeaders = new HttpHeaders()
-      .append('usuario','usuario2')
+      .append('usuario', this.cookies.get('username'));
 
   return this.httpClient.get<listadatos<precio_presentacionProducto>>(this.url+ "/"+ this.endpoint,{params: t, headers:{ 'usuario': this.cookies.get('username')}});
   }
