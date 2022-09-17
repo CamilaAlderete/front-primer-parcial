@@ -179,7 +179,7 @@ export class ReporteDetalladoComponent implements OnInit {
 
     let pdf = new jsPDF();
     pdf.setFontSize(11);
-    pdf.text("Reporte resumido de servicios", pdf.internal.pageSize.getWidth() / 2, 10, {align: 'center'});
+    pdf.text("Reporte detallado de servicios", pdf.internal.pageSize.getWidth() / 2, 10, {align: 'center'});
 
     autoTable(pdf, {
       head: [this.displayedColumns],
@@ -194,7 +194,7 @@ export class ReporteDetalladoComponent implements OnInit {
   getLista(){
     let lista:any =  []
     for( let s of this.servicios){
-      let item = [s.idServicio.fechaHora.split(" ")[0], s.idServicio.idFichaClinica.idEmpleado.nombreCompleto, s.idServicio.idFichaClinica.idCliente.nombreCompleto, s.idPresentacionProducto.existenciaProducto.precioVenta, s.cantidad, s.idPresentacionProducto.existenciaProducto.precioVenta * s.cantidad, s.idPresentacionProducto.nombre]
+      let item = [s.idServicio.fechaHora.split(" ")[0], s.idServicio.idEmpleado.nombreCompleto, s.idServicio.idFichaClinica.idCliente.nombreCompleto, s.idPresentacionProducto?.existenciaProducto.precioVenta, s.cantidad, s.idPresentacionProducto?.existenciaProducto.precioVenta * s.cantidad, s.idPresentacionProducto.nombre]
       lista.push(item);
     }
 
